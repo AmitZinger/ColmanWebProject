@@ -8,19 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Amit Zinger\\.nuget\\packages\\": {}
+    "C:\\Users\\yifat\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
+      "projectUniqueName": "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
       "projectName": "ColmanWebProject",
-      "projectPath": "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
-      "packagesPath": "C:\\Users\\Amit Zinger\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\obj\\",
+      "projectPath": "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
+      "packagesPath": "C:\\Users\\yifat\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Amit Zinger\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\yifat\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

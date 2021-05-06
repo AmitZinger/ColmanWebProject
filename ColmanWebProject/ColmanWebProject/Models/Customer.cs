@@ -16,9 +16,11 @@ namespace ColmanWebProject.Models
         [Required] 
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
+        [Required]
+        [Display(Name = "Full Name")]
         public string FullName { get; set; }
-
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
         public int RoleId { get; set; }
