@@ -1,0 +1,23 @@
+﻿.title {
+    margin-top: 1rem;
+}
+
+.productTitle {
+    width: 40%;
+}
+
+.priceTitle {
+    width: 10%;
+}
+
+.quantityTitle {
+    width: 5%;
+}
+
+.removeTitle {
+    width: 15%;
+}
+
+.checkout {
+    width: 80%;
+}
