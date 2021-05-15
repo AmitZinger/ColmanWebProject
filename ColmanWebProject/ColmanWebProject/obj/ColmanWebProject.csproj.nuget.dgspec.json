@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj": {}
+    "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj": {
+    "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
+        "projectUniqueName": "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
         "projectName": "ColmanWebProject",
-        "projectPath": "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
-        "packagesPath": "C:\\Users\\yifat\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\yifat\\Documents\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\obj\\",
+        "projectPath": "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject.csproj",
+        "packagesPath": "C:\\Users\\Amit Zinger\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Amit Zinger\\Documents\\code\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\ColmanWebProject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\yifat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Amit Zinger\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
