@@ -18,6 +18,11 @@ namespace ColmanWebProject.Controllers
             _logger = logger;
         }
 
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
