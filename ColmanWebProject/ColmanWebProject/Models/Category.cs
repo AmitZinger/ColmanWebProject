@@ -20,8 +20,6 @@ namespace ColmanWebProject.Models
 
         [Required]
         public int ImageId { get; set; }
-
-        [DataType(DataType.ImageUrl)]
         public Image Thunbnail { get; set; }
     }
 }
