@@ -31,5 +31,7 @@ namespace ColmanWebProject.Models
         [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        public List<Category> Categories { get; set; }
     }
 }

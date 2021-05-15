@@ -20,6 +20,8 @@ namespace ColmanWebProject.Models
 
         [Required]
         public int ImageId { get; set; }
-        public Image Thunbnail { get; set; }
+        public Image Thumbnail { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }
