@@ -6,6 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ColmanWebProject.Models
 {
+    public enum Role {
+        Manager,
+        Client
+    }
+
     public class Customer
     {
         public int Id { get; set; }
@@ -22,9 +27,6 @@ namespace ColmanWebProject.Models
         [Required]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
-
-        public int RoleId { get; set; }
-        public Role Role { get; set; }
-
+        public Role Role { get; set; } = Role.Client;
     }
 }
