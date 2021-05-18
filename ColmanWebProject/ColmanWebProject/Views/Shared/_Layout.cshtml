@@ -80,13 +80,13 @@
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a asp-controller="Products" asp-action="Index" asp-route-Catagory="guitar" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Guitars
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Acoustic</a>
-                            <a class="dropdown-item" href="#">Electric</a>
-                            <a class="dropdown-item" href="#">Accessories</a>
+                            <a asp-controller="Products" asp-action="Index" asp-route-Catagory="guitar" asp-route-SubCatagory="acoustic" class="dropdown-item">Acoustic</a>
+                            <a asp-controller="Products" asp-action="Index" asp-route-Catagory="guitar" asp-route-SubCatagory="electric" class="dropdown-item">Electric</a>
+                            <a asp-controller="Products" asp-action="Index" asp-route-Catagory="guitar" asp-route-SubCatagory="accessories" class="dropdown-item">Accessories</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -162,7 +162,7 @@
                 </a>
                 <ul class="collapse list-unstyled" id="guitarsSubmenu">
                     <li>
-                        <a href="#">Acoustic</a>
+                        <a name="query" asp-controller="ProductsController" asp-action="ShowChosenProduct">Acoustic</a>
                     </li>
                     <li>
                         <a href="#">Electric</a>

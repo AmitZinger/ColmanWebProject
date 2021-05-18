@@ -20,9 +20,12 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String Catagory, string SubCatagory)
         {
-            return View(await _context.Product.ToListAsync());
+            var data = _context.Product.Include(product => product.Categories)
+                .Where(product => product.Categories.Any(catagory => catagory.Type.Equals(Catagory)
+                && (catagory.SubType.Equals(SubCatagory) || catagory.SubType.Equals(null))));
+            return View(await data.ToListAsync());
         }
 
         // GET: Products/Details/5
