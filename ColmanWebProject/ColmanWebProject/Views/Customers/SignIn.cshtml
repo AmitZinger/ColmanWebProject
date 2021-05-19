@@ -1,4 +1,10 @@
-﻿@*
+﻿@model ColmanWebProject.Models.Customer
+
+@{
+    ViewData["Title"] = "SignIn";
+}
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -16,21 +22,30 @@
 
     <main class="form-signin">
         <div class="row justify-content-center">
-            <form class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <form asp-action="SignIn" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
 
                 <h1 class="h3 mb-3 fw-normal text-center">Sign in</h1>
+
                 <div class="row justify-content-center">
                     <div class="col-6">
-                        <label class="mb-1 text-left">USERNAME: </label>
-                        <div class="input-group has-validation mb-2">
-                            <input type="text" class="form-control" id="username" />
+
+                        <div class="form-group">
+                            <label asp-for="Email" class="mb-1 text-left">EMAIL: </label>
+                            <div class="input-group has-validation mb-2">
+                                <input asp-for="Email" type="text" class="form-control" id="email" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
-                        <label class="mb-1 text-left">PASSWORD: </label>
-                        <div class="input-group has-validation mb-3">
-                            <input type="text" class="form-control" id="password">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="mb-1 text-left">PASSWORD: </label>
+                            <div class="input-group has-validation mb-3">
+                                <input asp-for="Password" type="text" class="form-control" id="password">
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                        <div class="text-center mb-3">
-                            <button type="button" class="btn btn-outline-success">Sign in</button>
+                        <div class="form-group text-center mb-3">
+                            <input type="submit" class="btn btn-outline-success">Sign in</input>
                         </div>
                         <div class="text-center mb-3">
                             <a href="" class="text-dark">forget password?</a>
@@ -46,10 +61,19 @@
                     </div>
                 </div>
 
+                @if (ViewBag.Error != null)
+                {
+                    <div class="text-danger">@ViewBag.Error</div>
+                }
             </form>
+
         </div>
     </main>
 </body>
 
 </html>
 
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
