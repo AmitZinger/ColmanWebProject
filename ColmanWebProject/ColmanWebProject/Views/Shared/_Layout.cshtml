@@ -24,10 +24,19 @@
                 </div>
 
                 <div class="col-12 col-md-6 text-right">
-                    <p class="small">
-                        <a><i class="bx bxs-log-in-circle mr-1"></i> Log In</a> /
-                        <a><i class="bx bxs-user-circle mr-1"></i> Register</a>
-                    </p>
+                    @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                    {
+                        <p class="small">
+                            <a asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-user-circle mr-1"></i> Log Out</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="small">
+                            <a asp-area="" asp-controller="Customers" asp-action="Login"><i class="bx bxs-log-in-circle mr-1"></i> Log In</a> /
+                            <a asp-area="" asp-controller="Customers" asp-action="Register"><i class="bx bxs-user-circle mr-1"></i> Register</a>
+                        </p>
+                    }
                 </div>
             </div>
         </div>
