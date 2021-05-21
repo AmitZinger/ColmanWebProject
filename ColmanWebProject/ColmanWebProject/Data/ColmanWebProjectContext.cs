@@ -15,5 +15,7 @@ namespace ColmanWebProject.Data
         }
 
         public DbSet<ColmanWebProject.Models.Product> Product { get; set; }
+
+        public DbSet<ColmanWebProject.Models.Category> Category { get; set; }
     }
 }

@@ -1,0 +1,42 @@
+﻿body {
+    background: #f1f1f1;
+}
+
+.card.product .btn {
+    bottom: 1.5rem;
+    max-width: 80%;
+}
+
+.price {
+    font-size: 1.75rem;
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        margin-bottom: 2rem;
+    }
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 7px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.fa-xl {
+    font-size: 1.8em;
+    text-align: center;
+    padding-top: 4px;
+}
+
+.to-the-left {
+    float: left;
+}
+
+.to-the-right {
+    float: right;
+    margin-right:4px;
+}
