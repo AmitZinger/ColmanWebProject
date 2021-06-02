@@ -1,0 +1,17 @@
+﻿body {
+}
+.card-deck {
+    margin-top: 10px;
+    margin-left: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-gap: .5rem;
+}
+
+.logo {
+    text-align: center;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
