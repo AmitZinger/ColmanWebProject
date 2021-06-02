@@ -32,7 +32,7 @@ namespace ColmanWebProject.Models
         [Display(Name = "Last name")]
         public string LastName { get; set; }
         [Required]
-        [Phone]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid phone number")]
         public string Phone { get; set; }
         public Role Role { get; set; } = Role.Client;
     }
