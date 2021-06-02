@@ -431,3 +431,6 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/ColmanWebProject/ColmanWebProject/Migrations/20210602174915_updat.Designer.cs
+/ColmanWebProject/ColmanWebProject/Migrations/20210602174915_updat.cs
+/ColmanWebProject/ColmanWebProject/Migrations/ColmanWebProjectContextModelSnapshot.cs

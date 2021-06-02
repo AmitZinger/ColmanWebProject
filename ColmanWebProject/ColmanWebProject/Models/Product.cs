@@ -23,6 +23,7 @@ namespace ColmanWebProject.Models
         public Image Image { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Stock { get; set; }
 
         [Required]
