@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ColmanWebProject.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using ColmanWebProject.Data;
 
 namespace ColmanWebProject
 {
@@ -27,16 +29,6 @@ namespace ColmanWebProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddDbContext<ColmanWebProjectContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ColmanWebProjectContext")));
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => 
-            { 
-                options.LoginPath = "/Customers/Login"; 
-                options.AccessDeniedPath = "/Customers/AccessDenied"; 
-            });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
