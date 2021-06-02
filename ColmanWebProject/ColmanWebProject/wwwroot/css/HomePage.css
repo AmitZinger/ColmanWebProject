@@ -30,7 +30,10 @@
     font-size: large;
     display: inline-block;
     margin-top: 50px;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
+    overflow-x:auto;
+    overflow-y:hidden;
+    float:right;
 }
 
 aside {
@@ -47,4 +50,5 @@ aside {
 
 .moreInfo {
     margin-top: 50px;
+    display:flex;
 }
