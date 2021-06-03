@@ -3,13 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/css/products.css" />
-
-<h1>Index</h1>
-
-<div class="row px-5 pt-5">
+<div id="results" class="row px-5 pt-5">
 
     @foreach (var item in Model)
     {
@@ -28,6 +24,12 @@
                     <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
                         <i class="fa fa-heart fa-xl"></i>
                     </a>
+                    @*@if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
+                        {*@
+                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
+                        <i class="fa fa-pencil fa-xl"></i>
+                    </a>
+                    @*}*@
                 </div>
             </div>
         </div>
