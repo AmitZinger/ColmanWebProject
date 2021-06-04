@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ColmanWebProject.Data;
 using ColmanWebProject.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ColmanWebProject.Controllers
 {
@@ -23,7 +24,7 @@ namespace ColmanWebProject.Controllers
         // GET: Products
         public async Task<IActionResult> Index(String Catagory, string SubCatagory)
         {
-            var data = _context.Product.Include(product => product.Categories)
+                var data = _context.Product.Include(product => product.Categories)
                 .Where(product => product.Categories.Any(catagory => catagory.Type.Equals(Catagory)
                 && (catagory.SubType.Equals(SubCatagory) || catagory.SubType.Equals(null))));
             return View(await data.ToListAsync());
