@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ColmanWebProject.Controllers
 {
-    [Authorize]
+    
     public class CartController : Controller
     {
         private readonly ILogger<CartController> _logger;
@@ -19,7 +19,7 @@ namespace ColmanWebProject.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();

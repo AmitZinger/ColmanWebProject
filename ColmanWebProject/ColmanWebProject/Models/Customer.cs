@@ -6,9 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ColmanWebProject.Models
 {
-    public enum Role {
-        Manager,
-        Client
+    public enum UserType
+    {
+        Client,
+        Admin
     }
 
     public class Customer
@@ -34,6 +35,6 @@ namespace ColmanWebProject.Models
         [Required]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid phone number")]
         public string Phone { get; set; }
-        public Role Role { get; set; } = Role.Client;
+        public UserType Role { get; set; } = UserType.Client;
     }
 }
