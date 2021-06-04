@@ -1,4 +1,5 @@
 ﻿using ColmanWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,7 +23,7 @@ namespace ColmanWebProject.Controllers
         {
             return View();
         }
-
+      
         public IActionResult Index()
         {
             return View();

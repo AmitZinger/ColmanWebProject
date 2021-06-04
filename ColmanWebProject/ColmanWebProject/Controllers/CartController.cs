@@ -1,4 +1,5 @@
 ﻿using ColmanWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ColmanWebProject.Controllers
 {
+    
     public class CartController : Controller
     {
         private readonly ILogger<CartController> _logger;
@@ -17,7 +19,7 @@ namespace ColmanWebProject.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();
