@@ -24,12 +24,12 @@
                     <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
                         <i class="fa fa-heart fa-xl"></i>
                     </a>
-                    @*@if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
-                        {*@
+                    @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
+                        {
                     <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
                         <i class="fa fa-pencil fa-xl"></i>
                     </a>
-                    @*}*@
+                    }
                 </div>
             </div>
         </div>
