@@ -27,8 +27,10 @@
                 <div class="col-12 col-md-6 text-right">
                     @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                     {
+                        //asp-route-id=
                         <p class="small">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-user-circle mr-1"></i> Log Out</a>
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-log-in-circle mr-1"></i> Log Out</a> /
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Edit"><i class="bx bxs-user-circle mr-1"></i> Edit profile</a>
                         </p>
                     }
                     else
