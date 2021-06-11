@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ColmanWebProject.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Scripts{
+    <script src="~/js/Popup.js"></script>
+}
+
+<button class="btn btn-primary" asp-action="Create"
+        data-toggle="ajax-modal" data-target="#add-contact" id="addBtn">
+    Add new category
+</button>
+    <br />
+    <div class="modal fade" id="add-contact" tabindex="-1" role="dialog" aria-labelledby="addPositionsLabel" aria-hidden="true">
+        <div id="AddContent">
+        </div>
+    </div>
+    <div id="partial">
+        @Html.Partial("CategoriesList", Model)
+    </div>
