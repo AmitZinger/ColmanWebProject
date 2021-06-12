@@ -37,13 +37,6 @@
                             role = identity.Claims.FirstOrDefault(c => c.Type.Contains("role")).Value;
                             email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
 
-                            //    if(name != null)
-                            //    {
-                            //        //var customerExist = from c in _context.Customer
-                            //        //                    where c.Email == customer.Email && c.Password == customer.Password
-                            //        //                    select c.;
-
-                            //    }
                         }
                         //if (role != null && role == "Admin")
                         //{

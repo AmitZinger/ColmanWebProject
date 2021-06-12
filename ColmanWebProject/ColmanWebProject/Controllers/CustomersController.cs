@@ -184,9 +184,9 @@ namespace ColmanWebProject.Controllers
         [Authorize]
         [HttpGet]
         [Route("Customers/Edit/{Email}")]
-        public async Task<IActionResult> Edit(string Email)//int? id)
+        public async Task<IActionResult> Edit(string Email)
         {
-            if (Email == null )//id == null)
+            if (Email == null )
             {
                 return NotFound();
             }
@@ -195,8 +195,7 @@ namespace ColmanWebProject.Controllers
                                 where c.Email == Email 
                                 select c;
             var customer = customerExist.First();
-            // var customer = await _context.Customer.FindAsync(Email);
-            //var customer = await _context.Customer.FindAsync(id);
+            
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
             string email = null;
             if (identity.Claims.Count() > 0)
