@@ -182,25 +182,44 @@ namespace ColmanWebProject.Controllers
 
         // GET: Customers/Edit/5
         [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        [Route("Customers/Edit/{Email}")]
+        public async Task<IActionResult> Edit(string Email)//int? id)
         {
-            if (id == null)
+            if (Email == null )//id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
+            var customerExist = from c in _context.Customer
+                                where c.Email == Email 
+                                select c;
+            var customer = customerExist.First();
+            // var customer = await _context.Customer.FindAsync(Email);
+            //var customer = await _context.Customer.FindAsync(id);
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string email = null;
+            if (identity.Claims.Count() > 0)
+            {
+                email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+
+                if (customer == null || (customer != null && customer.Email != email))
+                {
+                    return NotFound();
+                }
+            }
+            else
             {
                 return NotFound();
             }
+               
             return View(customer);
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+            // POST: Customers/Edit/5
+            // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+            // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+            [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
@@ -266,5 +285,41 @@ namespace ColmanWebProject.Controllers
         {
             return _context.Customer.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeToAdmin(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer.FindAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            customer.Role = UserType.Admin;
+
+            try
+            {
+                _context.Update(customer);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CustomerExists(customer.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+            
     }
 }

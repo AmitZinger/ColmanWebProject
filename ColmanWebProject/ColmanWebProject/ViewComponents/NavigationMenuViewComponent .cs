@@ -21,5 +21,13 @@ namespace ColmanWebProject.ViewComponents
         {
             return View("NavigationMenu", await _context.Category.ToListAsync());
         }
+
+        public async Task<IViewComponentResult> GetCustomerId(string email)
+        {
+            var customerId = from c in _context.Customer
+                                where c.Email == email
+                                select c.Id;
+            return View("Edit/"+customerId.First(), "Customer");
+        }
     }
  }
