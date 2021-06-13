@@ -51,14 +51,9 @@
         {
             <div class="text-danger">@ViewBag.Error</div>
         }
-        @*</div>
-            </div>*@
-    </div>
-    </main>
-        <div>
-            Not registered? <a asp-action="Register">Click here</a> to register
-        </div>
 
-        @section Scripts {
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        }
+    </div>
+</main>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -253,3 +253,7 @@ ul.social-icons {
     left: auto;
     right: 0;
 }
+
+.nav-item-manager {
+    background-color: #e4e4e4;
+}
