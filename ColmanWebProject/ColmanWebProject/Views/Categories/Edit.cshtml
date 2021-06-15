@@ -1,0 +1,54 @@
+﻿@model ColmanWebProject.Models.Category
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<hr />
+<main>
+    <div class="row justify-content-center">
+        <form asp-action="Edit" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Edit Category</h1>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label mb-1 text-left">TYPE: </label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="Type" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SubType" class="control-label mb-1 text-left">SUBTYPE: </label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="SubType" class="form-control" />
+                        </div>
+                        <span asp-validation-for="SubType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label mb-1 text-left">DESCRIPTION: </label>
+                        <div class="input-group has-validation mb-3">
+                            <textarea asp-for="Description" class="form-control" style="width: 300px;height: 150px;">
+                            </textarea>
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row justify-content-center mb-3">
+                        <div class="col-sm-7 text-center">
+                            <input type="submit" value="SAVE CHANGES" class="btn btn-primary" /> |
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</main>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

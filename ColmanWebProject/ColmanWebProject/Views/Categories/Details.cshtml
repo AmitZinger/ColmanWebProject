@@ -1,0 +1,36 @@
+﻿@model ColmanWebProject.Models.Category
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<main>
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Category Details</h1>
+            <h1 class="h4 mb-3 fw-normal text-center">
+                @Html.DisplayFor(model => model.SubType),  @Html.DisplayFor(model => model.Type)
+            </h1>
+            <div class="row justify-content-center mb-3">
+                <div class="col-sm-9">
+                    <label><u>DESCRIPTION: </u></label>
+                </div>
+
+                <p class="col-sm-7">
+                    @Html.DisplayFor(model => model.Description)
+                </p>
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                <div class="col-sm-4 text-center">
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+

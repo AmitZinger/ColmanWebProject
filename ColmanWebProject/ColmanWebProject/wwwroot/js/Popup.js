@@ -9,7 +9,7 @@
         })
     });
 
-    $("body").on("click", "#save", function () {
+    $("body").on("click", "#saveAdd", function () {
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
