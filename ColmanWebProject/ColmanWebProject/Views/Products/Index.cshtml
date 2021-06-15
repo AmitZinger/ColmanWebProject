@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ColmanWebProject.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/css/products.css" />
+
+<h1>Index</h1>
+
+<div class="row px-5 pt-5">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-md-6 mt-4 mt-sm-0 card-container">
+            <div class="card text-center product p-4 pt-5 border-0 h-100 rounded-0">
+                <img class="img-fluid d-block mx-auto" src="~/image/pexels-philip-boakye-3428498.jpg" alt="GUITAR">
+                <div class="card-body p-4 py-0 h-xs-440p">
+                    <h4 class="card-title font-weight-semi-bold mb-3 w-xl-220p mx-auto">@Html.DisplayFor(modelItem => item.Name)</h4>
+                    <p class="price">@Html.DisplayFor(modelItem => item.Price)</p>
+                </div>
+                <div class="col-1 w-100 px-4">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark btn-lg to-the-left">Show more details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
+                        <i class="fa fa-cart-plus fa-xl"></i>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
+                        <i class="fa fa-heart fa-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
