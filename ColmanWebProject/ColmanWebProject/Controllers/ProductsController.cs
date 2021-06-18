@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ColmanWebProject.Data;
 using ColmanWebProject.Models;
 using System.Globalization;
+using System.IO;
 
 namespace ColmanWebProject.Controllers
 {
@@ -23,7 +24,7 @@ namespace ColmanWebProject.Controllers
         // GET: Products
         public async Task<IActionResult> Index(String Catagory, string SubCatagory)
         {
-            var data = _context.Product.Include(product => product.Categories)
+            var data = _context.Product.Include(product => product.Image).Include(product => product.Categories)
                 .Where(product => product.Categories.Any(catagory => catagory.Type.Equals(Catagory)
                 && (catagory.SubType.Equals(SubCatagory) || catagory.SubType.Equals(null))));
             return View(await data.ToListAsync());
@@ -37,7 +38,7 @@ namespace ColmanWebProject.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await _context.Product.Include(img => img.Image)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -50,6 +51,7 @@ namespace ColmanWebProject.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            ViewData["ImageId"] = new SelectList(_context.Image, "Id", "Url");
             return View();
         }
 
@@ -58,14 +60,20 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,,ImageId")] Product product)
         {
             if (ModelState.IsValid)
             {
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    product.Image.ImageFile.CopyTo(ms);
+                //    product.Image.ImageByte = ms.ToArray();
+                //}
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ImageId"] = new SelectList(_context.Set<Image>(), "Id", "Url", product.ImageId);
             return View(product);
         }
 
@@ -82,6 +90,7 @@ namespace ColmanWebProject.Controllers
             {
                 return NotFound();
             }
+            ViewData["ImageId"] = new SelectList(_context.Set<Image>(), "Id", "Url", product.ImageId);
             return View(product);
         }
 
@@ -90,7 +99,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,ImageId")] Product product)
         {
             if (id != product.Id)
             {
@@ -117,6 +126,7 @@ namespace ColmanWebProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ImageId"] = new SelectList(_context.Set<Image>(), "Id", "Url", product.ImageId);
             return View(product);
         }
 
@@ -129,6 +139,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var product = await _context.Product
+                .Include(img => img.Image)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {

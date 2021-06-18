@@ -19,6 +19,7 @@ namespace ColmanWebProject.Models
         [DataType(DataType.Currency)]
         public double Price { get; set; }
 
+        public int ImageId { get; set; }
         [Required]
         public Image Image { get; set; }
 
