@@ -18,10 +18,10 @@
                 </div>
                 <div class="col-1 w-100 px-4">
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark btn-lg to-the-left">Show more details</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
+                    <a asp-controller="Carts" asp-action="AddToCart" asp-route-ProductId="@item.Id" asp-route-CustomerId="16" type="button" class="btn btn-outline-info btn-circle to-the-right">
                         <i class="fa fa-cart-plus fa-xl"></i>
                     </a>
-                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-outline-info btn-circle to-the-right">
+                    <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@item.Id" asp-route-CustomerId="16" type="button" class="btn btn-outline-info btn-circle to-the-right">
                         <i class="fa fa-heart fa-xl"></i>
                     </a>
                     @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
