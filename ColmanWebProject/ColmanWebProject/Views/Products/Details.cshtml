@@ -3,40 +3,35 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<main>
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img id="imageToShare" src="https://pixabay.com/images/id-159661/" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(model => model.Name) Details</h5>
+                        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+                        <p class="card-text text-danger">@Html.DisplayFor(model => model.Price)</p>
+                        @if (Model.Stock <= 5)
+                        {
+                            <p class="card-text"><small class="text-muted">Low in stock, only @Html.DisplayFor(model => model.Stock) left</small></p>
+                        }
+                        <a class="btn btn-dark btn-lg">
+                            <i class="fa fa-cart-plus fa-xl"></i> BUY IT NOW
+                        </a>
+                        <a class="btn btn-outline-info">
+                            <i class="fa fa-heart fa-xl"></i> Add To Wishlist
+                        </a>
+                        <a id="shareBtn" class="btn btn-primary">
+                            <i class="fa fa-facebook"></i> Share To Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</main>
