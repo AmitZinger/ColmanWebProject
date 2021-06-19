@@ -40,8 +40,8 @@
                             <td>@Html.DisplayFor(modelItem => item.Product.Price)</td>
                             <td class="actions">
                                 <div class="text-right">
-                                    <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="AddToCart" asp-controller="Carts" asp-route-ProductId="@item.Id" asp-route-CustomerId="16">
-                                        +
+                                    <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="AddToCart" asp-controller="Carts" asp-route-ProductId="@item.ProductId" asp-route-CustomerId="16">
+                                        + @item.ProductId
                                     </a>
                                 </div>
                             </td>
