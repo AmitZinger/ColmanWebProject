@@ -12,13 +12,24 @@
                 $('#results').html(data)
             })
         } else {
-            //$.ajax({
-            //    url: "/Products/SearchWithFullView",
-            //    data: { queryTitle: searchValue }
-            //}).done(function (data) {
-            //    location.href()
-            //})
             window.location.replace("/Products/SearchWithFullView?queryTitle=" + searchValue);
         }
-     })
+    })
+
+    $('#multiSearch').submit(function (e) {
+        e.preventDefault();
+        var searchByName = $('#searchByName').val();
+        var searchByCategory = $('#searchByCategory').val();
+        var searchByPriceFrom = $('#searchByPriceFrom').val();
+        var searchByPriceTo = $('#searchByPriceTo').val();
+
+        $.ajax({
+            url: "/Products/SearchWithMulti",
+            data: { name: searchByName, category: searchByCategory, priceFrom: searchByPriceFrom, priceTo: searchByPriceTo}
+        }).done(function (data) {
+            $('#multiSearch')[0].reset();
+            $('#results').html(data);
+        })
+       
+    })
 })

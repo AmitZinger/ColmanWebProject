@@ -41,3 +41,28 @@
     float: right;
     margin-right:4px;
 }
+
+aside {
+    margin-top: 4px;
+    width: 25%;
+    float: left;
+    border-radius: 10%;
+}
+
+aside form {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media (max-width: 1200px) {
+    #searchHeader {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    #searchHeader {
+        font-size: 15px;
+    }
+}
+
