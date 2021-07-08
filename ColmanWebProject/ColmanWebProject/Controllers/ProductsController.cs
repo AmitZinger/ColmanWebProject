@@ -30,6 +30,53 @@ namespace ColmanWebProject.Controllers
             return View(await data.ToListAsync());
         }
 
+        public async Task<IActionResult> SearchWithPartialView(string queryTitle)
+        {
+            IQueryable<Product> searchResult = SearchResult(queryTitle);
+            return PartialView("ProductsList", await searchResult.ToListAsync());
+        }
+
+        public async Task<IActionResult> SearchWithMulti(string name, string category, int priceFrom, int priceTo)
+        {
+            if(string.IsNullOrEmpty(name))
+            {
+                name = string.Empty;
+            }
+            if (string.IsNullOrEmpty(category))
+            {
+                category = string.Empty;
+            }
+            if (priceTo == 0)
+            {
+                priceTo = int.MaxValue;
+            }
+
+            IQueryable<Product> searchResult = from product in _context.Product.Include(product => product.Categories)
+                                                      where (product.Name.Contains(name) &&
+                                                             product.Categories.Any
+                                                             (catagory => catagory.Type.Contains(category)) &&
+                                                             product.Price >= priceFrom && product.Price <= priceTo)
+                                                      select product; 
+            return PartialView("ProductsList", await searchResult.ToListAsync());
+        }
+
+        public async Task<IActionResult> SearchWithFullView(string queryTitle)
+        {
+            IQueryable<Product> searchResult = SearchResult(queryTitle);
+            return View("Index", await searchResult.ToListAsync());
+        }
+
+        private IQueryable<Product> SearchResult(string queryTitle)
+        {
+            return from product in _context.Product.Include(product => product.Categories)
+            where (product.Name.Contains(queryTitle) ||
+                   product.Categories.Any(
+                       catagory => catagory.Type.Contains(queryTitle) ||
+                                   catagory.SubType.Contains(queryTitle)))
+            select product;
+        }
+
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {

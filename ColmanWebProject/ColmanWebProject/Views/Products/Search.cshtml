@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ColmanWebProject.Models.Product>
+@{ 
+    var products = Model.ToList();
+    List<Category> currCategories= new List<Category>();
+    if (products.Any())
+    {
+        foreach(var product in products)
+        {
+            currCategories.AddRange(product.Categories);
+        }
+    }
+}
+
+<aside class="section card sticky-top">
+    <h2 class="card-header" id="searchHeader">Search Proudcts:</h2>
+    <form id="multiSearch">
+        <div class="mt-3 form-group">
+            <label class="control-label">BY NAME:</label>
+            <input id="searchByName" type="text" min="0" class="form-control" name="from" />
+        </div>
+       
+        <div class="mt-3 form-group">
+            <label class="control-label">BY CATEGORY:</label>
+            <input id="searchByCategory" type="text" autocomplete="off" class="form-control" name="from" list="catagories" />
+            @if (currCategories.Any())
+            {
+                <datalist id="catagories">
+                    @foreach (var cat in currCategories)
+                    {
+                        <option value="@cat.Type" />
+                    }
+                </datalist>
+            }
+        </div>
+        <div class="mt-3 form-group">
+            <label class="control-label">FROM PRICE:</label>
+            <input id="searchByPriceFrom" type="number" min="0" class="form-control" name="from" />
+        </div>
+        <div class="mt-3 form-group">
+            <label class="control-label">TO PRICE:</label>
+            <input id="searchByPriceTo" type="number" min="0" class="form-control" name="to" />
+        </div>
+        <div class="mt-3 mb-2 form-group">
+            <button type="submit" class="btn btn-success"><i class="bx bx-search"></i> SEARCH!</button>
+        </div>
+    </form>
+</aside>
