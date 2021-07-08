@@ -15,5 +15,7 @@ namespace ColmanWebProject.Models
         
         [Required] [Display(Name = "Product ID")]
         public int ProductId { get; set; }
+
+        public Product Product { get; set; }
     }
 }

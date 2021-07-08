@@ -1,0 +1,53 @@
+﻿body {
+}
+.card-deck {
+    margin-top: 10px;
+    margin-left: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-gap: .5rem;
+}
+
+.logo {
+    text-align: center;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.secondaryTitle {
+    text-align: center;
+    font-family: Papyrus;
+    font-weight: bold;
+    font-size: large;
+}
+
+.text {
+    text-align: center;
+    font-family: Papyrus;
+    font-weight: bold;
+    font-size: large;
+    display: inline-block;
+    margin-top: 50px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    float:right;
+}
+
+aside {
+    float: right;
+    display: inline-block;
+}
+
+.video {
+    justify-content: center;
+    margin: auto;
+    width: 50%;
+    display: inline-block;
+}
+
+.moreInfo {
+    margin-top: 50px;
+    display:flex;
+}
