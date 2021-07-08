@@ -13,13 +13,14 @@ namespace ColmanWebProject.Models
         [Required]
         [DataType(DataType.Text)]
         public string Type { get; set; }
-
+        
+        [DataType(DataType.Text)]
+        public string SubType { get; set; }
+        
         [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Required]
-        public int ImageId { get; set; }
         public Image Thumbnail { get; set; }
 
         public List<Product> Products { get; set; }

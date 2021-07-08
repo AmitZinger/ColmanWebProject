@@ -20,9 +20,6 @@ namespace ColmanWebProject.Models
         public double Price { get; set; }
 
         [Required]
-        public int ImageId { get; set; }
-
-        [Required]
         public Image Image { get; set; }
 
         [Required]
