@@ -18,10 +18,10 @@
 }
 
 .btn-circle {
-    width: 40px;
-    height: 40px;
-    padding: 7px 10px;
-    border-radius: 20px;
+    width: 35px;
+    height: 35px;
+    padding: 7px;
+    border-radius: 17.5px;
     font-size: 10px;
     text-align: center;
 }
@@ -29,7 +29,8 @@
 .fa-xl {
     font-size: 1.8em;
     text-align: center;
-    padding-top: 4px;
+    padding-top: 2px;
+    padding-right: 8px;
 }
 
 .to-the-left {
@@ -40,3 +41,28 @@
     float: right;
     margin-right:4px;
 }
+
+aside {
+    margin-top: 4px;
+    width: 25%;
+    float: left;
+    border-radius: 10%;
+}
+
+aside form {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media (max-width: 1200px) {
+    #searchHeader {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    #searchHeader {
+        font-size: 15px;
+    }
+}
+
