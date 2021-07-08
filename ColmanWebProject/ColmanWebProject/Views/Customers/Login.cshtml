@@ -4,11 +4,7 @@
     ViewData["Title"] = "Login";
 }
 
-@*<h1>Login</h1>*@
-
 <hr />
-@*<div class="row">
-    <div class="col-md-4">*@
 <main class="form-signin">
     <div class="row justify-content-center">
         <form asp-action="Login" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
@@ -52,11 +48,6 @@
                 <div class="text-danger">@ViewBag.Error</div>
             }
         </form>
-        <div>
-            Not registered? <a asp-action="Register">Click here</a> to register
-        </div>
-        @*</div>
-        </div>*@
     </div>
     </main>
        
