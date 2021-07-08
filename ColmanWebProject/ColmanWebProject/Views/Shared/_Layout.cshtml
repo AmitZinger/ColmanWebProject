@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/Navbar.css" />
     <link rel="stylesheet" href="~/css/Cart.css" />
+    <link rel="stylesheet" href="~/css/HomePage.css" />
+    <link rel="stylesheet" href="~/css/Customers.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.2/css/boxicons.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -24,10 +27,27 @@
                 </div>
 
                 <div class="col-12 col-md-6 text-right">
+
                     @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                     {
+
+                        string role = null;
+                        string email = null;
+                        var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                        if (identity.Claims.Count() > 0)
+                        {
+                            role = identity.Claims.FirstOrDefault(c => c.Type.Contains("role")).Value;
+                            email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+
+                        }
+                        //if (role != null && role == "Admin")
+                        //{
+                        //asp-route-id=
+                        //if (Context.User.IsInRole("Admin")) {
+
                         <p class="small">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-user-circle mr-1"></i> Log Out</a>
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-log-in-circle mr-1"></i> Log Out</a> /
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Edit" asp-route-id=@email><i class="bx bxs-user-circle mr-1"></i> Edit profile</a>
                         </p>
                     }
                     else
@@ -64,6 +84,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Popup.js" asp-append-version="true"></script>
     <script src="~/js/navbar.js" asp-append-version="true"></script>
     <script src="~/js/search.js"></script>
     @RenderSection("Scripts", required: false)

@@ -79,7 +79,21 @@
                         </div>
                     </li>
                 }
-            </ul>
+                @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
+                {
+                    <li class="nav-item dropdown nav-item-manager">
+                        <a class="nav-link dropdown-toggle nav-item-manager" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manager
+                        </a>
+                        <div class="dropdown-menu nav-item-manager" aria-labelledby="navbarDropdown">
+                            <a asp-controller="Categories" asp-action="Index" class="dropdown-item nav-item-manager">Manage Categories</a>
+                            <a asp-controller="#" asp-action="Index" class="dropdown-item nav-item-manager">Manage Users</a>
+                            <a asp-controller="#" asp-action="Index" class="dropdown-item nav-item-manager">Manage Products</a>
+                        </div>
+                    </li>
+
+                }
+             </ul>
         </div>
     </div>
 </nav>
@@ -130,6 +144,21 @@
                     {
                         <a asp-controller="Products" asp-action="Index" asp-route-Catagory="@navbarOption.Key" asp-route-SubCatagory="@subNavbarOption">@subNavbarOption</a>
                     }
+                </ul>
+            </li>
+        }
+
+        @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
+        {
+
+            <li>
+                <a href="#ManagerSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item-manager">
+                    Manager
+                </a>
+                <ul class="collapse list-unstyled nav-item-manager" id="ManagerSubmenu">
+                    <a asp-controller="Categories" asp-action="Index" class="dropdown-item nav-item-manager">Manage Categories</a>
+                    <a asp-controller="#" asp-action="Index" class="dropdown-item nav-item-manager">Manage Users</a>
+                    <a asp-controller="#" asp-action="Index" class="dropdown-item nav-item-manager">Manage Products</a>
                 </ul>
             </li>
         }

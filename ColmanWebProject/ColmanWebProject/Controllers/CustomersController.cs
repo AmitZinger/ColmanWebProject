@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ColmanWebProject.Controllers
 {
@@ -132,5 +133,267 @@ namespace ColmanWebProject.Controllers
 
             return RedirectToAction("Login");
         }
+
+        // GET: Customers
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Customer.ToListAsync());
+        }
+
+        //// GET: Customers/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var customer = await _context.Customer
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (customer == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(customer);
+        //}
+
+        //// GET: Customers/Create
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Customers/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(customer);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(customer);
+        //}
+
+        // GET: Customers/EditRole/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditRole(int? id)
+        {
+            int a =  0;
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer.FindAsync(id);
+
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string signUserRole = null;
+            if (identity.Claims.Count() > 0)
+            {
+                signUserRole = identity.Claims.FirstOrDefault(c => c.Type.Contains("role")).Value;
+
+                if (customer == null || (customer != null && signUserRole != UserType.Admin.ToString()))
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
+
+        // GET: Customers/Edit/email
+        [Authorize]
+        [HttpGet]
+        [Route("Customers/Edit/{Email}")]
+        public async Task<IActionResult> Edit(string Email)
+        {
+            if (Email == null )
+            {
+                return NotFound();
+            }
+
+            var customerExist = from c in _context.Customer
+                                where c.Email == Email 
+                                select c;
+            var customer = customerExist.First();
+            
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string email = null;
+            if (identity.Claims.Count() > 0)
+            {
+                email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+
+                if (customer == null || (customer != null && customer.Email != email))
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+               
+            return View(customer);
+        }
+
+            // POST: Customers/Edit/5
+            // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+            // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
+        {
+            if (id != customer.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            return View(customer);
+        }
+
+        // POST: Customers/EditRole/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditRole(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
+        {
+            if (id != customer.Id)
+            {
+                return NotFound();
+            }
+
+            ModelState.Remove("Password");
+            if (ModelState.IsValid)
+            {
+                var password = from c in _context.Customer
+                               where c.Id== id
+                               select c.Password;
+                customer.Password = password.First();
+                try
+                {
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(customer);
+        }
+        // GET: Customers/Delete/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var customer = await _context.Customer.FindAsync(id);
+            _context.Customer.Remove(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool CustomerExists(int id)
+        {
+            return _context.Customer.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeToAdmin(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer.FindAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            customer.Role = UserType.Admin;
+
+            try
+            {
+                _context.Update(customer);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CustomerExists(customer.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+            
     }
 }

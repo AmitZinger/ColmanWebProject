@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ColmanWebProject.Data;
 using ColmanWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ColmanWebProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ColmanWebProjectContext _context;
@@ -46,7 +48,7 @@ namespace ColmanWebProject.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Categories/Create
@@ -58,11 +60,23 @@ namespace ColmanWebProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                var checkExist = _context.Category.FirstOrDefault
+                (cat =>
+                    cat.Type.Equals(category.Type) && cat.SubType.Equals(category.SubType)
+                );
+
+                if (checkExist == null)
+                {
                 _context.Add(category);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(category);
+                else
+                {
+                    ViewData["Error"] = "Catagory already exist; You can't create it again.";
+                }
+            }
+
+            return PartialView("CategoriesList", await _context.Category.ToListAsync());
         }
 
         // GET: Categories/Edit/5
