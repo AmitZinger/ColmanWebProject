@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ColmanWebProject.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main class="form-signin">
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Catagories</h1>
+            <button class="btn btn-primary col-sm-12 col-md-4 col-lg-3" asp-action="Create"
+                    data-toggle="ajax-modal" data-target="#add-contact" id="addBtn">
+                Add new category
+            </button>
+            <br />
+            <div class="modal fade" id="add-contact" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
+                <div id="AddContent">
+                </div>
+            </div>
+            <div id="partial">
+                @Html.Partial("CategoriesList", Model)
+            </div>
+        </div>
+    </div>
+</main>
