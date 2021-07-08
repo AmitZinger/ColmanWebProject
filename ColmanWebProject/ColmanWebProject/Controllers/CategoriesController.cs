@@ -20,12 +20,14 @@ namespace ColmanWebProject.Controllers
         {
             _context = context;
         }
-        
+
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
             return View(await _context.Category.ToListAsync());
         }
 
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,12 +45,15 @@ namespace ColmanWebProject.Controllers
             return View(category);
         }
 
-        
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return PartialView();
         }
 
+        // POST: Categories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Type,SubType,Description")] Category category)
@@ -62,9 +67,9 @@ namespace ColmanWebProject.Controllers
 
                 if (checkExist == null)
                 {
-                    _context.Add(category);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Add(category);
+                await _context.SaveChangesAsync();
+            }
                 else
                 {
                     ViewData["Error"] = "Catagory already exist; You can't create it again.";
@@ -74,6 +79,7 @@ namespace ColmanWebProject.Controllers
             return PartialView("CategoriesList", await _context.Category.ToListAsync());
         }
 
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,6 +95,9 @@ namespace ColmanWebProject.Controllers
             return View(category);
         }
 
+        // POST: Categories/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,SubType,Description")] Category category)
@@ -121,6 +130,7 @@ namespace ColmanWebProject.Controllers
             return View(category);
         }
 
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +148,7 @@ namespace ColmanWebProject.Controllers
             return View(category);
         }
 
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

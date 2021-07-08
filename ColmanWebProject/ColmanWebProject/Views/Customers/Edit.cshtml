@@ -4,56 +4,71 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<main class="form-signin">
+    <div class="row justify-content-center">
+        
+            @*<div class="col-md-4">*@
+                <form asp-action="Edit" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+                    <h1 class="h3 mb-3 fw-normal text-center">EDIT DETAILS</h1>
 
-<h4>Customer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label mb-1 text-left">EMAIL:</label>
+                                <div class="input-group has-validation mb-3">
+                                    <input asp-for="Email" class="form-control" readonly />
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label mb-1 text-left">NAME:</label>
+                                <div class="input-group has-validation mb-3">
+                                    <input asp-for="Name" class="form-control" readonly />
+                                </div>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label mb-1 text-left">LAST NAME:</label>
+                                <div class="input-group has-validation mb-3">
+                                    <input asp-for="LastName" class="form-control" readonly/>
+                                </div>
+                                <span asp-validation-for="LastName" class="text-danger" readonly></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Phone" class="control-label mb-1 text-left">PHONE:</label>
+                                <div class="input-group has-validation mb-3">
+                                    <input asp-for="Phone" class="form-control" />
+                                </div>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label mb-1 text-left">PASSWORD:</label>
+                                <div class="input-group has-validation mb-3">
+                                    <input asp-for="Password" class="form-control" />
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                         
+                            @*<div class="form-group">
+                              <label asp-for="Role" class="control-label"></label>
+                              <select asp-for="Role" asp-items="@Html.GetEnumSelectList<UserType>()" class="form-control"></select>
+                              <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>*@
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        </div>
+                            </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" class="form-control"></select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        @*</div>*@
+    </main>
+        @*<div>
+                <a asp-action="Index">Back to List</a>
+            </div>*@
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
