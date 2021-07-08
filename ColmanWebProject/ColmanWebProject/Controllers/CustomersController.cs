@@ -135,6 +135,7 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: Customers
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Customer.ToListAsync());
@@ -181,9 +182,11 @@ namespace ColmanWebProject.Controllers
         //}
 
         // GET: Customers/EditRole/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(int? id)
         {
+            int a =  0;
+
             if (id == null)
             {
                 return NotFound();
@@ -247,7 +250,7 @@ namespace ColmanWebProject.Controllers
             // POST: Customers/Edit/5
             // To protect from overposting attacks, enable the specific properties you want to bind to, for 
             // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-            [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
@@ -285,7 +288,7 @@ namespace ColmanWebProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
         {
             if (id != customer.Id)
@@ -321,6 +324,7 @@ namespace ColmanWebProject.Controllers
             return View(customer);
         }
         // GET: Customers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -341,6 +345,7 @@ namespace ColmanWebProject.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
@@ -355,6 +360,7 @@ namespace ColmanWebProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeToAdmin(int? id)
         {
             if (id == null)
