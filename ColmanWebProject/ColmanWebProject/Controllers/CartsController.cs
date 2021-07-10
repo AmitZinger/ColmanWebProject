@@ -22,7 +22,7 @@ namespace ColmanWebProject.Controllers
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cart.Include(x => x.Product).ToListAsync());
+            return View(await _context.Cart.Include(x => x.Products).ToListAsync());
         }
 
         public async Task<IActionResult> Count()
@@ -59,7 +59,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerId,ProductId")] Cart cart)
+        public async Task<IActionResult> Create([Bind("Id")] Cart cart)
         {
             if (ModelState.IsValid)
             {
@@ -70,15 +70,15 @@ namespace ColmanWebProject.Controllers
             return View(cart);
         }
 
-        public async Task<IActionResult> AddToCart(int ProductId, int CustomerId)
-        {
-            Cart x = new Cart();
-            x.CustomerId = CustomerId;
-            x.ProductId = ProductId;
-            _context.Add(x);
-            await _context.SaveChangesAsync();
-            return View("Index", await _context.Cart.Include(x => x.Product).ToListAsync());
-        }
+        //public async Task<IActionResult> AddToCart(int ProductId, int CustomerId)
+        //{
+        //    Cart x = new Cart();
+        //    x.CustomerId = CustomerId;
+        //    x.ProductId = ProductId;
+        //    _context.Add(x);
+        //    await _context.SaveChangesAsync();
+        //    return View("Index", await _context.Cart.Include(x => x.Product).ToListAsync());
+        //}
 
         // GET: Carts/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -101,7 +101,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerId,ProductId")] Cart cart)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] Cart cart)
         {
             if (id != cart.Id)
             {

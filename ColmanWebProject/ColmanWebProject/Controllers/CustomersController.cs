@@ -45,6 +45,8 @@ namespace ColmanWebProject.Controllers
 
                 if (checkExist == null)
                 {
+                    customer.Cart = new Cart();
+                    customer.WishList = new WishList();
                     _context.Add(customer);
                     await _context.SaveChangesAsync();
 
@@ -253,7 +255,7 @@ namespace ColmanWebProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role,WishListId,CartId")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -289,7 +291,7 @@ namespace ColmanWebProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditRole(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
+        public async Task<IActionResult> EditRole(int id, [Bind("Id,Email,Password,Name,LastName,Phone,Role,WishListId,CartId")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -333,7 +335,9 @@ namespace ColmanWebProject.Controllers
             }
 
             var customer = await _context.Customer
-                .FirstOrDefaultAsync(m => m.Id == id);
+                 .Include(c => c.Cart)
+                 .Include(c => c.WishList)
+                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
                 return NotFound();
@@ -349,6 +353,10 @@ namespace ColmanWebProject.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
+            var wishList = await _context.WishList.FindAsync(customer.WishListId);
+            var cart = await _context.Cart.FindAsync(customer.CartId);
+            _context.WishList.Remove(wishList);
+            _context.Cart.Remove(cart);
             _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

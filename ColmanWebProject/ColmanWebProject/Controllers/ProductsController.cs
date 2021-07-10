@@ -22,11 +22,12 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(String Catagory, string SubCatagory)
+        public async Task<IActionResult> Index(string Catagory, string SubCatagory)
         {
-                var data = _context.Product.Include(product => product.Categories)
-                .Where(product => product.Categories.Any(catagory => catagory.Type.Equals(Catagory)
-                && (catagory.SubType.Equals(SubCatagory) || catagory.SubType.Equals(null))));
+                var data = _context.Product.Include(product => product.Category)
+                .Where(product => product.Category.Type.Equals(Catagory) &&
+                (product.Category.SubType.Equals(SubCatagory) || product.Category.SubType.Equals(null)));  
+               
             return View(await data.ToListAsync());
         }
 
@@ -51,10 +52,9 @@ namespace ColmanWebProject.Controllers
                 priceTo = int.MaxValue;
             }
 
-            IQueryable<Product> searchResult = from product in _context.Product.Include(product => product.Categories)
+            IQueryable<Product> searchResult = from product in _context.Product.Include(product => product.Category)
                                                       where (product.Name.Contains(name) &&
-                                                             product.Categories.Any
-                                                             (catagory => catagory.Type.Contains(category)) &&
+                                                             product.Category.Type.Contains(category) &&
                                                              product.Price >= priceFrom && product.Price <= priceTo)
                                                       select product; 
             return PartialView("ProductsList", await searchResult.ToListAsync());
@@ -68,11 +68,10 @@ namespace ColmanWebProject.Controllers
 
         private IQueryable<Product> SearchResult(string queryTitle)
         {
-            return from product in _context.Product.Include(product => product.Categories)
+            return from product in _context.Product.Include(product => product.Category)
             where (product.Name.Contains(queryTitle) ||
-                   product.Categories.Any(
-                       catagory => catagory.Type.Contains(queryTitle) ||
-                                   catagory.SubType.Contains(queryTitle)))
+                   product.Category.Type.Contains(queryTitle) ||
+                   product.Category.SubType.Contains(queryTitle))
             select product;
         }
 
@@ -86,6 +85,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var product = await _context.Product
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -98,6 +98,13 @@ namespace ColmanWebProject.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            var categories = _context.Category.Select(s => new
+            {
+                Text = s.Type + ", " + s.SubType,
+                Value = s.Id
+            }).ToList();
+
+            ViewData["CategoryId"] = new SelectList(categories, "Value", "Text");
             return View();
         }
 
@@ -106,7 +113,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,CategoryId,Image")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +121,7 @@ namespace ColmanWebProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Description", product.CategoryId);
             return View(product);
         }
 
@@ -130,6 +138,14 @@ namespace ColmanWebProject.Controllers
             {
                 return NotFound();
             }
+
+            var categories = _context.Category.Select(s => new
+            {
+                Text = s.Type + ", " + s.SubType,
+                Value = s.Id
+            }).ToList();
+
+            ViewData["CategoryId"] = new SelectList(categories, "Value", "Text");
             return View(product);
         }
 
@@ -138,7 +154,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,CategoryId,Image")] Product product)
         {
             if (id != product.Id)
             {
@@ -165,6 +181,7 @@ namespace ColmanWebProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Description", product.CategoryId);
             return View(product);
         }
 
@@ -177,6 +194,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var product = await _context.Product
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {

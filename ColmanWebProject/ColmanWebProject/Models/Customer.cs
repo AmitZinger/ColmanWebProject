@@ -36,5 +36,13 @@ namespace ColmanWebProject.Models
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please enter a valid phone number")]
         public string Phone { get; set; }
         public UserType Role { get; set; } = UserType.Client;
+
+        public List<Order> Orders { get; set; }
+        
+        public int WishListId { get; set; }
+        public WishList WishList { get; set; }
+
+        public int CartId { get; set; }
+        public Cart Cart { get; set; }
     }
 }
