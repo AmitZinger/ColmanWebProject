@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace ColmanWebProject.Models
 {
@@ -20,16 +22,23 @@ namespace ColmanWebProject.Models
         public double Price { get; set; }
 
         [Required]
-        public Image Image { get; set; }
-
-        [Required]
         public int Stock { get; set; }
 
         [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        public List<Category> Categories { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
 
+        public List<WishList> WishLists { get; set; }
+        public List<Cart> Carts { get; set; }
+        public List<Order> Orders { get; set; }
+
+        public byte[] Image { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace ColmanWebProject.Controllers
         // GET: WishLists
         public async Task<IActionResult> Index()
         {
-            var colmanWebProjectContext = _context.WishList.Include(w => w.Product);
+            var colmanWebProjectContext = _context.WishList.Include(w => w.Products);
             return View(await colmanWebProjectContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var wishList = await _context.WishList
-                .Include(w => w.Product)
+                .Include(w => w.Products)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (wishList == null)
             {
@@ -57,7 +57,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerId,ProductId")] WishList wishList)
+        public async Task<IActionResult> Create([Bind("Id")] WishList wishList)
         {
             if (ModelState.IsValid)
             {
@@ -65,19 +65,19 @@ namespace ColmanWebProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Description", wishList.ProductId);
+            //ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Description", wishList.ProductId);
             return View(wishList);
         }
 
-        public async Task<IActionResult> AddToWishList(int ProductId, int CustomerId)
-        {
-            WishList x = new WishList();
-            x.CustomerId = CustomerId;
-            x.ProductId = ProductId;
-            _context.Add(x);
-            await _context.SaveChangesAsync();
-            return View("Index", await _context.WishList.Include(x => x.Product).ToListAsync());
-        }
+        //public async Task<IActionResult> AddToWishList(int ProductId, int CustomerId)
+        //{
+        //    WishList x = new WishList();
+        //    x.CustomerId = CustomerId;
+        //    x.ProductId = ProductId;
+        //    _context.Add(x);
+        //    await _context.SaveChangesAsync();
+        //    return View("Index", await _context.WishList.Include(x => x.Product).ToListAsync());
+        //}
 
 
         // GET: WishLists/Edit/5
@@ -93,7 +93,7 @@ namespace ColmanWebProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Description", wishList.ProductId);
+           // ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Description", wishList.ProductId);
             return View(wishList);
         }
 
@@ -102,7 +102,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerId,ProductId")] WishList wishList)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] WishList wishList)
         {
             if (id != wishList.Id)
             {
@@ -129,7 +129,7 @@ namespace ColmanWebProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Description", wishList.ProductId);
+          //  ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Description", wishList.ProductId);
             return View(wishList);
         }
 
@@ -142,7 +142,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var wishList = await _context.WishList
-                .Include(w => w.Product)
+                .Include(w => w.Products)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (wishList == null)
             {

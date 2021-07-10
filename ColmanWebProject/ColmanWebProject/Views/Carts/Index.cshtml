@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container">
+@*<div class="container">
     <div class="row w-100">
         <div class="col-lg-12 col-md-12 col-12">
             <h3 class="display-5 mb-2 text-center title">Shopping Cart</h3>
@@ -16,7 +16,7 @@
                     <tr>
                         <th class="productTitle">Product</th>
                         <th class="priceTitle">Price</th>
-                        @*<th class="quantityTitle">Quantity</th>*@
+                        <th class="quantityTitle">Quantity</th>
                         <th class="removeTitle text-right">Remove</th>
                     </tr>
                 </thead>
@@ -38,9 +38,9 @@
                                 </div>
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.Product.Price)</td>
-                            @*<td>
+                            <td>
                                 <input type="number" min="1" class="form-control form-control-lg text-center" value="1">
-                            </td>*@
+                            </td>
                             <td class="actions">
                                 <div class="text-right">
                                     <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="Delete" asp-route-id="@item.Id">
@@ -68,4 +68,4 @@
             </a>
         </div>
     </div>
-</div>
+</div>*@

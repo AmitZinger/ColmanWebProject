@@ -9,13 +9,9 @@ namespace ColmanWebProject.Models
     public class Cart
     {
         public int Id { get; set; }
-     
-        [Required] [Display(Name = "Customer ID")] 
-        public int CustomerId { get; set; }
-        
-        [Required] [Display(Name = "Product ID")]
-        public int ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public Customer Customer { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }

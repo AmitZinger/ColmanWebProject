@@ -15,6 +15,8 @@
                 <div class="col-6">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="WishListId" />
+                    <input type="hidden" asp-for="CartId" />
                     <div class="form-group">
                         <label asp-for="Email" class="control-label mb-1 text-left">EMAIL:</label>
                         <div class="input-group has-validation mb-3">
@@ -57,10 +59,10 @@
                         <span asp-validation-for="Role" class="text-danger"></span>
                     </div>
                     <br />
-                      <div class="form-group">
-                          <input type="submit" value="Save" class="btn btn-primary" />
-                      </div>
-                      
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+
                 </div>
                 </div>
             <div>

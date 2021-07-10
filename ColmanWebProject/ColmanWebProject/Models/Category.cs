@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace ColmanWebProject.Models
 {
@@ -21,8 +23,11 @@ namespace ColmanWebProject.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        public Image Thumbnail { get; set; }
-
         public List<Product> Products { get; set; }
+
+        public byte[] Image { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }
