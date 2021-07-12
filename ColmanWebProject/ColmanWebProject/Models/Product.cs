@@ -17,11 +17,12 @@ namespace ColmanWebProject.Models
         public string Name { get; set; }
 
         [Required]
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a valid stock price")]
         [DataType(DataType.Currency)]
         public double Price { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter a valid stock number")]
         public int Stock { get; set; }
 
         [Required]
