@@ -125,12 +125,15 @@ namespace ColmanWebProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (MemoryStream ms = new MemoryStream())
+                if(product.ImageFile != null)
                 {
-                    product.ImageFile.CopyTo(ms);
-                    product.Image = ms.ToArray();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        product.ImageFile.CopyTo(ms);
+                        product.Image = ms.ToArray();
+                    }
                 }
-
+                
                 _context.Add(product);
                 await _context.SaveChangesAsync();
             }
@@ -166,7 +169,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,CategoryId,Image")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,CategoryId,ImageFile")] Product product)
         {
             if (id != product.Id)
             {
@@ -177,6 +180,15 @@ namespace ColmanWebProject.Controllers
             {
                 try
                 {
+                    if(product.ImageFile != null) 
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            product.ImageFile.CopyTo(ms);
+                            product.Image = ms.ToArray();
+                        }
+                    }
+                   
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
@@ -191,7 +203,7 @@ namespace ColmanWebProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageProducts");
             }
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Description", product.CategoryId);
             return View(product);
@@ -224,7 +236,7 @@ namespace ColmanWebProject.Controllers
             var product = await _context.Product.FindAsync(id);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("ManageProducts");
         }
 
         private bool ProductExists(int id)
