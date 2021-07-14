@@ -4,14 +4,16 @@ using ColmanWebProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ColmanWebProject.Migrations
 {
     [DbContext(typeof(ColmanWebProjectContext))]
-    partial class ColmanWebProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20210714125835_createStoreModel")]
+    partial class createStoreModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
