@@ -21,6 +21,12 @@ namespace ColmanWebProject.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> ManageProducts()
+        {
+            var checkDbContext = _context.Product.Include(p => p.Category);
+            return View(await checkDbContext.ToListAsync());
+        }
+
         // GET: Products
         public async Task<IActionResult> Index(string Catagory, string SubCatagory)
         {
@@ -119,10 +125,8 @@ namespace ColmanWebProject.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Description", product.CategoryId);
-            return View(product);
+            return PartialView("ManageProductsList", await _context.Product.ToListAsync());
         }
 
         // GET: Products/Edit/5
