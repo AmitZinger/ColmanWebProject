@@ -9,6 +9,8 @@ using ColmanWebProject.Data;
 using ColmanWebProject.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace ColmanWebProject.Controllers
 {
@@ -119,14 +121,20 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,CategoryId,Image")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,Description,CategoryId,ImageFile")] Product product)
         {
             if (ModelState.IsValid)
             {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    product.ImageFile.CopyTo(ms);
+                    product.Image = ms.ToArray();
+                }
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
             }
-            return PartialView("ManageProductsList", await _context.Product.ToListAsync());
+            return PartialView("ManageProductsList", await _context.Product.Include(p => p.Category).ToListAsync());
         }
 
         // GET: Products/Edit/5

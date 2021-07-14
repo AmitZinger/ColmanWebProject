@@ -45,19 +45,29 @@
     $("body").on("click", "#saveProductAdd", function () {
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
+        var product = JSON.stringify({
+            Name: $("#Name").val(),
+            Price: $("#Price").val(),
+            Stock: $("#Stock").val(),
+            Description: $("#Description").val(),
+            CategoryId: $("#CategoryId").val()
+        });
+
+        formData = new FormData();
+        formData.append("__RequestVerificationToken", token);
+        formData.append("Name", $("#Name").val());
+        formData.append("Price", $("#Price").val());
+        formData.append("Stock", $("#Stock").val());
+        formData.append("Description", $("#Description").val());
+        formData.append("CategoryId", $("#CategoryId").val());
+        formData.append("ImageFile", $("#ImageFile")[0].files[0]);
+
         $.ajax({
             type: "post",
             url: "/Products/Create",
-            data: {
-                __RequestVerificationToken: token,
-                product: {
-                    Name: $("#Name").val(),
-                    Price: $("#Price").val(),
-                    Stock: $("#Stock").val(),
-                    Description: $("#Description").val(),
-                    CategoryId: $("#CategoryId").val()
-                }
-            },
+            processData: false,
+            contentType: false,
+            data: formData,
             dataType: "html",
             success: function (result) {
                 $("#add-product-contact").modal("hide");
