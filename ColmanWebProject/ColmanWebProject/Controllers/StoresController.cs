@@ -66,7 +66,8 @@ namespace ColmanWebProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            return PartialView("StoresList", await _context.Store.ToListAsync());
+            //return View(store);
         }
 
         // GET: Stores/Edit/5

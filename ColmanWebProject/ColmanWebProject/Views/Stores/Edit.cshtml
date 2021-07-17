@@ -4,45 +4,55 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Store</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Lontitude" class="control-label"></label>
-                <input asp-for="Lontitude" class="form-control" />
-                <span asp-validation-for="Lontitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Latitude" class="control-label"></label>
-                <input asp-for="Latitude" class="form-control" />
-                <span asp-validation-for="Latitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OpeningHour" class="control-label"></label>
-                <input asp-for="OpeningHour" class="form-control" />
-                <span asp-validation-for="OpeningHour" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClosingHour" class="control-label"></label>
-                <input asp-for="ClosingHour" class="form-control" />
-                <span asp-validation-for="ClosingHour" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+<main>
+    <div class="row justify-content-center">
+        <form asp-action="Edit" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Edit Store</h1>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Lontitude" class="control-label mb-1 text-left">LONTITUDE:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="Lontitude" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Lontitude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Latitude" class="control-label mb-1 text-left">LATITUDE:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="Latitude" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Latitude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OpeningHour" class="control-label mb-1 text-left">OPENING HOUR:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="OpeningHour" class="form-control" />
+                        </div>
+                        <span asp-validation-for="OpeningHour" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ClosingHour" class="control-label mb-1 text-left">CLOSING HOUR:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="ClosingHour" class="form-control" />
+                        </div>
+                        <span asp-validation-for="ClosingHour" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row justify-content-center mb-3">
+                        <div class="col-6 col-sm-7 col-md-12 col-lg-9 text-center">
+                            <input type="submit" value="SAVE CHANGES" class="btn btn-primary" /> |
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</main>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
