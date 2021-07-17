@@ -27,6 +27,11 @@ namespace ColmanWebProject.Controllers
             return View(await _context.Store.ToListAsync());
         }
 
+        public async Task<IActionResult> ShowStores()
+        {
+            return View(await _context.Store.ToListAsync());
+        }
+
         // GET: Stores/Details/5
         public async Task<IActionResult> Details(int? id)
         {
