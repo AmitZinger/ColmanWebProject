@@ -149,5 +149,13 @@ namespace ColmanWebProject.Controllers
         {
             return _context.Store.Any(e => e.Id == id);
         }
+
+        public IQueryable<Store> SelectStores()
+        {
+            IQueryable<Store> searchResult = from store in _context.Store
+                                              select store;
+            return searchResult;
+        }
+
     }
 }
