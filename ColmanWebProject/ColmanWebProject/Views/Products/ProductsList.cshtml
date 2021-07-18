@@ -6,7 +6,11 @@
         {
             <div class="col-lg-4 col-md-6 mt-4 mt-sm-0 card-container">
                 <div class="card text-center product p-4 pt-5 border-0 h-100 rounded-0">
-                    <img class="img-fluid d-block mx-auto" src="~/image/pexels-philip-boakye-3428498.jpg" alt="GUITAR">
+                    @if (item.Image != null)
+                    {
+                        string img = Convert.ToBase64String(item.Image);
+                        <img class="img-fluid d-block mx-auto" src="data:image/png;base64,@img"  width="175" height="218.75" alt="GUITAR">
+                    }
                     <div class="card-body p-4 py-0 h-xs-440p">
                         <h4 class="card-title font-weight-semi-bold mb-3 w-xl-220p mx-auto">@Html.DisplayFor(modelItem => item.Name)</h4>
                         <p class="price">@Html.DisplayFor(modelItem => item.Price)</p>
