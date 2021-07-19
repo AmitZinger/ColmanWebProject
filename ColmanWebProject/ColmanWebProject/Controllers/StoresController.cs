@@ -67,12 +67,21 @@ namespace ColmanWebProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(store);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var storeExist = from s in _context.Store
+                                 where s.Latitude == store.Latitude && s.Lontitude == store.Lontitude
+                                 select s;
+
+                if (storeExist.Count() > 0)
+                {
+                    ViewData["Error"] = "Store already exists in this location.";
+                }
+                else { 
+                    _context.Add(store);
+                    await _context.SaveChangesAsync();
+                   
+                }
             }
             return PartialView("StoresList", await _context.Store.ToListAsync());
-            //return View(store);
         }
 
         // GET: Stores/Edit/5
