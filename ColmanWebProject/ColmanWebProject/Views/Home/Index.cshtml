@@ -19,11 +19,23 @@
                 <a asp-controller="Products" asp-action="Index"
                    asp-route-Catagory="@item.Type" asp-route-SubCatagory="@item.SubType">
                     <div class="card bg-dark text-white" style="max-width: 18rem;">
-                        <img class="card-img"
-                             src="@item.Image"
-                             height="272"
-                             alt="@item.Type"
-                             width="400">
+                        @if (item.Image != null)
+                        {
+                            string img = Convert.ToBase64String(item.Image);
+                            <img class="card-img"
+                                 src="data:image/png;base64,@img"
+                                 height="272"
+                                 alt="@item.Type"
+                                 width="400">
+                        }
+                        else
+                        {
+                            <img class="card-img"
+                                 src="..."
+                                 height="272"
+                                 alt="@item.Type"
+                                 width="400">
+                        }
                         <div class="card-img-overlay">
                             <h5 class="card-title">@item.Type</h5>
                         </div>
