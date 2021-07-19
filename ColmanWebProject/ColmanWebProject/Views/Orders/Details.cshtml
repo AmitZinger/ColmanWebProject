@@ -4,51 +4,56 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShippingAddressCity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShippingAddressCity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShippingAddressStreet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShippingAddressStreet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShippingAddressHomeNum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShippingAddressHomeNum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer.Email)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<hr />
+<main>
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Order Details</h1>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ShippingAddressCity)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ShippingAddressCity)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ShippingAddressStreet)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ShippingAddressStreet)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ShippingAddressHomeNum)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ShippingAddressHomeNum)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Customer)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Customer.Email)
+                </dd>
+            </dl>
+        
+            <div class="row justify-content-center mb-3">
+                <div class="col-sm-7 col-md-6 text-center">
+                    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
+                    <a asp-action="Index">Back to Orders List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -4,53 +4,72 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Order</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+<main class="form-signin">
+    <div class="row justify-content-center">
+        <form asp-action="Create" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Order</h1>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">PRICE:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="Price" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ShippingAddressCity" class="control-label">CITY:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="ShippingAddressCity" class="form-control" />
+                        </div>
+                        <span asp-validation-for="ShippingAddressCity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ShippingAddressStreet" class="control-label">STREET:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="ShippingAddressStreet" class="form-control" />
+                        </div>
+                        <span asp-validation-for="ShippingAddressStreet" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ShippingAddressHomeNum" class="control-label">HOME NUMBER:</label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="ShippingAddressHomeNum" class="form-control" />
+                        </div>
+                        <span asp-validation-for="ShippingAddressHomeNum" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <div class="input-group has-validation mb-3">
+                            <input asp-for="Date" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="control-label">EMAIL:</label>
+                        <div class="input-group has-validation mb-3">
+                            <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId" ></select>
+                        </div>
+                        </div>
+                        <div class="form-group text-center mb-3">
+                            <input type="submit" value="Create" class="btn btn-outline-success" />
+                        </div>
+                    </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ShippingAddressCity" class="control-label"></label>
-                <input asp-for="ShippingAddressCity" class="form-control" />
-                <span asp-validation-for="ShippingAddressCity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ShippingAddressStreet" class="control-label"></label>
-                <input asp-for="ShippingAddressStreet" class="form-control" />
-                <span asp-validation-for="ShippingAddressStreet" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ShippingAddressHomeNum" class="control-label"></label>
-                <input asp-for="ShippingAddressHomeNum" class="form-control" />
-                <span asp-validation-for="ShippingAddressHomeNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class ="form-control" asp-items="ViewBag.CustomerId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            @if (ViewBag.Error != null)
+            {
+                <div class="text-danger">@ViewBag.Error</div>
+            }
+
+        <div class="text-center mb-3">
+            <a asp-controller="Carts" asp-action="Index">Back to Cart</a>
+        </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</main>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
