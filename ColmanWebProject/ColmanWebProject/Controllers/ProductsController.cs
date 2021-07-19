@@ -30,10 +30,20 @@ namespace ColmanWebProject.Controllers
         // GET: Products
         public async Task<IActionResult> Index(string Catagory, string SubCatagory)
         {
-                var data = _context.Product.Include(product => product.Category)
+            IQueryable<Product> data;
+            if (SubCatagory.Equals("General"))
+            {
+                 data = _context.Product.Include(product => product.Category)
+                .Where(product => product.Category.Type.Equals(Catagory));  
+
+            }
+            else
+            {
+                data = _context.Product.Include(product => product.Category)
                 .Where(product => product.Category.Type.Equals(Catagory) &&
-                (product.Category.SubType.Equals(SubCatagory) || product.Category.SubType.Equals(null)));  
-               
+                product.Category.SubType.Equals(SubCatagory));
+            }
+
             return View(await data.ToListAsync());
         }
 

@@ -20,13 +20,13 @@
     <div class="utility-nav d-none d-md-block">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-6">
+                <div class="col-md-8 col-lg-9 col-xl-10">
                     <p class="small">
                         <i class="bx bx-envelope"></i> contact@colman.com | <i class="bx bx-phone"></i> 03-1234567
                     </p>
                 </div>
 
-                <div class="col-12 col-md-6 text-right">
+                <div class="col-md-4 col-lg-3 col-xl-2">
 
                     @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                     {
@@ -40,10 +40,6 @@
                             email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
 
                         }
-                        //if (role != null && role == "Admin")
-                        //{
-                        //asp-route-id=
-                        //if (Context.User.IsInRole("Admin")) {
 
                         <p class="small">
                             <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-log-in-circle mr-1"></i> Log Out</a> /
