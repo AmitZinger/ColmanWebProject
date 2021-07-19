@@ -14,10 +14,13 @@ namespace ColmanWebProject.Models
         public double Price { get; set; }
 
         [Required]
+        [Display(Name = "City")]
         public string ShippingAddressCity { get; set; }
         [Required]
+        [Display(Name = "Street")]
         public string ShippingAddressStreet { get; set; }
         [Required]
+        [Display(Name = "Home number")]
         public string ShippingAddressHomeNum { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
