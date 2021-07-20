@@ -34,9 +34,19 @@
     border-bottom-left-radius: 0;
 }
 
+#searchForm .form-control {
+    width: 380px;
+}
+
+@media (min-width: 592px) {
+    #searchForm .form-control {
+        width: 430px;
+    }
+}
+
 @media (min-width: 768px) {
     #searchForm .form-control {
-        width: 370px;
+        width: 340px;
     }
 }
 
