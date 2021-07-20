@@ -20,10 +20,11 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: WishLists
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int WishListId)
         {
-            var colmanWebProjectContext = _context.WishList.Include(w => w.Products);
-            return View(await colmanWebProjectContext.ToListAsync());
+            var wishList = await _context.WishList.Include(m => m.Products)
+                .FirstOrDefaultAsync(m => m.Id == WishListId);
+            return View(wishList.Products);
         }
 
         // GET: WishLists/Details/5
@@ -69,15 +70,19 @@ namespace ColmanWebProject.Controllers
             return View(wishList);
         }
 
-        //public async Task<IActionResult> AddToWishList(int ProductId, int CustomerId)
-        //{
-        //    WishList x = new WishList();
-        //    x.CustomerId = CustomerId;
-        //    x.ProductId = ProductId;
-        //    _context.Add(x);
-        //    await _context.SaveChangesAsync();
-        //    return View("Index", await _context.WishList.Include(x => x.Product).ToListAsync());
-        //}
+        public async Task<IActionResult> AddToWishList(int WishListId, int ProductId)
+        {
+            var product = await _context.Product.FirstOrDefaultAsync(m => m.Id == ProductId);
+            var wishList = await _context.WishList.FirstOrDefaultAsync(m => m.Id == WishListId);
+            if (wishList.Products == null)
+            {
+                wishList.Products = new List<Product>();
+            }
+            wishList.Products.Add(product);
+            await _context.SaveChangesAsync();
+            var updatedWishList = await _context.WishList.Include(m => m.Products).FirstOrDefaultAsync(m => m.Id == WishListId);
+            return View("Index", updatedWishList.Products);
+        }
 
 
         // GET: WishLists/Edit/5
