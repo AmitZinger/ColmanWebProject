@@ -5,10 +5,8 @@
 }
 
 <div>
-    <div class="row justify-content-center ">
-        <div class="col-8 mt-2">
-            <img class="rounded" src="https://img.d.co.il/Umbraco/2175/795x348.f68228e6-68c0-4642-87b3-6c0cf12cedb5.png" />
-        </div>
+    <div class="mt-2">
+        <img class="rounded logo-image" src="~/image/Logo.png" />
     </div>
 
         <h1 class="logo">LOGO</h1>
@@ -18,7 +16,7 @@
             {
                 <a asp-controller="Products" asp-action="Index"
                    asp-route-Catagory="@item.Type" asp-route-SubCatagory="@item.SubType">
-                    <div class="card bg-dark text-white" style="max-width: 18rem;">
+                    <div class="card bg-dark text-white">
                         @if (item.Image != null)
                         {
                             string img = Convert.ToBase64String(item.Image);
