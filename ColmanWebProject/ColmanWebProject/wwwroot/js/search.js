@@ -4,7 +4,7 @@
         var searchValue = $('#searchValue').val();
         var currentLocation = $(location).attr("href");
 
-        if (currentLocation.includes("Products?")) {
+        if (currentLocation.includes("Products?") || currentLocation.includes("Products/SearchWithFullView")) {
             $.ajax({
                 url: "/Products/SearchWithPartialView",
                 data: { queryTitle: searchValue }
