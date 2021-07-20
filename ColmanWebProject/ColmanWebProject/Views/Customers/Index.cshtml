@@ -41,8 +41,8 @@
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             @*<td>
-                                @Html.DisplayFor(modelItem => item.Password)
-                            </td>*@
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
@@ -56,13 +56,30 @@
                                 @Html.DisplayFor(modelItem => item.Role)
                             </td>
                             <td>
-                                
-                                <a asp-controller="Customers" asp-action="EditRole" asp-route-id="@item.Id">Edit</a> |
-                                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </td>
-                        </tr>
-                    }
+                                @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                                {
+
+
+                                    string email = null;
+                                    var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                                    if (identity.Claims.Count() > 0)
+                                    {
+                                        email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+                                    }
+
+                                    if (item.Email != email)
+                                    {
+                                     <div>
+                                       <a asp-controller="Customers" asp-action="EditRole" asp-route-id="@item.Id">Edit</a> |
+                                       <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
+                                       @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
+                                     </div>
+                                    }
+                                }
+
+                                </td >
+                                </tr >
+                            }
                 </tbody>
             </table>
         </div>

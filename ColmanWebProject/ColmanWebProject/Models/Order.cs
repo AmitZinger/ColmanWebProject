@@ -14,7 +14,11 @@ namespace ColmanWebProject.Models
         public double Price { get; set; }
 
         [Required]
-        public string ShippingAddress { get; set; }
+        public string ShippingAddressCity { get; set; }
+        [Required]
+        public string ShippingAddressStreet { get; set; }
+        [Required]
+        public string ShippingAddressHomeNum { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }

@@ -4,14 +4,16 @@ using ColmanWebProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ColmanWebProject.Migrations
 {
     [DbContext(typeof(ColmanWebProjectContext))]
-    partial class ColmanWebProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20210714121932_changeOrder")]
+    partial class changeOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,30 +191,6 @@ namespace ColmanWebProject.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("ColmanWebProject.Models.Store", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClosingHour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Lontitude")
-                        .HasColumnType("float");
-
-                    b.Property<string>("OpeningHour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Store");
                 });
 
             modelBuilder.Entity("ColmanWebProject.Models.WishList", b =>
