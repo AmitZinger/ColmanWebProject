@@ -173,11 +173,12 @@ namespace ColmanWebProject.Controllers
             return _context.Store.Any(e => e.Id == id);
         }
 
-        public IQueryable<Store> SelectStores()
+        [HttpPost]
+        public JsonResult SelectStores()
         {
-            IQueryable<Store> searchResult = from store in _context.Store
+            var searchResult = from store in _context.Store
                                               select store;
-            return searchResult;
+            return new JsonResult(searchResult.ToList());
         }
 
     }

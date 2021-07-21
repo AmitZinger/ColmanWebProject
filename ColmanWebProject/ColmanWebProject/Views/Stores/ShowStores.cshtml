@@ -2,7 +2,45 @@
 
 @{
     ViewData["Title"] = "ShowStores";
+
 }
 
-<script src="~/js/stores.js"></script>
-<div id="storesMap" ></div>
+@*<script src="~/js/stores.js"></script>
+    <div id="storesMap" ></div>*@
+
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        function GetMap() {
+            var map = new Microsoft.Maps.Map('#myMap', {});
+
+                $.ajax({
+        url: "/Stores/SelectStores"
+                }).done(function (data) {
+                    console.log(data);
+    });
+            //Request the user's location
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var loc = new Microsoft.Maps.Location(
+                    position.coords.latitude,
+                    position.coords.longitude);
+
+                //Add a pushpin at the user's location.
+                var pin = new Microsoft.Maps.Pushpin(loc);
+                map.entities.push(pin);
+
+                //Center the map on the user's location.
+                map.setView({ center: loc, zoom: 15 });
+            });
+        }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[ApDDnnOtsh8YyRnlGb0TzW2VYvZnGzxVF7es5LUFydQw4KAomu5_cQhYvlwugfPG]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>
