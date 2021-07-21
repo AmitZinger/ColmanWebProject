@@ -112,6 +112,8 @@ namespace ColmanWebProject.Controllers
                 {
                     new Claim(ClaimTypes.Email, account.Email),
                     new Claim(ClaimTypes.Role, account.Role.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, account.CartId.ToString()),
+                    new Claim(ClaimTypes.SerialNumber, account.WishListId.ToString())
                 };
 
             var claimsIdentity = new ClaimsIdentity(

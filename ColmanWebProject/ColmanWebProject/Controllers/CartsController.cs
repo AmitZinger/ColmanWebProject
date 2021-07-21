@@ -20,9 +20,11 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: Carts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int CartId)
         {
-            return View(await _context.Cart.Include(x => x.Products).ToListAsync());
+            var cart = await _context.Cart.Include(m => m.Products)
+                .FirstOrDefaultAsync(m => m.Id == CartId);
+            return View(cart.Products);
         }
 
         public async Task<IActionResult> Count()
@@ -70,15 +72,19 @@ namespace ColmanWebProject.Controllers
             return View(cart);
         }
 
-        //public async Task<IActionResult> AddToCart(int ProductId, int CustomerId)
-        //{
-        //    Cart x = new Cart();
-        //    x.CustomerId = CustomerId;
-        //    x.ProductId = ProductId;
-        //    _context.Add(x);
-        //    await _context.SaveChangesAsync();
-        //    return View("Index", await _context.Cart.Include(x => x.Product).ToListAsync());
-        //}
+        public async Task<IActionResult> AddToCart(int CartId, int ProductId)
+        {
+            var product = await _context.Product.FirstOrDefaultAsync(m => m.Id == ProductId);
+            var cart = await _context.Cart.FirstOrDefaultAsync(m => m.Id == CartId);
+            if (cart.Products == null)
+            {
+                cart.Products = new List<Product>();
+            }
+            cart.Products.Add(product);
+            await _context.SaveChangesAsync();
+            var updatedCart = await _context.Cart.Include(m => m.Products).FirstOrDefaultAsync(m => m.Id == CartId);
+            return View("Index", updatedCart.Products);
+        }
 
         // GET: Carts/Edit/5
         public async Task<IActionResult> Edit(int? id)
