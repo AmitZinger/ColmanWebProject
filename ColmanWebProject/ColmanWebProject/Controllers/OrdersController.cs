@@ -48,6 +48,7 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: Orders/Create
+        [Authorize]
         public IActionResult Create()
         {
             
@@ -60,6 +61,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,Price,ShippingAddressCity,ShippingAddressStreet,ShippingAddressHomeNum,Date,CustomerId")] Order order)
         {
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
