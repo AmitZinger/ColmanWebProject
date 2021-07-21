@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label asp-for="Price" class="control-label">PRICE:</label>
                         <div class="input-group has-validation mb-3">
-                            <input asp-for="Price" class="form-control" />
+                            <input asp-for="Price" class="form-control" readonly />
                         </div>
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label asp-for="Date" class="control-label">DATE:</label>
                         <div class="input-group has-validation mb-3">
-                            <input asp-for="Date" class="form-control" />
+                            <input asp-for="Date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" readonly/>
                         </div>
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>

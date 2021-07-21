@@ -23,6 +23,7 @@ namespace ColmanWebProject.Models
         [Display(Name = "Home number")]
         public string ShippingAddressHomeNum { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; } 
 
