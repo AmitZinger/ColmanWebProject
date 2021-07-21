@@ -24,7 +24,7 @@ namespace ColmanWebProject.Models
         public string ShippingAddressHomeNum { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } 
 
         [Required]
         public List<Product> products { get; set; }

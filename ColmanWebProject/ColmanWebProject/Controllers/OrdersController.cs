@@ -50,6 +50,7 @@ namespace ColmanWebProject.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
+            
             ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Email");
             return View();
         }
@@ -61,14 +62,30 @@ namespace ColmanWebProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Price,ShippingAddressCity,ShippingAddressStreet,ShippingAddressHomeNum,Date,CustomerId")] Order order)
         {
-            if (ModelState.IsValid)
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            
+            string signUserEmail;
+            if (identity.Claims.Count() > 0)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                signUserEmail = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+
+                var customerInfo = _context.Customer.FirstOrDefault(c => c.Email == signUserEmail);
+                order.Customer = customerInfo;
+                order.CustomerId = customerInfo.Id;
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(order);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Email", order.CustomerId);
+                return View(order);
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "Id", "Email", order.CustomerId);
-            return View(order);
+            else
+            {
+                return NotFound();
+            }
         }
 
         // GET: Orders/Edit/5
