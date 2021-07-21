@@ -6,8 +6,6 @@
 
 <main class="form-signin">
     <div class="row justify-content-center">
-
-        @*<div class="col-md-4">*@
         <form asp-action="EditRole" class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
             <h1 class="h3 mb-3 fw-normal text-center">EDIT DETAILS</h1>
 
@@ -45,13 +43,6 @@
                         </div>
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
-                    @*<div class="form-group">
-            <label asp-for="Password" class="control-label mb-1 text-left">PASSWORD:</label>
-            <div class="input-group has-validation mb-3">
-                <input asp-for="Password" class="form-control" readonly />
-            </div>
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>*@
 
                     <div class="form-group">
                         <label asp-for="Role" class="control-label"></label>
@@ -59,19 +50,17 @@
                         <span asp-validation-for="Role" class="text-danger"></span>
                     </div>
                     <br />
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
+                    <div class="form-group row justify-content-center mb-3">
+                        <div class="col-6 col-sm-7 col-md-12 col-lg-9 text-center">
+                            <input type="submit" value="SAVE CHANGES" class="btn btn-primary" /> |
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+                        </div>
 
+                    </div>
                 </div>
-                </div>
-            <div>
-                <a asp-action="Index">Back to Customers List</a>
-            </div>
         </form>
     </div>
-    @*</div>*@
-    
 </main>
        
 

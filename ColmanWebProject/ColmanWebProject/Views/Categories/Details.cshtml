@@ -11,25 +11,32 @@
             <h1 class="h4 mb-3 fw-normal text-center">
                 @Html.DisplayFor(model => model.SubType),  @Html.DisplayFor(model => model.Type)
             </h1>
-            <div class="row justify-content-center mb-3">
-                <div class="col-sm-9">
-                    <label><u>DESCRIPTION: </u></label>
+            <div class="row g-0">
+                <div class="col-md-4">
+                    @if (Model.Image != null)
+                    {
+                        string img = Convert.ToBase64String(Model.Image);
+                        <img src="data:image/png;base64,@img" width="318" height="234" alt="@Model.Type @Model.SubType">
+                    }
+                </div>
+                <div class="row mb-3 col-md-8">
+                    <div class="col-sm-9">
+                        <label><u>DESCRIPTION: </u></label>
+                        <p class="col-sm-7">
+                            @Html.DisplayFor(model => model.Description)
+                        </p>
+                    </div>
                 </div>
 
-                <p class="col-sm-7">
-                    @Html.DisplayFor(model => model.Description)
-                </p>
-            </div>
-
-            <div class="row justify-content-center mb-3">
-                <div class="col-sm-7 col-md-6 text-center">
-                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
-                    <a asp-action="Index">Back to List</a>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-7 col-md-6 text-center">
+                        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+                        <a asp-action="Index">Back to List</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </main>
 
 

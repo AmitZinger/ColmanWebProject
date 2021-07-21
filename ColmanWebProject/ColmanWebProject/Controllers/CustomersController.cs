@@ -145,52 +145,10 @@ namespace ColmanWebProject.Controllers
             return View(await _context.Customer.ToListAsync());
         }
 
-        //// GET: Customers/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var customer = await _context.Customer
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(customer);
-        //}
-
-        //// GET: Customers/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Customers/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Email,Password,Name,LastName,Phone,Role")] Customer customer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(customer);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(customer);
-        //}
-
         // GET: Customers/EditRole/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(int? id)
         {
-            int a =  0;
-
             if (id == null)
             {
                 return NotFound();
@@ -200,13 +158,20 @@ namespace ColmanWebProject.Controllers
 
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
             string signUserRole = null;
+            string signUserEmail;
             if (identity.Claims.Count() > 0)
             {
                 signUserRole = identity.Claims.FirstOrDefault(c => c.Type.Contains("role")).Value;
+                signUserEmail = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
 
-                if (customer == null || (customer != null && signUserRole != UserType.Admin.ToString()))
+                if (customer == null ||
+                   (customer != null && signUserRole != UserType.Admin.ToString()))
                 {
                     return NotFound();
+                } 
+                else if (customer.Email.Equals(signUserEmail))
+                {
+                    return View("AccessDenied");
                 }
             }
             else
@@ -335,7 +300,8 @@ namespace ColmanWebProject.Controllers
             {
                 return NotFound();
             }
-
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string signUserEmail = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value; 
             var customer = await _context.Customer
                  .Include(c => c.Cart)
                  .Include(c => c.WishList)
@@ -343,6 +309,10 @@ namespace ColmanWebProject.Controllers
             if (customer == null)
             {
                 return NotFound();
+            } 
+            else if(customer.Email.Equals(signUserEmail))
+            {
+                return View("AccessDenied");
             }
 
             return View(customer);
