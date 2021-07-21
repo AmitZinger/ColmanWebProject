@@ -22,7 +22,7 @@ namespace ColmanWebProject.Controllers
         // GET: WishLists
         public async Task<IActionResult> Index()
         {
-            var colmanWebProjectContext = _context.WishList.Include(w => w.Products);
+            var colmanWebProjectContext = _context.WishList.Include(w => w.ProductsWishList).ThenInclude(pw => pw.Product);
             return View(await colmanWebProjectContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var wishList = await _context.WishList
-                .Include(w => w.Products)
+                .Include(w => w.ProductsWishList).ThenInclude(pw => pw.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (wishList == null)
             {
@@ -142,7 +142,7 @@ namespace ColmanWebProject.Controllers
             }
 
             var wishList = await _context.WishList
-                .Include(w => w.Products)
+                .Include(w => w.ProductsWishList).ThenInclude(pw => pw.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (wishList == null)
             {

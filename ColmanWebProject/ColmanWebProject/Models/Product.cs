@@ -33,7 +33,7 @@ namespace ColmanWebProject.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public List<WishList> WishLists { get; set; }
+        public ICollection<ProductsWishList> ProductsWishList { get; set; } = new List<ProductsWishList>();
         public List<Cart> Carts { get; set; }
         public List<Order> Orders { get; set; }
 
