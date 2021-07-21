@@ -19,151 +19,65 @@ namespace ColmanWebProject.Controllers
             _context = context;
         }
 
-        // GET: Carts
         public async Task<IActionResult> Index(int CartId)
         {
-            var cart = await _context.Cart.Include(m => m.Products)
-                .FirstOrDefaultAsync(m => m.Id == CartId);
-            return View(cart.Products);
-        }
+            var productsInCart = _context.ProductsCart
+                .Include(pw => pw.Cart)
+                .Include(pw => pw.Product)
+                .Where(pw => pw.CartId == CartId).ToListAsync();
 
-        public async Task<IActionResult> Count()
-        {
-            return View(await _context.Cart.CountAsync());
-        }
-
-        // GET: Carts/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Cart
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return View(cart);
-        }
-
-        // GET: Carts/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Carts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Cart cart)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(cart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(cart);
+            return View(await productsInCart);
         }
 
         public async Task<IActionResult> AddToCart(int CartId, int ProductId)
         {
-            var product = await _context.Product.FirstOrDefaultAsync(m => m.Id == ProductId);
-            var cart = await _context.Cart.FirstOrDefaultAsync(m => m.Id == CartId);
-            if (cart.Products == null)
+            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
+            var Cart = await _context.Cart.FirstOrDefaultAsync(w => w.Id == CartId);
+            var currPW = _context.ProductsCart
+                .FirstOrDefault(pw => pw.ProductId == ProductId && pw.CartId == CartId);
+
+            if (currPW != null)
             {
-                cart.Products = new List<Product>();
+                currPW.Quantity += 1;
+                _context.Update(currPW);
             }
-            cart.Products.Add(product);
+            else
+            {
+                ProductsCart newPW = new ProductsCart
+                {
+                    Product = product,
+                    Cart = Cart,
+                    Quantity = 1
+                };
+                _context.Add(newPW);
+            }
+
             await _context.SaveChangesAsync();
-            var updatedCart = await _context.Cart.Include(m => m.Products).FirstOrDefaultAsync(m => m.Id == CartId);
-            return View("Index", updatedCart.Products);
-        }
-
-        // GET: Carts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Cart.FindAsync(id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-            return View(cart);
-        }
-
-        // POST: Carts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Cart cart)
-        {
-            if (id != cart.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartExists(cart.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(cart);
+            return RedirectToAction(nameof(Index), new { CartId = CartId });
         }
 
         // GET: Carts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? CartId, int? productId)
         {
-            if (id == null)
+            if (CartId == null || productId == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Cart
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            var productsCarts = await _context.ProductsCart
+                .Include(pw => pw.Cart)
+                .Include(pw => pw.Product)
+                .Where(pw => pw.CartId == CartId && pw.ProductId == productId).FirstOrDefaultAsync();
+
+            if (productsCarts == null)
             {
                 return NotFound();
             }
 
-            return View(cart);
-        }
+            _context.Remove(productsCarts);
 
-        // POST: Carts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var cart = await _context.Cart.FindAsync(id);
-            _context.Cart.Remove(cart);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { CartId = CartId });
         }
 
         private bool CartExists(int id)

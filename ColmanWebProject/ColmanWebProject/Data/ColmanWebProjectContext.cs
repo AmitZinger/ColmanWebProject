@@ -23,11 +23,14 @@ namespace ColmanWebProject.Data
 
         public DbSet<ColmanWebProject.Models.WishList> WishList { get; set; }
         public DbSet<ColmanWebProject.Models.ProductsWishList> ProductsWishList { get; set; }
+        public DbSet<ColmanWebProject.Models.ProductsCart> ProductsCart { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductsWishList>()
                 .HasKey(cs => new { cs.ProductId, cs.WishListId });
+            modelBuilder.Entity<ProductsCart>()
+                .HasKey(cs => new { cs.ProductId, cs.CartId });
         }
     }
 }
