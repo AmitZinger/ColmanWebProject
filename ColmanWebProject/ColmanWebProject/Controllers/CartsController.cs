@@ -29,6 +29,33 @@ namespace ColmanWebProject.Controllers
             return View(await productsInCart);
         }
 
+        public async Task<IActionResult> AddToCartFromWishList(int CartId, int ProductId, int quantity)
+        {
+            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
+            var Cart = await _context.Cart.FirstOrDefaultAsync(w => w.Id == CartId);
+            var currPW = _context.ProductsCart
+                .FirstOrDefault(pw => pw.ProductId == ProductId && pw.CartId == CartId);
+
+            if (currPW != null)
+            {
+                currPW.Quantity += quantity;
+                _context.Update(currPW);
+            }
+            else
+            {
+                ProductsCart newPW = new ProductsCart
+                {
+                    Product = product,
+                    Cart = Cart,
+                    Quantity = quantity
+                };
+                _context.Add(newPW);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), new { CartId = CartId });
+        }
+
         public async Task<IActionResult> AddToCart(int CartId, int ProductId)
         {
             var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
@@ -55,6 +82,7 @@ namespace ColmanWebProject.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { CartId = CartId });
         }
+
 
         // GET: Carts/Delete/5
         public async Task<IActionResult> Delete(int? CartId, int? productId)
