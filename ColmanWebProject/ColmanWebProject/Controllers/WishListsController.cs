@@ -20,10 +20,11 @@ namespace ColmanWebProject.Controllers
         }
 
         // GET: WishLists
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int WishListId)
         {
-            var colmanWebProjectContext = _context.WishList.Include(w => w.ProductsWishList).ThenInclude(pw => pw.Product);
-            return View(await colmanWebProjectContext.ToListAsync());
+            var wishList = _context.WishList.Include(w => w.ProductsWishList)
+                .ThenInclude(pw => pw.Product).Where(w => w.Id == WishListId); 
+            return View(await wishList.SelectMany(w => w.ProductsWishList.Select(pw => pw.Product)).ToListAsync());
         }
 
         // GET: WishLists/Details/5
@@ -69,15 +70,30 @@ namespace ColmanWebProject.Controllers
             return View(wishList);
         }
 
-        //public async Task<IActionResult> AddToWishList(int ProductId, int CustomerId)
-        //{
-        //    WishList x = new WishList();
-        //    x.CustomerId = CustomerId;
-        //    x.ProductId = ProductId;
-        //    _context.Add(x);
-        //    await _context.SaveChangesAsync();
-        //    return View("Index", await _context.WishList.Include(x => x.Product).ToListAsync());
-        //}
+        public async Task<IActionResult> AddToWishList(int WishListId, int ProductId)
+        {
+            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
+            var wishList = await _context.WishList.FirstOrDefaultAsync(w => w.Id == WishListId);
+            var currPW = _context.ProductsWishList
+                .FirstOrDefault(pw => pw.ProductId == ProductId && pw.WishListId == WishListId);
+            
+            if(currPW != null)
+            {
+                currPW.Quantity += 1;
+                _context.Update(currPW);
+            } else {
+                ProductsWishList newPW = new ProductsWishList
+                {
+                    Product = product,
+                    WishList = wishList,
+                    Quantity = 1
+                };
+                _context.Add(newPW);
+            }
+
+            await _context.SaveChangesAsync();
+            return await Index(WishListId);
+        }
 
 
         // GET: WishLists/Edit/5
