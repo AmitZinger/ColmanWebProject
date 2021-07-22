@@ -374,6 +374,20 @@ namespace ColmanWebProject.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-            
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = string.Empty;
+            }
+
+            IQueryable<Customer> searchResult = from customer in _context.Customer
+                                                where (customer.Name.Contains(name))
+                                                select customer;
+            return View("Index", await searchResult.ToListAsync());
+        }
+
     }
 }

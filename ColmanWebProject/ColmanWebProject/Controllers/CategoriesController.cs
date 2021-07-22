@@ -180,5 +180,19 @@ namespace ColmanWebProject.Controllers
         {
             return _context.Category.Any(e => e.Id == id);
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchByTypeName(string typeName)
+        {
+            if (string.IsNullOrEmpty(typeName))
+            {
+                typeName = string.Empty;
+            }
+
+            IQueryable<Category> searchResult = from category in _context.Category
+                                               where (category.Type.Contains(typeName))
+                                               select category;
+            return View("CategoriesList", await searchResult.ToListAsync());
+        }
     }
 }
