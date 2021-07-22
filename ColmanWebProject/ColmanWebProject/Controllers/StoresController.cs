@@ -29,6 +29,7 @@ namespace ColmanWebProject.Controllers
 
         public async Task<IActionResult> ShowStores()
         {
+            ViewData["Stores"] = await _context.Store.ToListAsync();
             return View(await _context.Store.ToListAsync());
         }
 
@@ -171,14 +172,6 @@ namespace ColmanWebProject.Controllers
         private bool StoreExists(int id)
         {
             return _context.Store.Any(e => e.Id == id);
-        }
-
-        [HttpPost]
-        public JsonResult SelectStores()
-        {
-            var searchResult = from store in _context.Store
-                                              select store;
-            return new JsonResult(searchResult.ToList());
         }
 
     }
