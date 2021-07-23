@@ -386,7 +386,7 @@ namespace ColmanWebProject.Controllers
             IQueryable<Customer> searchResult = from customer in _context.Customer
                                                 where (customer.Name.Contains(name))
                                                 select customer;
-            return View("Index", await searchResult.ToListAsync());
+            return View("CustomersList", await searchResult.ToListAsync());
         }
 
     }

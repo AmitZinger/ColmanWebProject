@@ -48,7 +48,13 @@
     $('#customersSearch').submit(function (e) {
         e.preventDefault();
         var searchbyname = $('#searchByName').val();
-        window.location.replace("/Customers/SearchByName?name=" + searchbyname);
+
+        $.ajax({
+            url: "/Customers/SearchByName",
+            data: { name: searchbyname }
+        }).done(function (data) {
+            $('#partial').html(data);
+        })
     })
 
     $('#productsSearch').submit(function (e) {
