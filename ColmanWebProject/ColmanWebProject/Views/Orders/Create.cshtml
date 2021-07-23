@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+    string cartId = identity.Claims.ElementAt(2).Value;
 }
 
 <hr />
@@ -13,13 +15,6 @@
             <div class="row justify-content-center">
                 <div class="col-6">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Price" class="control-label">PRICE:</label>
-                        <div class="input-group has-validation mb-3">
-                            <input asp-for="Price" class="form-control" readonly />
-                        </div>
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
                     <div class="form-group">
                         <label asp-for="ShippingAddressCity" class="control-label">CITY:</label>
                         <div class="input-group has-validation mb-3">
@@ -44,45 +39,28 @@
                     <div class="form-group">
                         <label asp-for="Date" class="control-label">DATE:</label>
                         <div class="input-group has-validation mb-3">
-                            <input asp-for="Date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" readonly/>
+                            <input asp-for="Date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" readonly />
                         </div>
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
-                    @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
-                    {
-
-                        string email = null;
-                        var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
-                        if (identity.Claims.Count() > 0)
-                        {
-                          email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
-                          <div class="form-group">
-                             <label class="control-label">EMAIL:</label>
-                          <div class="input-group has-validation mb-3">
-                             <input class="form-control" value="@email" readonly />
-                          </div>
-                          </div>  
-                        }
-                    }
-                        @*<div class="form-group">
-                            <label asp-for="CustomerId" class="control-label">EMAIL:</label>
-                            <div class="input-group has-validation mb-3">
-                                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-                            </div>
-                        </div>*@
-                        <div class="form-group text-center mb-3">
-                            <input type="submit" value="Create" class="btn btn-outline-success" />
-                        </div>
+                    <div class="float-right text-center">
+                        <h4>Subtotal: $@ViewBag.Price</h4>
                     </div>
+                    <div class="form-group text-center mb-3">
+                        <input type="submit" value="ORDER NOW!" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 checkout" />
+                    </div>
+                </div>
             </div>
             @if (ViewBag.Error != null)
             {
                 <div class="text-danger">@ViewBag.Error</div>
             }
 
-        <div class="text-center mb-3">
-            <a asp-controller="Carts" asp-action="Index">Back to Cart</a>
-        </div>
+            <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                <a asp-controller="Carts" asp-action="Index" asp-route-CartId="@cartId">
+                    <i class="fa fa-arrow-left mr-2"></i> Back to Cart
+                </a>
+            </div>
         </form>
     </div>
 </main>

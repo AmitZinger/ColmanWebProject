@@ -10,8 +10,8 @@ namespace ColmanWebProject.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public double Price { get; set; }
+        [DataType(DataType.Currency)]
+        public double Price { get; set; } = 0;
 
         [Required]
         [Display(Name = "City")]
