@@ -176,7 +176,6 @@ namespace ColmanWebProject.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("ColmanWebProject.Models.ProductsCart", b =>
             modelBuilder.Entity("ColmanWebProject.Models.Store", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +307,7 @@ namespace ColmanWebProject.Migrations
                     b.Navigation("Category");
                 });
 
+
             modelBuilder.Entity("ColmanWebProject.Models.ProductsCart", b =>
                 {
                     b.HasOne("ColmanWebProject.Models.Cart", "Cart")
@@ -395,6 +395,7 @@ namespace ColmanWebProject.Migrations
 
                     b.Navigation("ProductsWishList");
                 });
+
 
             modelBuilder.Entity("ColmanWebProject.Models.WishList", b =>
                 {
