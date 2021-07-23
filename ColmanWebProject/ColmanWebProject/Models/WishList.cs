@@ -11,6 +11,6 @@ namespace ColmanWebProject.Models
 
         public Customer Customer { get; set; }
 
-        public List<Product> Products { get; set; }
+        public ICollection<ProductsWishList> ProductsWishList { get; set; } = new List<ProductsWishList>();
     }
 }

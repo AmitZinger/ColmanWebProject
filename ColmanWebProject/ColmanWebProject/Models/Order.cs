@@ -28,7 +28,7 @@ namespace ColmanWebProject.Models
         public DateTime Date { get; set; } 
 
         [Required]
-        public List<Product> products { get; set; }
+        public ICollection<ProductsOrder> productsOrders { get; set; } = new List<ProductsOrder>();
 
         [Required]
         public int CustomerId { get; set; }

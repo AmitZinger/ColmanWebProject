@@ -19,12 +19,18 @@
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark btn-block">Show more details</a>
                     </div>
                     <div class="mt-3">
-                        <a asp-controller="Carts" asp-action="AddToCart" asp-route-ProductId="@item.Id" asp-route-CustomerId="16" type="button" class="btn btn-outline-info btn-circle">
-                            <i class="fa fa-cart-plus fa-xl"></i>
-                        </a>
-                        <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@item.Id" asp-route-CustomerId="16" type="button" class="btn btn-outline-info btn-circle">
-                            <i class="fa fa-heart fa-xl"></i>
-                        </a>
+                        @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                        {
+                            var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                            string cartId = identity.Claims.ElementAt(2).Value;
+                            string wishListId = identity.Claims.ElementAt(3).Value;
+                            <a asp-controller="Carts" asp-action="AddToCart" asp-route-ProductId="@item.Id" asp-route-CartId="@cartId" type="button" class="btn btn-outline-info btn-circle">
+                                <i class="fa fa-cart-plus fa-xl"></i>
+                            </a>
+                            <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@item.Id" asp-route-WishListId="@wishListId" type="button" class="btn btn-outline-info btn-circle">
+                                <i class="fa fa-heart fa-xl"></i>
+                            </a>
+                        }
 
                         @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
                         {

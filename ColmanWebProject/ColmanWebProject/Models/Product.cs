@@ -33,9 +33,9 @@ namespace ColmanWebProject.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public List<WishList> WishLists { get; set; }
-        public List<Cart> Carts { get; set; }
-        public List<Order> Orders { get; set; }
+        public ICollection<ProductsWishList> ProductsWishList { get; set; } = new List<ProductsWishList>();
+        public ICollection<ProductsCart> productsCarts { get; set; } = new List<ProductsCart>();
+        public ICollection<ProductsOrder> productsOrders { get; set; } = new List<ProductsOrder>();
 
         public byte[] Image { get; set; }
 
