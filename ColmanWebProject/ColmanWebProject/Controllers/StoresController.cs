@@ -30,7 +30,7 @@ namespace ColmanWebProject.Controllers
         public async Task<IActionResult> ShowStores()
         {
             ViewData["Stores"] = await _context.Store.ToListAsync();
-            return View(await _context.Store.ToListAsync());
+            return View();
         }
 
         // GET: Stores/Details/5
