@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ColmanWebProject.Data;
 using ColmanWebProject.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace ColmanWebProject.Controllers
 {
@@ -56,7 +57,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,SubType,Description,Image")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Type,SubType,Description,ImageFile")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +68,16 @@ namespace ColmanWebProject.Controllers
 
                 if (checkExist == null)
                 {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+                    if (category.ImageFile != null)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            category.ImageFile.CopyTo(ms);
+                            category.Image = ms.ToArray();
+                        }
+                    }
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
@@ -100,7 +109,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,SubType,Description,Image")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,SubType,Description,ImageFile")] Category category)
         {
             if (id != category.Id)
             {
@@ -111,6 +120,14 @@ namespace ColmanWebProject.Controllers
             {
                 try
                 {
+                    if (category.ImageFile != null)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            category.ImageFile.CopyTo(ms);
+                            category.Image = ms.ToArray();
+                        }
+                    }
                     _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
