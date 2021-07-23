@@ -40,14 +40,10 @@
                             email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
 
                         }
-                        //if (role != null && role == "Admin")
-                        //{
-                        //asp-route-id=
-                        //if (Context.User.IsInRole("Admin")) {
-
                         <p class="small">
                             <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-log-in-circle mr-1"></i> Log Out</a> /
-                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Edit" asp-route-id=@email><i class="bx bxs-user-circle mr-1"></i> Edit profile</a>
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Edit" asp-route-id=@email><i class="bx bxs-user-circle mr-1"></i> Edit profile</a> /
+                            <a class="text-dark" asp-area="" asp-controller="Orders" asp-action="MyOrders"><i class="mr-1"></i> My Orders</a>
                         </p>
                     }
                     else

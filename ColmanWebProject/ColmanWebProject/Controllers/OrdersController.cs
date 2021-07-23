@@ -29,6 +29,26 @@ namespace ColmanWebProject.Controllers
             return View(await colmanWebProjectContext.ToListAsync());
         }
 
+        public async Task<IActionResult> MyOrders()
+        {
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string signUserEmail;
+            if (identity.Claims.Count() > 0)
+            {
+                signUserEmail = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+
+                var orders = from order in _context.Order
+                                              join customer in _context.Customer
+                                                  on order.CustomerId equals customer.Id
+                                              where customer.Email.Equals(signUserEmail)
+                                              select order;
+                return View(nameof(Index),await orders.Include(o => o.Customer).ToListAsync());
+            }
+
+            return NotFound();
+
+        }
+
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -106,7 +126,7 @@ namespace ColmanWebProject.Controllers
                     _context.Add(order);
                     _context.UpdateRange(productsInOrder);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(MyOrders));
                 }
 
                 return View(order);
