@@ -1,20 +1,23 @@
 ﻿$(document).ready(function () {
+    var currentCurrency = "USD";
+
     const settings = {
         "async": true,
         "crossDomain": true,
-        "url": "https://currency-exchange.p.rapidapi.com/exchange?to=USD&from=EUR&q=1.0",
+        "url": "",
         "method": "GET",
-        "headers": {
-            "x-rapidapi-key": "4efe20136bmsh8e1ec2eca8f0781p13147cjsn9ed19cd8e579",
-            "x-rapidapi-host": "currency-exchange.p.rapidapi.com"
-        }
     };
 
-    $("#currency").click(function () {
-        var subtotalInUsd = $("#subtotal").val;
+    $("#currency").change(function () {
+        var subtotalInUsd = $("#subtotal").text();
+        var newCurrency = $("#currency").val();
+        settings.url = "https://v6.exchangerate-api.com/v6/83413174eab34df2b0a4f888/pair/" + currentCurrency + "/" + newCurrency
         $.ajax(settings).done(function (response) {
             console.log(response);
-            $("#subtotal").html(response * subtotalInUsd);
+            var newSubtotal = parseFloat(response.conversion_rate) * parseFloat(subtotalInUsd);
+            console.log(newSubtotal);
+            $("#subtotal").html(newSubtotal.valueOf());
+            currentCurrency = newCurrency;
         });
     });
 });

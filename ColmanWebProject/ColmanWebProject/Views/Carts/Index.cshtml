@@ -77,8 +77,14 @@
             </table>
             <div class="float-right text-right">
                 <h4>Subtotal:</h4>
-                <h1 id="subtotal">$@totalOrderPrice</h1id="subtotal">
-                <button id="currency"></button>
+                <h1 id="subtotal">@totalOrderPrice</h1>
+                @*<button id="currency" value="@totalOrderPrice"></button>*@
+                <select id="currency">
+                    <option value="USD" selected="selected">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="CAD">CAD</option>
+                    <option value="ILS">ILS</option>
+                </select>
             </div>
         </div>
     </div>
