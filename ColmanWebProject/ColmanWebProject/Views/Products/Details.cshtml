@@ -11,7 +11,7 @@
                     @if (Model.Image != null)
                     {
                         string img = Convert.ToBase64String(Model.Image);
-                        <img src="data:image/png;base64,@img" width="318" height="234" alt="@Model.Name">
+                        <img id="imageToShare" src="data:image/png;base64,@img" width="318" height="234" alt="@Model.Name">
                     }
                 </div>
                 <div class="col-md-8">
@@ -23,12 +23,27 @@
                         {
                             <p class="card-text"><small class="text-muted">Low in stock, only @Html.DisplayFor(model => model.Stock) left</small></p>
                         }
-                        <a asp-controller="Carts" asp-action="AddToCart" asp-route-ProductId="@Model.Id" asp-route-CustomerId="16" class="btn btn-dark btn-lg">
-                            <i class="fa fa-cart-plus fa-xl"></i> BUY IT NOW
-                        </a>
-                        <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@Model.Id" asp-route-CustomerId="16" class="btn btn-outline-info">
-                            <i class="fa fa-heart fa-xl"></i> Add To Wishlist
-                        </a>
+                        @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                        {
+                            var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                            string cartId = identity.Claims.ElementAt(2).Value;
+                            string wishListId = identity.Claims.ElementAt(3).Value;
+                            <a asp-controller="Carts" asp-action="AddToCart" asp-route-ProductId="@Model.Id" asp-route-CartId="@cartId" class="btn btn-dark btn-lg">
+                                <i class="fa fa-cart-plus fa-xl"></i> BUY IT NOW
+                            </a>
+                            <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@Model.Id" asp-route-WishListId="@wishListId" class="btn btn-outline-info">
+                                <i class="fa fa-heart fa-xl"></i> Add To Wishlist
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-dark btn-lg" disabled>
+                                <i class="fa fa-cart-plus fa-xl"></i> BUY IT NOW
+                            </button>
+                            <button class="btn btn-outline-info" disabled>
+                                <i class="fa fa-heart fa-xl"></i> Add To Wishlist
+                            </button>
+                        }
                         <a id="shareBtn" class="btn btn-primary">
                             <i class="fa fa-facebook"></i> Share To Facebook
                         </a>
