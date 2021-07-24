@@ -25,11 +25,11 @@
             <i class="bx bx-menu icon-single"></i>
         </button>
 
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand col-2" asp-controller="Home" asp-action="Index">
             <h4 class="font-weight-bold">Colman</h4>
         </a>
 
-        <ul class="navbar-nav ml-auto d-block d-md-none">
+        <ul class="navbar-nav d-block d-md-none">
             <li class="nav-item">
                 <a class="btn btn-link" href="#"><i class="bx bxs-heart icon-single"></i> <span class="badge badge-danger">3</span></a>
             </li>
@@ -39,9 +39,13 @@
         </ul>
 
         <div class="collapse navbar-collapse">
-            <form id="searchForm" class="form-inline my-2 my-lg-0 mx-auto">
-                <input name="queryTitle" id="searchValue" class="form-control" type="search" placeholder="Search for products..." aria-label="Search">
-                <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bx bx-search"></i></button>
+            <form id="searchForm" class="row my-2 my-lg-0 mx-auto">
+                <div class="col-10">
+                    <input name="queryTitle" id="searchValue" class="form-control" type="search" placeholder="Search for products..." aria-label="Search" />
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bx bx-search"></i></button>
+                </div>
             </form>
 
             <ul class="navbar-nav">
@@ -73,8 +77,8 @@
     <div class="container">
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Stores" asp-action="ShowStores">Stores <span class="sr-only">(current)</span></a>
@@ -117,12 +121,14 @@
 <div class="search-bar d-block d-md-none">
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <form class="form-inline mb-3 mx-auto">
-                    <input class="form-control" type="search" placeholder="Search for products..." aria-label="Search">
+            <form id="searchForm" class="row my-2 my-lg-0 mx-auto">
+                <div class="col">
+                    <input name="queryTitle" id="searchValue" class="form-control" type="search" placeholder="Search for products..." aria-label="Search" />
+                </div>
+                <div class="col">
                     <button class="btn btn-success" type="submit"><i class="bx bx-search"></i></button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

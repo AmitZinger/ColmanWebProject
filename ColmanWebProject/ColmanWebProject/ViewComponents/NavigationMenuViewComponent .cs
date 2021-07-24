@@ -19,7 +19,8 @@ namespace ColmanWebProject.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("NavigationMenu", await _context.Category.ToListAsync());
+            return View("NavigationMenu", 
+                await _context.Category.Where(c => !c.SubType.Equals("General")).ToListAsync());
         }
     }
  }
