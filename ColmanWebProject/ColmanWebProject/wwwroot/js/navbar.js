@@ -10,7 +10,6 @@
     $("#sidebarCollapse").on("click", function () {
         if ($("#sidebar").hasClass("active")) {
             $(".overlay").addClass("visible");
-            console.log("it's working!");
         }
     });
 

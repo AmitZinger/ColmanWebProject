@@ -4,7 +4,7 @@
         var searchValue = $('#searchValue').val();
         var currentLocation = $(location).attr("href");
 
-        if (currentLocation.includes("Products")) {
+        if (currentLocation.includes("Products?") || currentLocation.includes("Products/SearchWithFullView")) {
             $.ajax({
                 url: "/Products/SearchWithPartialView",
                 data: { queryTitle: searchValue }
@@ -31,5 +31,41 @@
             $('#results').html(data);
         })
        
+    })
+
+    $('#categoriesSearch').submit(function (e) {
+        e.preventDefault();
+        var searchbytype = $('#searchByTypeName').val();
+
+        $.ajax({
+            url: "/Categories/SearchByTypeName",
+            data: { typeName: searchbytype }
+        }).done(function (data) {
+            $('#partial').html(data);
+        })
+    })
+
+    $('#customersSearch').submit(function (e) {
+        e.preventDefault();
+        var searchbyname = $('#searchByName').val();
+
+        $.ajax({
+            url: "/Customers/SearchByName",
+            data: { name: searchbyname }
+        }).done(function (data) {
+            $('#partial').html(data);
+        })
+    })
+
+    $('#productsSearch').submit(function (e) {
+        e.preventDefault();
+        var searchbyname = $('#searchByName').val();
+
+        $.ajax({
+            url: "/Products/SearchByName",
+            data: { name: searchbyname }
+        }).done(function (data) {
+            $('#partialManageProduct').html(data);
+        })
     })
 })
