@@ -7,9 +7,9 @@ function getFont() {
     var ratio = fontSize / fontBase;   
     var size = c.width * ratio;   // get font size based on current width
     return (size | 0) + 'px Comic Sans MS'; // set font
-}
+   }
 
-var c = document.getElementById("myCanvas");
+var c = document.getElementById("Canvas");
 var ctx = c.getContext("2d");
 ctx.fillStyle = "#191970";
 ctx.font = getFont();

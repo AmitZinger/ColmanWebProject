@@ -1,5 +1,11 @@
 ﻿body {
 }
+@font-face {
+    font-family: Font;
+    src: url(sansation_bold.woff);
+    font-weight: bold;
+}
+
 .card-deck {
     margin-top: 10px;
     margin-left: auto;
@@ -45,9 +51,9 @@
     font-size: large;
     display: inline-block;
     margin-top: 50px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    float:right;
+    overflow-x: auto;
+    overflow-y: hidden;
+    float: right;
 }
 
 aside {
