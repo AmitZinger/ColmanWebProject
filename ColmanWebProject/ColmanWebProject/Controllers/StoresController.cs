@@ -33,24 +33,6 @@ namespace ColmanWebProject.Controllers
             return View();
         }
 
-        // GET: Stores/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var store = await _context.Store
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (store == null)
-            {
-                return NotFound();
-            }
-
-            return View(store);
-        }
-
         // GET: Stores/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
