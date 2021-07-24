@@ -1,89 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<ColmanWebProject.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
 }
 
 <div>
-    <div class="card bg-dark text-white">
-        <img src="https://img.d.co.il/Umbraco/2175/795x348.f68228e6-68c0-4642-87b3-6c0cf12cedb5.png" width="1120" height="315" />
+    <div class="mt-2">
+        <img class="rounded logo-image" src="~/image/Logo.png" />
     </div>
 
-    <h1 class="logo">LOGO</h1>
-    <p class="secondaryTitle">Welcome! please <a href="https://docs.microsoft.com/aspnet/core">sign up</a> and join our community</p>
+        <h1 class="logo">Colman's Music Online Store!</h1>
 
-    <div class="card-deck">
-        <a asp-area="" asp-controller="Home" asp-action="Privacy">
-            <div class="card bg-dark text-white" style="max-width: 18rem;">
-                <img class="card-img"
-                     src="https://www.matnasetzion.com/productImages2/297/2020/08/20/image1597905615.jpg" height="272"
-                     alt="Card image"
-                     width="400">
-                <div class="card-img-overlay">
-                    <h5 class="card-title">Piano</h5>
+        <div class="card-deck">
+            @foreach (var item in Model)
+            {
+                <a asp-controller="Products" asp-action="Index"
+                   asp-route-Catagory="@item.Type" asp-route-SubCatagory="@item.SubType">
+                    <div class="card bg-dark text-white">
+                        @if (item.Image != null)
+                        {
+                            string img = Convert.ToBase64String(item.Image);
+                            <img class="card-img"
+                                 src="data:image/png;base64,@img"
+                                 height="272"
+                                 alt="@item.Type"
+                                 width="400">
+                        }
+                        else
+                        {
+                            <img class="card-img"
+                                 src="..."
+                                 height="272"
+                                 alt="@item.Type"
+                                 width="400">
+                        }
+                        <div class="card-img-overlay">
+                            <h5 class="card-title">@item.Type</h5>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+
+        <div class="moreInfo row">
+            <div class="text col-7">
+                    Hi!
+                    You are more than welcome to watch our special new instruments.
+                    Enjoy the unique and quality playing experience.
+                    Come visit our <a href="https://docs.microsoft.com/aspnet/core">stores</a>
+            </div>
+            <aside class="col-5 pl-5">
+                <div class="video">
+                    <video height="315" autoplay loop muted controls src="~/videos/Brioche Dinner Rolls.mp4">
+                    </video>
                 </div>
-            </div>
-        </a>
-
-        <div class="card bg-dark text-white" style="max-width: 18rem;">
-            <img class="card-img"
-                 src="https://tonara.com/wp-content/uploads/2019/05/shutterstock_538839568.jpg" height="272"
-                 alt="Card image"
-                 width="600">
-            <div class="card-img-overlay">
-                <h5 class="card-title">Guitars</h5>
-            </div>
-        </div>
-        <div class="card bg-dark text-white" style="max-width: 18rem;">
-            <img class="card-img"
-                 src="https://7boom.net/wp-content/uploads/2019/11/shutterstock_756402667.jpg" height="272"
-                 alt="Card image"
-                 width="900">
-            <div class="card-img-overlay">
-                <h5 class="card-title">wind instruments</h5>
-            </div>
-        </div>
-        <div class="card bg-dark text-white" style="max-width: 18rem;">
-            <img class="card-img"
-                 src="https://tonara.com/wp-content/uploads/2019/05/shutterstock_538839568.jpg" height="272"
-                 alt="Card image"
-                 width="600">
-            <div class="card-img-overlay">
-                <h5 class="card-title">Guitars</h5>
-            </div>
-        </div>
-        <div class="card bg-dark text-white" style="max-width: 18rem;">
-            <img class="card-img"
-                 src="https://7boom.net/wp-content/uploads/2019/11/shutterstock_756402667.jpg" height="272"
-                 alt="Card image"
-                 width="900">
-            <div class="card-img-overlay">
-                <h5 class="card-title">wind instruments</h5>
-            </div>
-        </div>
-        <div class="card bg-dark text-white" style="max-width: 18rem;">
-            <img class="card-img"
-                 src="https://7boom.net/wp-content/uploads/2019/11/shutterstock_756402667.jpg" height="272"
-                 alt="Card image"
-                 width="900">
-            <div class="card-img-overlay">
-                <h5 class="card-title">wind instruments</h5>
-            </div>
+            </aside>
         </div>
     </div>
-
-    <div class="moreInfo">
-        <pre class="text">
-           Hi!
-            You are more than welcome to watch our special new instruments.
-            Enjoy the unique and quality playing experience.
-            Come visit our <a href="https://docs.microsoft.com/aspnet/core">stores</a>
-        </pre>
-        <aside>
-            <div class="video">
-                <video width="560" height="315" autoplay loop muted controls>
-                    <source src="../pic/video.mp4"
-                            type="video/mp4" />
-                </video>
-            </div>
-        </aside>
-    </div>
-</div>
