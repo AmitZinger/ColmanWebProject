@@ -4,20 +4,37 @@ using ColmanWebProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ColmanWebProject.Migrations
 {
     [DbContext(typeof(ColmanWebProjectContext))]
-    partial class ColmanWebProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20210714125415_createStore")]
+    partial class createStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CartProduct", b =>
+                {
+                    b.Property<int>("CartsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CartProduct");
+                });
 
             modelBuilder.Entity("ColmanWebProject.Models.Cart", b =>
                 {
@@ -123,15 +140,7 @@ namespace ColmanWebProject.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("ShippingAddressCity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShippingAddressHomeNum")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShippingAddressStreet")
+                    b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -176,84 +185,6 @@ namespace ColmanWebProject.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("ColmanWebProject.Models.Store", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClosingHour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Lontitude")
-                        .HasColumnType("float");
-
-                    b.Property<string>("OpeningHour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Store");
-                });
-
-            modelBuilder.Entity("ColmanWebProject.Models.WishList", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "CartId");
-
-                    b.HasIndex("CartId");
-
-                    b.ToTable("ProductsCart");
-                });
-
-            modelBuilder.Entity("ColmanWebProject.Models.ProductsOrder", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "OrderId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("ProductsOrder");
-                });
-
-            modelBuilder.Entity("ColmanWebProject.Models.ProductsWishList", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WishListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "WishListId");
-
-                    b.HasIndex("WishListId");
-
-                    b.ToTable("ProductsWishList");
-                });
-
             modelBuilder.Entity("ColmanWebProject.Models.WishList", b =>
                 {
                     b.Property<int>("Id")
@@ -264,6 +195,51 @@ namespace ColmanWebProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WishList");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("productsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersId", "productsId");
+
+                    b.HasIndex("productsId");
+
+                    b.ToTable("OrderProduct");
+                });
+
+            modelBuilder.Entity("ProductWishList", b =>
+                {
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WishListsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsId", "WishListsId");
+
+                    b.HasIndex("WishListsId");
+
+                    b.ToTable("ProductWishList");
+                });
+
+            modelBuilder.Entity("CartProduct", b =>
+                {
+                    b.HasOne("ColmanWebProject.Models.Cart", null)
+                        .WithMany()
+                        .HasForeignKey("CartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ColmanWebProject.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ColmanWebProject.Models.Customer", b =>
@@ -307,69 +283,39 @@ namespace ColmanWebProject.Migrations
                     b.Navigation("Category");
                 });
 
-
-            modelBuilder.Entity("ColmanWebProject.Models.ProductsCart", b =>
+            modelBuilder.Entity("OrderProduct", b =>
                 {
-                    b.HasOne("ColmanWebProject.Models.Cart", "Cart")
-                        .WithMany("productsCarts")
-                        .HasForeignKey("CartId")
+                    b.HasOne("ColmanWebProject.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ColmanWebProject.Models.Product", "Product")
-                        .WithMany("productsCarts")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("ColmanWebProject.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("productsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ColmanWebProject.Models.ProductsOrder", b =>
+            modelBuilder.Entity("ProductWishList", b =>
                 {
-                    b.HasOne("ColmanWebProject.Models.Order", "Order")
-                        .WithMany("productsOrders")
-                        .HasForeignKey("OrderId")
+                    b.HasOne("ColmanWebProject.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ColmanWebProject.Models.Product", "Product")
-                        .WithMany("productsOrders")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("ColmanWebProject.Models.WishList", null)
+                        .WithMany()
+                        .HasForeignKey("WishListsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("ColmanWebProject.Models.ProductsWishList", b =>
-                {
-                    b.HasOne("ColmanWebProject.Models.Product", "Product")
-                        .WithMany("ProductsWishList")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ColmanWebProject.Models.WishList", "WishList")
-                        .WithMany("ProductsWishList")
-                        .HasForeignKey("WishListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("WishList");
                 });
 
             modelBuilder.Entity("ColmanWebProject.Models.Cart", b =>
                 {
                     b.Navigation("Customer");
-
-                    b.Navigation("productsCarts");
                 });
 
             modelBuilder.Entity("ColmanWebProject.Models.Category", b =>
@@ -382,26 +328,9 @@ namespace ColmanWebProject.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("ColmanWebProject.Models.Order", b =>
-                {
-                    b.Navigation("productsOrders");
-                });
-
-            modelBuilder.Entity("ColmanWebProject.Models.Product", b =>
-                {
-                    b.Navigation("productsCarts");
-
-                    b.Navigation("productsOrders");
-
-                    b.Navigation("ProductsWishList");
-                });
-
-
             modelBuilder.Entity("ColmanWebProject.Models.WishList", b =>
                 {
                     b.Navigation("Customer");
-
-                    b.Navigation("ProductsWishList");
                 });
 #pragma warning restore 612, 618
         }
