@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="~/css/Cart.css" />
     <link rel="stylesheet" href="~/css/HomePage.css" />
     <link rel="stylesheet" href="~/css/Customers.css" />
+    <link rel="stylesheet" href="~/css/stores.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.2/css/boxicons.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[ApDDnnOtsh8YyRnlGb0TzW2VYvZnGzxVF7es5LUFydQw4KAomu5_cQhYvlwugfPG]' async defer></script>*@
 </head>
 <body>
 
@@ -20,13 +22,13 @@
     <div class="utility-nav d-none d-md-block">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 col-lg-9 col-xl-10">
+                <div class="col-md-7 col-lg-8 col-xl-9">
                     <p class="small">
                         <i class="bx bx-envelope"></i> contact@colman.com | <i class="bx bx-phone"></i> 03-1234567
                     </p>
                 </div>
 
-                <div class="col-md-4 col-lg-3 col-xl-2">
+                <div class="col-md-5 col-lg-4 col-xl-3">
 
                     @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                     {
