@@ -1,25 +1,20 @@
 ﻿$(document).ready(function () {
-        // set endpoint and your API key
-        endpoint = 'convert';
-   const access_key = 'e527b201671beb38bf99768ba9604794';
+    const settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://currency-exchange.p.rapidapi.com/exchange?to=USD&from=EUR&q=1.0",
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": "4efe20136bmsh8e1ec2eca8f0781p13147cjsn9ed19cd8e579",
+            "x-rapidapi-host": "currency-exchange.p.rapidapi.com"
+        }
+    };
 
-        // define from currency, to currency, and amount
-        from = 'EUR';
-        to = 'GBP';
-        amount = '10';
-
-        // execute the conversion using the "convert" endpoint:
-    $.ajax({
-        url: 'https://data.fixer.io/api/latest?access_key=' + access_key,
-        //type: "get",
-           // url: 'https://data.fixer.io/api/' + endpoint + '?access_key=' + access_key + '&from=' + from + '&to=' + to + '&amount=' + amount,
-            dataType: 'jsonp',
-            success: function (json) {
-
-                // access the conversion result in json.result
-                alert(json.result);
-                console.log(json.result);
-
-            }
+    $("#currency").click(function () {
+        var subtotalInUsd = $("#subtotal").val;
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#subtotal").html(response * subtotalInUsd);
         });
+    });
 });

@@ -74,7 +74,8 @@
             </table>
             <div class="float-right text-right">
                 <h4>Subtotal:</h4>
-                <h1>$@Model.ToList().Sum(item => (item.Product.Price * item.Quantity))</h1>
+                <h1 id="subtotal">$@Model.ToList().Sum(item => (item.Product.Price * item.Quantity))</h1>
+                <button id="currency"></button>
             </div>
         </div>
     </div>
