@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+    var totalOrderPrice = Model.ToList().Sum(item => (item.Product.Price * item.Quantity));
+    bool error = false;
 }
 
 <div class="container">
@@ -15,7 +17,7 @@
                 <thead>
                     <tr>
                         <th class="productTitle">Product</th>
-                        <th class="priceTitle">Quentity</th>
+                        <th class="priceTitle">Quantity</th>
                         <th class="priceTitle">Price</th>
                         <th class="removeTitle text-right">Remove</th>
                         <th class="removeTitle text-right">Item's status</th>
@@ -58,7 +60,8 @@
                             <td>
                                 @if (item.Quantity > item.Product.Stock)
                                 {
-
+                                    ViewBag.Error = "error";
+                                    error = true;
                                     <div class="text-danger">Not enough items in stock...</div>
 
                                 }
@@ -74,18 +77,25 @@
             </table>
             <div class="float-right text-right">
                 <h4>Subtotal:</h4>
-                <h1>$@Model.ToList().Sum(item => (item.Product.Price * item.Quantity))</h1>
+                <h1>$@totalOrderPrice</h1>
             </div>
         </div>
     </div>
     <div class="row mt-4 d-flex align-items-center">
         <div class="col-sm-6 order-md-2 text-right">
-            <a href="/Carts" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 checkout">Checkout</a>
+            @if (error)
+            {
+                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5 checkout" disabled>Checkout</button>
+            }
+            else
+            {
+                <a asp-controller="Orders" asp-action="Create" asp-route-price="@totalOrderPrice" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 checkout">Checkout</a>
+            }
         </div>
         <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
             <a href="/">
-                <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+                <i class="fa fa-arrow-left mr-2"></i> Continue Shopping
             </a>
         </div>
     </div>
- </div>
+</div>
