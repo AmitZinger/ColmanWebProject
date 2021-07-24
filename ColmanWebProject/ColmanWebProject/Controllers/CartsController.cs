@@ -19,145 +19,93 @@ namespace ColmanWebProject.Controllers
             _context = context;
         }
 
-        // GET: Carts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int CartId)
         {
-            return View(await _context.Cart.Include(x => x.Products).ToListAsync());
+            var productsInCart = _context.ProductsCart
+                .Include(pw => pw.Cart)
+                .Include(pw => pw.Product)
+                .Where(pw => pw.CartId == CartId).ToListAsync();
+
+            return View(await productsInCart);
         }
 
-        public async Task<IActionResult> Count()
+        public async Task<IActionResult> AddToCartFromWishList(int CartId, int ProductId, int quantity)
         {
-            return View(await _context.Cart.CountAsync());
-        }
+            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
+            var Cart = await _context.Cart.FirstOrDefaultAsync(w => w.Id == CartId);
+            var currPW = _context.ProductsCart
+                .FirstOrDefault(pw => pw.ProductId == ProductId && pw.CartId == CartId);
 
-        // GET: Carts/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            if (currPW != null)
             {
-                return NotFound();
+                currPW.Quantity += quantity;
+                _context.Update(currPW);
             }
-
-            var cart = await _context.Cart
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            else
             {
-                return NotFound();
-            }
-
-            return View(cart);
-        }
-
-        // GET: Carts/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Carts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Cart cart)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(cart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(cart);
-        }
-
-        //public async Task<IActionResult> AddToCart(int ProductId, int CustomerId)
-        //{
-        //    Cart x = new Cart();
-        //    x.CustomerId = CustomerId;
-        //    x.ProductId = ProductId;
-        //    _context.Add(x);
-        //    await _context.SaveChangesAsync();
-        //    return View("Index", await _context.Cart.Include(x => x.Product).ToListAsync());
-        //}
-
-        // GET: Carts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Cart.FindAsync(id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-            return View(cart);
-        }
-
-        // POST: Carts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Cart cart)
-        {
-            if (id != cart.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                ProductsCart newPW = new ProductsCart
                 {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartExists(cart.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                    Product = product,
+                    Cart = Cart,
+                    Quantity = quantity
+                };
+                _context.Add(newPW);
             }
-            return View(cart);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), new { CartId = CartId });
         }
+
+        public async Task<IActionResult> AddToCart(int CartId, int ProductId)
+        {
+            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
+            var Cart = await _context.Cart.FirstOrDefaultAsync(w => w.Id == CartId);
+            var currPW = _context.ProductsCart
+                .FirstOrDefault(pw => pw.ProductId == ProductId && pw.CartId == CartId);
+
+            if (currPW != null)
+            {
+                currPW.Quantity += 1;
+                _context.Update(currPW);
+            }
+            else
+            {
+                ProductsCart newPW = new ProductsCart
+                {
+                    Product = product,
+                    Cart = Cart,
+                    Quantity = 1
+                };
+                _context.Add(newPW);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), new { CartId = CartId });
+        }
+
 
         // GET: Carts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? CartId, int? productId)
         {
-            if (id == null)
+            if (CartId == null || productId == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Cart
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            var productsCarts = await _context.ProductsCart
+                .Include(pw => pw.Cart)
+                .Include(pw => pw.Product)
+                .Where(pw => pw.CartId == CartId && pw.ProductId == productId).FirstOrDefaultAsync();
+
+            if (productsCarts == null)
             {
                 return NotFound();
             }
 
-            return View(cart);
-        }
+            _context.Remove(productsCarts);
 
-        // POST: Carts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var cart = await _context.Cart.FindAsync(id);
-            _context.Cart.Remove(cart);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { CartId = CartId });
         }
 
         private bool CartExists(int id)

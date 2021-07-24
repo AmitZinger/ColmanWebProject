@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ColmanWebProject.Models.ProductsOrder>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<hr />
+<main>
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Order Details</h1>
+            @{
+                Order order = Model.FirstOrDefault().Order;
+            }
+        <div class="justify-content-center">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.Price)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.Price)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.ShippingAddressCity)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.ShippingAddressCity)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.ShippingAddressStreet)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.ShippingAddressStreet)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.ShippingAddressHomeNum)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.ShippingAddressHomeNum)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.Date)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.Customer.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.Customer.Name) @Html.DisplayFor(modelItem => order.Customer.LastName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(modelItem => order.Customer.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(modelItem => order.Customer.Email)
+                </dd>
+            </dl>
+        </div>
+
+            <table id="order" class="table table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th class="productTitle">Product</th>
+                        <th class="priceTitle">Quentity</th>
+                        <th class="priceTitle">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-3 text-left">
+                                        @if (item.Product.Image != null)
+                                        {
+                                            string img = Convert.ToBase64String(item.Product.Image);
+                                            <img src="data:image/png;base64,@img" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                        }
+                                    </div>
+                                    <div class="col-md-9 text-left">
+                                        <h4>
+                                            @Html.DisplayFor(modelItem => item.Product.Name)
+                                        </h4>
+                                        <p class="font-weight-light">@Html.DisplayFor(modelItem => item.Product.Description)</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            @{
+                                var totalPrice = item.Product.Price * item.Quantity;
+                            }
+                            <td>$@totalPrice</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row justify-content-center mb-3">
+                <div class="col-sm-7 col-md-6 text-center">
+                    <a asp-action="Index"> <i class="fa fa-arrow-left mr-2"></i>Back to Orders List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -253,5 +253,19 @@ namespace ColmanWebProject.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = string.Empty;
+            }
+
+            IQueryable<Product> searchResult = from product in _context.Product
+                                               where (product.Name.Contains(name))
+                                                select product;
+            return View("ManageProductsList", await searchResult.ToListAsync());
+        }
     }
 }

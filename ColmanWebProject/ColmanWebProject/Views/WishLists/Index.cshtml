@@ -1,23 +1,30 @@
-﻿@model IEnumerable<ColmanWebProject.Models.WishList>
+﻿@model IEnumerable<ColmanWebProject.Models.ProductsWishList>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-@*<div class="container">
+@{
+    var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+    string cartId = identity.Claims.ElementAt(2).Value;
+}
+
+<div class="container">
     <div class="row w-100">
         <div class="col-lg-12 col-md-12 col-12">
             <h3 class="display-5 mb-2 text-center title">Wish List</h3>
             <p class="text-center">
-                <i class="text-info font-weight-bold">@Model.Count().ToString()</i> items in your wish list
+                <i class="text-info font-weight-bold">@Model.ToList().Sum(item => item.Quantity)</i> items in your wish list
             </p>
             <table id="shoppingCart" class="table table-condensed table-responsive">
                 <thead>
                     <tr>
                         <th class="productTitle">Product</th>
+                        <th class="priceTitle">Quantity</th>
                         <th class="priceTitle">Price</th>
                         <th class="quantityTitle">Add To Cart</th>
                         <th class="removeTitle text-right">Remove</th>
+                        <th class="removeTitle text-right">Item's status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,7 +34,11 @@
                             <td>
                                 <div class="row">
                                     <div class="col-md-3 text-left">
-                                        <img src="https://5.imimg.com/data5/LM/VJ/MY-14918582/acoustic-guitar-250x250.jpg" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                        @if (item.Product.Image != null)
+                                        {
+                                            string img = Convert.ToBase64String(item.Product.Image);
+                                            <img src="data:image/png;base64,@img" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                        }
                                     </div>
                                     <div class="col-md-9 text-left">
                                         <h4>
@@ -37,40 +48,59 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>@Html.DisplayFor(modelItem => item.Product.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            @{
+                                var totalPrice = item.Product.Price * item.Quantity;
+                            }
+                            <td>$@totalPrice</td>
                             <td class="actions">
                                 <div class="text-right">
-                                    <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="AddToCart" asp-controller="Carts" asp-route-ProductId="@item.ProductId" asp-route-CustomerId="16">
-                                        + @item.ProductId
+                                    <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="AddToCartFromWishList"
+                                       asp-controller="Carts" asp-route-ProductId="@item.ProductId" asp-route-CartId="@cartId" asp-route-quantity="@item.Quantity">
+                                        <i class="fa fa-cart-plus fa-xl"></i>
                                     </a>
                                 </div>
                             </td>
                             <td class="actions">
-                                <div class="text-right">
-                                    <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="Delete" asp-route-id="@item.Id">
+                                <div class="text-right d-inline">
+                                    <a class="btn btn-white border-secondary bg-white btn-md mb-2" asp-action="Delete"
+                                       asp-route-wishListId="@item.WishListId" asp-route-productId="@item.ProductId">
                                         <i class='bx bxs-trash'></i>
                                     </a>
                                 </div>
                             </td>
+                            <td>
+                                @if (item.Quantity > item.Product.Stock)
+                                {
+
+                                    <div class="text-danger">Not enough items in stock...</div>
+
+                                }
+                                else
+                                {
+                                    <div class="text-success">All good!</div>
+                                }
+                            </td>
+
                         </tr>
                     }
                 </tbody>
             </table>
             <div class="float-right text-right">
                 <h4>Subtotal:</h4>
-                <h1>$@Model.ToList().Sum(item => item.Product.Price)</h1>
+                <h1>$@Model.ToList().Sum(item => (item.Product.Price * item.Quantity))</h1>
             </div>
         </div>
     </div>
     <div class="row mt-4 d-flex align-items-center">
         <div class="col-sm-6 order-md-2 text-right">
-            <a href="/Carts" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 checkout">Go To Cart</a>
+            <a asp-controller="Carts" asp-action="Index" asp-route-CartId="@cartId" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 checkout">Go To Cart</a>
         </div>
         <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-            <a href="/">
-                <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+            <a asp-controller="Home" asp-action="Index">
+                <i class="fa fa-arrow-left mr-2"></i> Continue Shopping
             </a>
         </div>
     </div>
-</div>*@
+</div>
 

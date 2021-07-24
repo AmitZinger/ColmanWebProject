@@ -10,21 +10,25 @@ namespace ColmanWebProject.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public double Price { get; set; }
+        [DataType(DataType.Currency)]
+        public double Price { get; set; } = 0;
 
         [Required]
+        [Display(Name = "City")]
         public string ShippingAddressCity { get; set; }
         [Required]
+        [Display(Name = "Street")]
         public string ShippingAddressStreet { get; set; }
         [Required]
+        [Display(Name = "Home number")]
         public string ShippingAddressHomeNum { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } 
 
         [Required]
-        public List<Product> products { get; set; }
+        public ICollection<ProductsOrder> productsOrders { get; set; } = new List<ProductsOrder>();
 
         [Required]
         public int CustomerId { get; set; }

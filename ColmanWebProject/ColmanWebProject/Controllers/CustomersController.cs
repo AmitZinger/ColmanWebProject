@@ -38,7 +38,13 @@ namespace ColmanWebProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("Id,Email,Password,Name,LastName,Phone")] Customer customer)
         {
-            if (ModelState.IsValid)
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            if (identity.Claims.Count() > 0)
+            {
+                return NotFound();
+            }
+            else { 
+                if (ModelState.IsValid)
             {
 
                 var checkExist = _context.Customer.FirstOrDefault(c => c.Email == customer.Email);
@@ -61,6 +67,7 @@ namespace ColmanWebProject.Controllers
                     ViewData["Error"] = "Email already exist; cannot register this user.";
                 }
             }
+            }
             return View(customer);
         }
 
@@ -82,25 +89,33 @@ namespace ColmanWebProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("Id,Email,Password")] Customer customer)
         {
-            bool validEmail = ModelState["Email"].ValidationState.ToString().Equals("Valid");
-            bool validPassword = ModelState["Password"].ValidationState.ToString().Equals("Valid");
-
-            if (validEmail && validPassword)
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            if (identity.Claims.Count() > 0)
             {
-                var customerExist = from c in _context.Customer
-                                    where c.Email == customer.Email && c.Password == customer.Password
-                                    select c;
+                return NotFound();
+            }
+            else
+            {
+                bool validEmail = ModelState["Email"].ValidationState.ToString().Equals("Valid");
+                bool validPassword = ModelState["Password"].ValidationState.ToString().Equals("Valid");
 
-                if (customerExist.Count() > 0)
+                if (validEmail && validPassword)
                 {
+                    var customerExist = from c in _context.Customer
+                                        where c.Email == customer.Email && c.Password == customer.Password
+                                        select c;
 
-                    Signin(customerExist.First());
+                    if (customerExist.Count() > 0)
+                    {
 
-                    return RedirectToAction(nameof(Index), "Home");
-                }
-                else
-                {
-                    ViewData["Error"] = "Email and/or password are incorrect.";
+                        Signin(customerExist.First());
+
+                        return RedirectToAction(nameof(Index), "Home");
+                    }
+                    else
+                    {
+                        ViewData["Error"] = "Email and/or password are incorrect.";
+                    }
                 }
             }
             return View(customer);
@@ -112,6 +127,8 @@ namespace ColmanWebProject.Controllers
                 {
                     new Claim(ClaimTypes.Email, account.Email),
                     new Claim(ClaimTypes.Role, account.Role.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, account.CartId.ToString()),
+                    new Claim(ClaimTypes.SerialNumber, account.WishListId.ToString())
                 };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -372,6 +389,20 @@ namespace ColmanWebProject.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-            
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = string.Empty;
+            }
+
+            IQueryable<Customer> searchResult = from customer in _context.Customer
+                                                where (customer.Name.Contains(name))
+                                                select customer;
+            return View("CustomersList", await searchResult.ToListAsync());
+        }
+
     }
 }
