@@ -88,4 +88,40 @@
             </a>
         </div>
     </div>
- </div>
+</div>
+
+
+@*  *@
+@*<input type='text' id='gp_amount' size='4' />
+
+<select id="gp_from"></select> geoplugin_currencyCode() to <select id="gp_to"></select>
+<p><input type='button' onClick='gp_convertIt()' value='Convert It' /></p>
+<div id="gp_converted"></div>*@
+
+@section Scripts{ 
+<script src="~/js/Currency.js" ></script>
+}
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        // set endpoint and your API key
+        endpoint = 'convert';
+        access_key = '79041e949cdc7f5b1028a11b6648299c';
+
+        // define from currency, to currency, and amount
+        from = 'EUR';
+        to = 'GBP';
+        amount = '10';
+
+        // execute the conversion using the "convert" endpoint:
+        $.ajax({
+            url: 'https://api.exchangeratesapi.io/v1/' + endpoint + '?access_key=' + access_key + '&from=' + from + '&to=' + to + '&amount=' + amount,
+            dataType: 'jsonp',
+            success: function (json) {
+
+                // access the conversion result in json.result
+                alert(json.result);
+
+            }
+        });
+    })
+</script>*@
