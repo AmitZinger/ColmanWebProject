@@ -22,6 +22,9 @@ namespace ColmanWebProject.Data
         public DbSet<ColmanWebProject.Models.Cart> Cart { get; set; }
 
         public DbSet<ColmanWebProject.Models.WishList> WishList { get; set; }
+        
+        public DbSet<ColmanWebProject.Models.Order> Order { get; set; }
+
         public DbSet<ColmanWebProject.Models.ProductsWishList> ProductsWishList { get; set; }
         public DbSet<ColmanWebProject.Models.ProductsCart> ProductsCart { get; set; }
         public DbSet<ColmanWebProject.Models.ProductsOrder> ProductsOrder { get; set; }
@@ -35,5 +38,6 @@ namespace ColmanWebProject.Data
             modelBuilder.Entity<ProductsOrder>()
                 .HasKey(cs => new { cs.ProductId, cs.OrderId });
         }
+
     }
 }
