@@ -72,4 +72,37 @@
         return false;
     });
 
+
+    $("#addStoreBtn").click(function () {
+        $.ajax({
+            url: $(this).attr("formaction"),
+        }).done(function (msg) {
+            $("#AddStoreContent").html(msg);
+            $("#add-store-contact").modal("show");
+        })
+    });
+
+    $("body").on("click", "#saveStoreAdd", function () {
+        var form = $('form');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        $.ajax({
+            type: "post",
+            url: "/Stores/Create",
+            data: {
+                __RequestVerificationToken: token,
+                store: {
+                    Lontitude: $("#Lontitude").val(),
+                    Latitude: $("#Latitude").val(),
+                    OpeningHour: $("#OpeningHour").val(),
+                    ClosingHour: $("#ClosingHour").val()
+                }
+            },
+            dataType: "html",
+            success: function (result) {
+                $("#add-store-contact").modal("hide");
+                $("#partialManageStore").html(result);
+            }
+        });
+        return false;
+    });
 })
