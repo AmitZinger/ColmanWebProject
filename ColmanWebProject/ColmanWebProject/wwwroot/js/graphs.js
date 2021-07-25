@@ -113,8 +113,7 @@
                 .attr('text-anchor', 'middle')
                 .text((a) => `${a.value}`)
 
-            svg
-                .append('text')
+            svg.append('text')
                 .attr('class', 'label')
                 .attr('x', -(height / 2) - margin)
                 .attr('y', margin / 2.4)
@@ -259,8 +258,7 @@
                 .attr('text-anchor', 'middle')
                 .text((a) => `${a.price}`)
 
-            svg
-                .append('text')
+            svg.append('text')
                 .attr('class', 'label')
                 .attr('x', -(height / 2) - margin)
                 .attr('y', margin / 2.4)
