@@ -35,8 +35,8 @@ namespace ColmanWebProject.Controllers
             IQueryable<Product> data;
             if (SubCatagory.Equals("General"))
             {
-                 data = _context.Product.Include(product => product.Category)
-                .Where(product => product.Category.Type.Equals(Catagory));  
+                data = _context.Product.Include(product => product.Category)
+               .Where(product => product.Category.Type.Equals(Catagory));
 
             }
             else
@@ -57,7 +57,7 @@ namespace ColmanWebProject.Controllers
 
         public async Task<IActionResult> SearchWithMulti(string name, string category, int priceFrom, int priceTo)
         {
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 name = string.Empty;
             }
@@ -71,10 +71,10 @@ namespace ColmanWebProject.Controllers
             }
 
             IQueryable<Product> searchResult = from product in _context.Product.Include(product => product.Category)
-                                                      where (product.Name.Contains(name) &&
-                                                             product.Category.Type.Contains(category) &&
-                                                             product.Price >= priceFrom && product.Price <= priceTo)
-                                                      select product; 
+                                               where (product.Name.Contains(name) &&
+                                                      product.Category.Type.Contains(category) &&
+                                                      product.Price >= priceFrom && product.Price <= priceTo)
+                                               select product;
             return PartialView("ProductsList", await searchResult.ToListAsync());
         }
 
@@ -87,10 +87,10 @@ namespace ColmanWebProject.Controllers
         private IQueryable<Product> SearchResult(string queryTitle)
         {
             return from product in _context.Product.Include(product => product.Category)
-            where (product.Name.Contains(queryTitle) ||
-                   product.Category.Type.Contains(queryTitle) ||
-                   product.Category.SubType.Contains(queryTitle))
-            select product;
+                   where (product.Name.Contains(queryTitle) ||
+                          product.Category.Type.Contains(queryTitle) ||
+                          product.Category.SubType.Contains(queryTitle))
+                   select product;
         }
 
 
@@ -135,7 +135,7 @@ namespace ColmanWebProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(product.ImageFile != null)
+                if (product.ImageFile != null)
                 {
                     using (MemoryStream ms = new MemoryStream())
                     {
@@ -143,7 +143,7 @@ namespace ColmanWebProject.Controllers
                         product.Image = ms.ToArray();
                     }
                 }
-                
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
             }
@@ -190,7 +190,7 @@ namespace ColmanWebProject.Controllers
             {
                 try
                 {
-                    if(product.ImageFile != null) 
+                    if (product.ImageFile != null)
                     {
                         using (MemoryStream ms = new MemoryStream())
                         {
@@ -198,7 +198,7 @@ namespace ColmanWebProject.Controllers
                             product.Image = ms.ToArray();
                         }
                     }
-                   
+
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
@@ -264,8 +264,23 @@ namespace ColmanWebProject.Controllers
 
             IQueryable<Product> searchResult = from product in _context.Product
                                                where (product.Name.Contains(name))
-                                                select product;
+                                               select product;
             return View("ManageProductsList", await searchResult.ToListAsync());
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> MostOrdered()
+        {
+            var productsOrders = _context.ProductsOrder
+                .Include(po => po.Product)
+                .GroupBy(po => po.Product.Name)
+                .Select(po => new
+                {
+                    name = po.Key,
+                    value = po.Sum(s => s.Quantity)
+                });
+            var productsList = await productsOrders.ToListAsync();
+            return Ok(productsList);
         }
     }
 }
