@@ -272,13 +272,22 @@ namespace ColmanWebProject.Controllers
         public async Task<IActionResult> MostOrdered()
         {
             var productsOrders = _context.ProductsOrder
-                .Include(po => po.Product)
-                .GroupBy(po => po.Product.Name)
-                .Select(po => new
-                {
-                    name = po.Key,
-                    value = po.Sum(s => s.Quantity)
-                });
+                    .Join(
+                            _context.Product,
+                            productsOrders => productsOrders.ProductId,
+                            product => product.Id,
+                            (productsOrders, product) => new
+                            {
+                                name = product.Name,
+                                quantity = productsOrders.Quantity,
+                            }
+                         )
+                    .GroupBy(product => product.name)
+                    .Select(po => new
+                    {
+                        name = po.Key,
+                        value = po.Sum(s => s.quantity)
+                    });
             var productsList = await productsOrders.ToListAsync();
             return Ok(productsList);
         }
