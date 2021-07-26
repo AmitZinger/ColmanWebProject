@@ -36,8 +36,11 @@
             <div id="partial">
                 @Html.Partial("OrdersList", Model)
             </div>
-            
+
         </div>
     </div>
-    <div id="container" class="shadow-lg"></div>
+    @if (ViewBag.ShowGraph)
+    {
+        <div id="container" class="shadow-lg"></div>
+    }
 </main>

@@ -26,6 +26,7 @@ namespace ColmanWebProject.Controllers
         public async Task<IActionResult> Index()
         {
             var colmanWebProjectContext = _context.Order.Include(o => o.Customer);
+            ViewData["ShowGraph"] = true;
             return View(await colmanWebProjectContext.ToListAsync());
         }
 
@@ -33,6 +34,7 @@ namespace ColmanWebProject.Controllers
         {
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
             string signUserEmail;
+            ViewData["ShowGraph"] = false;
             if (identity.Claims.Count() > 0)
             {
                 signUserEmail = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
@@ -159,7 +161,6 @@ namespace ColmanWebProject.Controllers
             return Ok(ordersPricesByMonthList);
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SearchWithMulti(string name, string city, int priceFrom, int priceTo)
         {
             if (string.IsNullOrEmpty(name))
@@ -176,7 +177,7 @@ namespace ColmanWebProject.Controllers
             }
 
             IQueryable<Order> orders = _context.Order.Include(o => o.Customer)
-                .Where(o => o.Customer.Name.Contains(name)
+                .Where(o => (o.Customer.Name.Contains(name) || o.Customer.LastName.Contains(name))
                 && o.ShippingAddressCity.Contains(city)
                 && o.Price >= priceFrom && o.Price <= priceTo);
 

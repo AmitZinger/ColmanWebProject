@@ -80,7 +80,6 @@
             url: "/Orders/SearchWithMulti",
             data: { name: searchByName, city: searchByCity, priceFrom: searchByPriceFrom, priceTo: searchByPriceTo }
         }).done(function (data) {
-            //$('#multiSearch')[0].reset();
             $('#partial').html(data);
 
         })
