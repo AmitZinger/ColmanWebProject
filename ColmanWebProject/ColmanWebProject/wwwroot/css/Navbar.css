@@ -173,13 +173,13 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
-section {
+/*section {
     padding: 6rem;
     background: #e4e4e4;
     margin-bottom: 30px;
     position: relative;
     z-index: 1;
-}
+}*/
 
 .overlay {
     background: rgba(0, 0, 0, 0.7);
