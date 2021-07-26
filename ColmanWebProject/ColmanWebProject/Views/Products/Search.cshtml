@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<ColmanWebProject.Models.Product>
 @{ 
     var products = Model.ToList();
-    List<Category> currCategories= new List<Category>();
+    HashSet<string> currCategories= new HashSet<string>();
     if (products.Any())
     {
         foreach(var product in products)
         {
-            currCategories.Add(product.Category);
+            currCategories.Add(product.Category.Type);
         }
     }
 }
@@ -27,7 +27,7 @@
                 <datalist id="catagories">
                     @foreach (var cat in currCategories)
                     {
-                        <option value="@cat.Type" />
+                        <option value="@cat" />
                     }
                 </datalist>
             }
