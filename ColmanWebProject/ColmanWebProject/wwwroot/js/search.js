@@ -68,4 +68,22 @@
             $('#partialManageProduct').html(data);
         })
     })
+
+    $('#ordersSearch').submit(function (e) {
+        e.preventDefault();
+        var searchByName = $('#searchByName').val();
+        var searchByCity = $('#searchByCity').val();
+        var searchByPriceFrom = $('#searchByPriceFrom').val();
+        var searchByPriceTo = $('#searchByPriceTo').val();
+
+        $.ajax({
+            url: "/Orders/SearchWithMulti",
+            data: { name: searchByName, city: searchByCity, priceFrom: searchByPriceFrom, priceTo: searchByPriceTo }
+        }).done(function (data) {
+            //$('#multiSearch')[0].reset();
+            $('#partial').html(data);
+
+        })
+
+    })
 })

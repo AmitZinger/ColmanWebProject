@@ -159,5 +159,31 @@ namespace ColmanWebProject.Controllers
             return Ok(ordersPricesByMonthList);
         }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchWithMulti(string name, string city, int priceFrom, int priceTo)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = string.Empty;
+            }
+            if (string.IsNullOrEmpty(city))
+            {
+                city = string.Empty;
+            }
+            if (priceTo == 0)
+            {
+                priceTo = int.MaxValue;
+            }
+
+            IQueryable<Order> orders = _context.Order.Include(o => o.Customer)
+                .Where(o => o.Customer.Name.Contains(name)
+                && o.ShippingAddressCity.Contains(city)
+                && o.Price >= priceFrom && o.Price <= priceTo);
+
+            var ordersList = await orders.ToListAsync();
+
+            return PartialView("OrdersList", ordersList);
+        }
+
     }
 }
