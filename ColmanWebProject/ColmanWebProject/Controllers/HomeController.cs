@@ -21,6 +21,10 @@ namespace ColmanWebProject.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> About()
+        {
+            return View();
+        }
         public async Task<IActionResult> Index()
         {
             return View(await _context.Category.Where(c => c.SubType.Equals("General")).ToListAsync());
