@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ColmanWebProject.Data;
 using ColmanWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ColmanWebProject.Controllers
 {
+    [Authorize]
     public class CartsController : Controller
     {
         private readonly ColmanWebProjectContext _context;

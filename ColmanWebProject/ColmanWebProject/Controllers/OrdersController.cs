@@ -38,13 +38,8 @@ namespace ColmanWebProject.Controllers
             if (identity.Claims.Count() > 0)
             {
                 signUserEmail = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
-
-                var orders = from order in _context.Order
-                             join customer in _context.Customer
-                                 on order.CustomerId equals customer.Id
-                             where customer.Email.Equals(signUserEmail)
-                             select order;
-                return View(nameof(Index), await orders.Include(o => o.Customer).ToListAsync());
+                var orders = _context.Order.Include(o => o.Customer).Where(oc => oc.Customer.Email.Equals(signUserEmail));
+                return View(nameof(Index), await orders.ToListAsync());
             }
 
             return NotFound();

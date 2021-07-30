@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<ColmanWebProject.Models.Product>
-
+<div id="searchSide">
+    @Html.Partial("Search", Model)
+</div>
     <div class="row px-5 pt-5">
 
         @foreach (var item in Model)
