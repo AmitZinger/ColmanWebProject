@@ -312,8 +312,7 @@ namespace ColmanWebProject.Controllers
 
             var service = new TweetSharp.TwitterService(key, secret);
             service.AuthenticateWith(token, tokenSecret);
-
-            //this Condition  will check weather you want to upload a image & text or only text 
+ 
             if (Image != null)
             {
                 using (var stream = new MemoryStream(Image))
@@ -325,7 +324,7 @@ namespace ColmanWebProject.Controllers
                     });
                 }
             }
-            else // just message
+            else 
             {
                 var tweetToPost = new SendTweetOptions
                 {
