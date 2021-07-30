@@ -60,8 +60,6 @@ namespace ColmanWebProject.Controllers
 
         public async Task<IActionResult> AddToCart(int CartId, int ProductId)
         {
-            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
-            var Cart = await _context.Cart.FirstOrDefaultAsync(w => w.Id == CartId);
             var currPW = _context.ProductsCart
                 .FirstOrDefault(pw => pw.ProductId == ProductId && pw.CartId == CartId);
 
@@ -72,6 +70,9 @@ namespace ColmanWebProject.Controllers
             }
             else
             {
+                var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == ProductId);
+                var Cart = await _context.Cart.FirstOrDefaultAsync(w => w.Id == CartId);
+
                 ProductsCart newPW = new ProductsCart
                 {
                     Product = product,
