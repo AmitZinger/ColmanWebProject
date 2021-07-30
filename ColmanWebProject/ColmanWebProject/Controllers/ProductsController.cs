@@ -11,6 +11,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Web;
+using TweetSharp;
 
 namespace ColmanWebProject.Controllers
 {
@@ -269,9 +271,9 @@ namespace ColmanWebProject.Controllers
                 name = string.Empty;
             }
 
-            IQueryable<Product> searchResult = from product in _context.Product
-                                               where (product.Name.Contains(name))
-                                               select product;
+            IQueryable<Product> searchResult = _context.Product.Include(p => p.Category)
+                .Where(p => p.Name.Contains(name));
+
             return View("ManageProductsList", await searchResult.ToListAsync());
         }
 
@@ -297,6 +299,44 @@ namespace ColmanWebProject.Controllers
                     });
             var productsList = await productsOrders.ToListAsync();
             return Ok(productsList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ShareToTwitter(int Id, byte[] Image, string tweets)
+        {
+            string key = "bT72Je1v5kTJDTGjjJBbvN6jf";
+            string secret = "vtoMv0DR2Qf1PCcYrfMYgNaTOy81u7p9TspiwHx4Njjpo9zk0M";
+            string token = "1419649179748536325-WFBATxoIibEyfYfQ8E45IV5Etlekku";
+            string tokenSecret = "EESINA5U49MA3FowoupND63pLlEH0u8nINSsDXzzUCe85";
+
+
+            var service = new TweetSharp.TwitterService(key, secret);
+            service.AuthenticateWith(token, tokenSecret);
+ 
+            if (Image != null)
+            {
+                using (var stream = new MemoryStream(Image))
+                {
+                    var result = service.SendTweetWithMedia(new SendTweetWithMediaOptions
+                    {
+                        Status = tweets,
+                        Images = new Dictionary<string, Stream> { { "myPic", stream } }
+                    });
+                }
+            }
+            else 
+            {
+                var tweetToPost = new SendTweetOptions
+                {
+                    Status = tweets
+                };
+                var result = service.SendTweet(tweetToPost);
+                if (result == null)
+                {
+                    ViewData["Error"] = "Couldn't post Tweet";
+                }
+            }
+            return RedirectToAction(nameof(Details), new { id = Id });
         }
     }
 }
