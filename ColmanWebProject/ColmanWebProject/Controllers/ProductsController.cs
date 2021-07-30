@@ -271,9 +271,9 @@ namespace ColmanWebProject.Controllers
                 name = string.Empty;
             }
 
-            IQueryable<Product> searchResult = from product in _context.Product
-                                               where (product.Name.Contains(name))
-                                               select product;
+            IQueryable<Product> searchResult = _context.Product.Include(p => p.Category)
+                .Where(p => p.Name.Contains(name));
+
             return View("ManageProductsList", await searchResult.ToListAsync());
         }
 
@@ -331,7 +331,6 @@ namespace ColmanWebProject.Controllers
                     Status = tweets
                 };
                 var result = service.SendTweet(tweetToPost);
-                string x = "";
                 if (result == null)
                 {
                     ViewData["Error"] = "Couldn't post Tweet";
