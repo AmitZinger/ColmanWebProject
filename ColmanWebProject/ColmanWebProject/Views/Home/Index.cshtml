@@ -8,53 +8,53 @@
     <div class="mt-2">
         <img class="rounded logo-image" src="~/image/Logo.png" />
     </div>
+    <canvas id="Canvas" height="100" style="border: 0px solid #000000;">
+    </canvas>
 
-        <h1 class="logo">Colman's Music Online Store!</h1>
-
-        <div class="card-deck">
-            @foreach (var item in Model)
-            {
-                <a asp-controller="Products" asp-action="Index"
-                   asp-route-Catagory="@item.Type" asp-route-SubCatagory="@item.SubType">
-                    <div class="card bg-dark text-white">
-                        @if (item.Image != null)
-                        {
-                            string img = Convert.ToBase64String(item.Image);
-                            <img class="card-img"
-                                 src="data:image/png;base64,@img"
-                                 height="272"
-                                 alt="@item.Type"
-                                 width="400">
-                        }
-                        else
-                        {
-                            <img class="card-img"
-                                 src="..."
-                                 height="272"
-                                 alt="@item.Type"
-                                 width="400">
-                        }
-                        <div class="card-img-overlay">
-                            <h5 class="card-title">@item.Type</h5>
-                        </div>
+    <div class="card-deck">
+        @foreach (var item in Model)
+        {
+            <a asp-controller="Products" asp-action="Index"
+               asp-route-Catagory="@item.Type" asp-route-SubCatagory="@item.SubType">
+                <div class="card bg-dark text-white">
+                    @if (item.Image != null)
+                    {
+                        string img = Convert.ToBase64String(item.Image);
+                        <img class="card-img"
+                             src="data:image/png;base64,@img"
+                             height="272"
+                             alt="@item.Type"
+                             width="400">
+                    }
+                    else
+                    {
+                        <img class="card-img"
+                             src="..."
+                             height="272"
+                             alt="@item.Type"
+                             width="400">
+                    }
+                    <div class="card-img-overlay">
+                        <h5 class="card-title">@item.Type</h5>
                     </div>
-                </a>
-            }
-        </div>
+                </div>
+            </a>
+        }
+    </div>
 
         <div class="moreInfo row">
             <section class="text col-7">
                     Hi!
                     You are more than welcome to watch our special new instruments.
                     Enjoy the unique and quality playing experience.
-                    Come visit our <a href="https://docs.microsoft.com/aspnet/core">stores</a>
+                    Come visit our <a asp-controller="Stores" asp-action="ShowStores">stores</a>
             </section>
             <section class="text col-7">
                     Please watch one of our guitars in action!!
             </section>
             <aside class="col-5 pl-5">
                 <div class="video">
-                    <video height="315" autoplay loop muted controls src="~/videos/Brioche Dinner Rolls.mp4">
+                    <video height="315" autoplay loop muted controls src="~/videos/videoplayback.mp4">
                     </video>
                 </div>
             </aside>
