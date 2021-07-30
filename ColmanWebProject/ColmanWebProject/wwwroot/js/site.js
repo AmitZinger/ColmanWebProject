@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+// Canvas settings
+var fontBase = 1000,                   // selected default width for canvas
+    fontSize = 70;                     // default size for font
 
-// Write your JavaScript code.
+function getFont() {
+    var ratio = fontSize / fontBase;   
+    var size = c.width * ratio;   // get font size based on current width
+    return (size | 0) + 'px Comic Sans MS'; // set font
+   }
+
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "#191970";
+ctx.font = getFont();
+ctx.fillText("Colman's Music Online Store!", 10, 50);
