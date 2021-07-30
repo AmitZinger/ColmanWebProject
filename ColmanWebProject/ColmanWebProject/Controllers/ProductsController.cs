@@ -11,6 +11,9 @@ using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using AppTwitter.Models;
+using System.Web;
+using TweetSharp;
 
 namespace ColmanWebProject.Controllers
 {
@@ -281,6 +284,62 @@ namespace ColmanWebProject.Controllers
                 });
             var productsList = await productsOrders.ToListAsync();
             return Ok(productsList);
+        }
+
+        [HttpPost]
+        public ActionResult ShareToTwitter(Tweets twts, IFormFile postedFile)
+        {
+            string key = "pFJhexTwjLVVw7AXFdP1oeGEr";
+            string secret = "r5lUJobvENWRIH0GFnO7MYJ7ljvtkEHODMEJZpHSytnypyhjvO";
+            string token = "1419649179748536325-eiGgCKCD0O80BjYVGWMDTmDPfEhpzk";
+            string tokenSecret = "SyflCGZJdyb9Twbti9Lg274g7Yto62mQn9vCRnEqbTYH4";
+
+            string message = twts.tweets;
+
+            //Enter the Image Path if you want to upload image .
+
+            string imagePath = "";
+
+            if (false)
+            {
+                imagePath = @"C:\Users\appuser\Pictures\Dummy.jpg";
+            }
+
+            //var service = new TweetSharp.TwitterService(key, secret);
+            var service = new TweetSharp.TwitterService(key, secret, token, tokenSecret);
+            //service.AuthenticateWith(token, tokenSecret);
+
+            //this Condition  will check weather you want to upload a image & text or only text 
+            if (imagePath.Length > 0)
+            {
+                using (var stream = new FileStream(imagePath, FileMode.Open))
+                {
+                    var result = service.SendTweetWithMedia(new SendTweetWithMediaOptions
+                    {
+                        Status = message,
+                        Images = new Dictionary<string, Stream> { { "john", stream } }
+                    });
+                }
+            }
+            else // just message
+            {
+                var tweetToPost = new SendTweetOptions
+                {
+                    Status = message
+                };
+                var result = service.SendTweet(tweetToPost);
+                string x = "";
+                if (result != null)
+                {
+                    x = "posted";
+                }
+                else
+                {
+                    x = "error";
+                }
+            }
+                twts.tweets = "";
+            return View();
         }
     }
 }
