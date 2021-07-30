@@ -29,14 +29,31 @@
                         <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@Model.Id" asp-route-CustomerId="16" class="btn btn-outline-info">
                             <i class="fa fa-heart fa-xl"></i> Add To Wishlist
                         </a>
-                        <a id="shareBtn" class="btn btn-primary">
-                            <i class="fa fa-facebook"></i> Share To Facebook
-                        </a>
+
+                        <form method="post" asp-action="ShareToTwitter" enctype="multipart/form-data">
+                            <input class="form-group" type="hidden" asp-for="Id" />
+                            <input class="form-group" type="hidden" asp-for="Image" />
+                            <div class="form-group">
+                                <label class="control-label mb-1 mt-3 text-left">Do you want to share this with your friends?</label>
+                                <div class="input-group mb-3">
+                                    <textarea asp-for="tweets" class="form-control"></textarea>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-twitter"></i> Share To Twitter
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="text-danger">@ViewBag.Error</div>
+                        }
+
                     </div>
                 </div>
             </div>
-            @Html.Partial("ShareToTwitter", new AppTwitter.Models.Tweets())
         </div>
-
     </div>
 </main>

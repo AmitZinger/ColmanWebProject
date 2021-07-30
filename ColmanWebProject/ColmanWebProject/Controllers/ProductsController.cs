@@ -11,7 +11,6 @@ using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using AppTwitter.Models;
 using System.Web;
 using TweetSharp;
 
@@ -287,37 +286,26 @@ namespace ColmanWebProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult ShareToTwitter(Tweets twts, IFormFile postedFile)
+        public async Task<IActionResult> ShareToTwitter(int Id, byte[] Image, string tweets)
         {
-            string key = "pFJhexTwjLVVw7AXFdP1oeGEr";
-            string secret = "r5lUJobvENWRIH0GFnO7MYJ7ljvtkEHODMEJZpHSytnypyhjvO";
-            string token = "1419649179748536325-eiGgCKCD0O80BjYVGWMDTmDPfEhpzk";
-            string tokenSecret = "SyflCGZJdyb9Twbti9Lg274g7Yto62mQn9vCRnEqbTYH4";
+            string key = "bT72Je1v5kTJDTGjjJBbvN6jf";
+            string secret = "vtoMv0DR2Qf1PCcYrfMYgNaTOy81u7p9TspiwHx4Njjpo9zk0M";
+            string token = "1419649179748536325-WFBATxoIibEyfYfQ8E45IV5Etlekku";
+            string tokenSecret = "EESINA5U49MA3FowoupND63pLlEH0u8nINSsDXzzUCe85";
 
-            string message = twts.tweets;
 
-            //Enter the Image Path if you want to upload image .
-
-            string imagePath = "";
-
-            if (false)
-            {
-                imagePath = @"C:\Users\appuser\Pictures\Dummy.jpg";
-            }
-
-            //var service = new TweetSharp.TwitterService(key, secret);
-            var service = new TweetSharp.TwitterService(key, secret, token, tokenSecret);
-            //service.AuthenticateWith(token, tokenSecret);
+            var service = new TweetSharp.TwitterService(key, secret);
+            service.AuthenticateWith(token, tokenSecret);
 
             //this Condition  will check weather you want to upload a image & text or only text 
-            if (imagePath.Length > 0)
+            if (Image != null)
             {
-                using (var stream = new FileStream(imagePath, FileMode.Open))
+                using (var stream = new MemoryStream(Image))
                 {
                     var result = service.SendTweetWithMedia(new SendTweetWithMediaOptions
                     {
-                        Status = message,
-                        Images = new Dictionary<string, Stream> { { "john", stream } }
+                        Status = tweets,
+                        Images = new Dictionary<string, Stream> { { "myPic", stream } }
                     });
                 }
             }
@@ -325,21 +313,16 @@ namespace ColmanWebProject.Controllers
             {
                 var tweetToPost = new SendTweetOptions
                 {
-                    Status = message
+                    Status = tweets
                 };
                 var result = service.SendTweet(tweetToPost);
                 string x = "";
-                if (result != null)
+                if (result == null)
                 {
-                    x = "posted";
-                }
-                else
-                {
-                    x = "error";
+                    ViewData["Error"] = "Couldn't post Tweet";
                 }
             }
-                twts.tweets = "";
-            return View();
+            return RedirectToAction(nameof(Details), new { id = Id });
         }
     }
 }
