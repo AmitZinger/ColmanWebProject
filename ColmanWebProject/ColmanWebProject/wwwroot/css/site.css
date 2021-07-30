@@ -74,4 +74,12 @@ body {
     column-count: 3;
     column-gap: 40px;
     column-rule: 1px solid lightblue;
+    font-family:aboutFont;
+    font-weight: 100;
+}
+
+@font-face {
+ font-family: "aboutFont";
+ src: url("https://mdn.mozillademos.org/files/2468/VeraSeBd.ttf");
+ font-weight: 100;
 }
