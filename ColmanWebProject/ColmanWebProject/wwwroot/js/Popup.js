@@ -99,8 +99,15 @@
             },
             dataType: "html",
             success: function (result) {
-                $("#add-store-contact").modal("hide");
-                $("#partialManageStore").html(result);
+                if (result.indexOf("error") == -1) {
+                    $("#add-store-contact").modal("hide");
+                    $("#partialManageStore").html(result);
+                }
+                else {
+                    var jsonResult = JSON.parse(result);
+                    $("#error").append(jsonResult.html);
+                    $("#error").css('visibility', 'visible');
+                }
             }
         });
         return false;
