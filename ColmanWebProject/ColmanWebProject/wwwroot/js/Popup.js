@@ -73,8 +73,16 @@
             data: formData,
             dataType: "html",
             success: function (result) {
-                $("#add-product-contact").modal("hide");
-                $("#partialManageProduct").html(result);
+                if (result.indexOf("error") == -1) {
+                    $("#add-product-contact").modal("hide");
+                    $("#partialManageProduct").html(result);
+                }
+                else
+                {
+                    var jsonResult = JSON.parse(result);
+                    $("#errorProduct").append(jsonResult.html);
+                    $("#errorProduct").css('visibility', 'visible');
+                }
             }
         });
         return false;
