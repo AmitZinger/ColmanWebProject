@@ -10,6 +10,7 @@
     });
 
     $("body").on("click", "#saveAdd", function () {
+        $("#errorCategory").empty();
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         formData = new FormData();
@@ -53,6 +54,7 @@
     });
 
     $("body").on("click", "#saveProductAdd", function () {
+        $("#errorProduct").empty();
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
 
@@ -99,6 +101,7 @@
     });
 
     $("body").on("click", "#saveStoreAdd", function () {
+        $("#error").empty();
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
