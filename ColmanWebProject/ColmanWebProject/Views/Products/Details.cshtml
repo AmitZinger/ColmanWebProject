@@ -11,7 +11,7 @@
                     @if (Model.Image != null)
                     {
                         string img = Convert.ToBase64String(Model.Image);
-                        <img id="imageToShare" src="data:image/png;base64,@img" width="318" height="234" alt="@Model.Name">
+                        <img id="imageToShare" src="data:image/png;base64,@img" style="width:100%; height: 100%; max-height: 300px;" alt="@Model.Name">
                     }
                 </div>
                 <div class="col-md-8">
@@ -35,24 +35,6 @@
                                 <i class="fa fa-heart fa-xl"></i> Add To Wishlist
                             </a>
 
-                            if (Context.User.IsInRole("Admin"))
-                            {
-                                <form method="post" asp-action="ShareToTwitter" enctype="multipart/form-data">
-                                    <input class="form-group" type="hidden" asp-for="Id" />
-                                    <input class="form-group" type="hidden" asp-for="Image" />
-                                    <div class="form-group">
-                                        <label class="control-label mb-1 mt-3 text-left">Do you want to share this with your business account?</label>
-                                        <div class="input-group mb-3">
-                                            <textarea asp-for="tweets" placeholder="Please observe at our amazing @Model.Name ..." class="form-control"></textarea>
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fa fa-twitter"></i> Share To Twitter
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            }
 
                             @if (ViewBag.Error != null)
                             {
@@ -71,6 +53,24 @@
                     </div>
                 </div>
             </div>
+            @if (Context.User.IsInRole("Admin"))
+            {
+                <form method="post" asp-action="ShareToTwitter" enctype="multipart/form-data">
+                    <input class="form-group" type="hidden" asp-for="Id" />
+                    <input class="form-group" type="hidden" asp-for="Image" />
+                    <label class="control-label mb-1 mt-3 text-left">Do you want to share this with your business account?</label>
+                    <div class="row">
+                        <div class="mb-3 col-md-9">
+                            <textarea asp-for="tweets" placeholder="Please observe at our amazing @Model.Name ..." class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3 col-md-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-twitter"></i> Share To Twitter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            }
         </div>
     </div>
 </main>
