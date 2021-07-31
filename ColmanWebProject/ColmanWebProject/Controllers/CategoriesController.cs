@@ -81,8 +81,20 @@ namespace ColmanWebProject.Controllers
                 }
                 else
                 {
-                    ViewData["Error"] = "Catagory already exist; You can't create it again.";
+                    return Json(new
+                    {
+                        Html = "Catagory already exist; You can't create it again.",
+                        Error = true
+                    });
                 }
+            } 
+            else
+            {
+                return Json(new
+                {
+                    Html = "Couldn't create this catagory.",
+                    Error = true
+                });
             }
 
             return PartialView("CategoriesList", await _context.Category.ToListAsync());

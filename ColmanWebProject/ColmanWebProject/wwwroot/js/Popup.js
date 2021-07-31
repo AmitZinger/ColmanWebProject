@@ -27,8 +27,16 @@
             data: formData,
             dataType: "html",
             success: function (result) {
-                $("#add-contact").modal("hide");
-                $("#partial").html(result);
+                if (result.indexOf("error") == -1) {
+                    $("#add-contact").modal("hide");
+                    $("#partial").html(result);
+                }
+                else
+                {
+                    var jsonResult = JSON.parse(result);
+                    $("#errorCategory").append(jsonResult.html);
+                    $("#errorCategory").css('visibility', 'visible');
+                }
             }
         });
         return false;
