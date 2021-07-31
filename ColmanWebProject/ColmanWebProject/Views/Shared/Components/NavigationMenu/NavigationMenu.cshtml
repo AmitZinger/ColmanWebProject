@@ -30,12 +30,22 @@
         </a>
 
         <ul class="navbar-nav d-block d-md-none">
-            <li class="nav-item">
-                <a class="btn btn-link" href="#"><i class="bx bxs-heart icon-single"></i> <span class="badge badge-danger">3</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-link" href="/Carts"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-danger">2</span></a>
-            </li>
+            @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+            {
+                var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                string cartId = identity.Claims.ElementAt(2).Value;
+                string wishListId = identity.Claims.ElementAt(3).Value;
+                <li class="nav-item">
+                    <a class="btn btn-link" asp-controller="Carts" asp-action="Index" asp-route-CartId="@cartId">
+                        <i class="bx bxs-cart icon-single"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-link" asp-controller="WishLists" asp-action="Index" asp-route-WishListId="@wishListId">
+                        <i class="bx bxs-heart icon-single"></i>
+                    </a>
+                </li>
+            }
         </ul>
 
         <div class="collapse navbar-collapse">
@@ -57,13 +67,11 @@
                     <li class="nav-item">
                         <a class="btn btn-link" asp-controller="Carts" asp-action="Index" asp-route-CartId="@cartId">
                             <i class="bx bxs-cart icon-single"></i>
-                            <span class="badge badge-danger">3</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-link" asp-controller="WishLists" asp-action="Index" asp-route-WishListId="@wishListId">
                             <i class="bx bxs-heart icon-single"></i>
-                            <span class="badge badge-danger">3</span>
                         </a>
                     </li>
                 }
@@ -79,6 +87,9 @@
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Stores" asp-action="ShowStores">Stores <span class="sr-only">(current)</span></a>
@@ -175,8 +186,11 @@
     </div>
 
     <ul class="list-unstyled components links">
-        <li class="active">
-            <a href="#"><i class="bx bx-home mr-3"></i>Home</a>
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="bx bx-home mr-3"></i>Home</a>
+        </li>
+        <li>
+            <a asp-controller="Home" asp-action="About">About</a>
         </li>
         <li>
             <a asp-controller="Stores" asp-action="ShowStores">Stores</a>

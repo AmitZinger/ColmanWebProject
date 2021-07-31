@@ -41,5 +41,8 @@ namespace ColmanWebProject.Models
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }
+        
+        [NotMapped]
+        public string tweets { get; set; }
     }
 }
