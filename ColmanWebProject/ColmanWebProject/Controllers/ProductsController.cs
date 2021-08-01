@@ -151,7 +151,16 @@ namespace ColmanWebProject.Controllers
 
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+            } 
+            else
+            {
+                return Json(new
+                {
+                    Html = "Couldn't create this product",
+                    Error = true
+                });
             }
+
             return PartialView("ManageProductsList", await _context.Product.Include(p => p.Category).ToListAsync());
         }
 
