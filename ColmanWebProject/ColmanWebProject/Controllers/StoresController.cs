@@ -56,14 +56,27 @@ namespace ColmanWebProject.Controllers
 
                 if (storeExist.Count() > 0)
                 {
-                    ViewData["Error"] = "Store already exists in this location.";
+                    return Json(new
+                    {
+                        Html = "Store already exists in this location.",
+                        Error = true
+                    });
                 }
                 else { 
                     _context.Add(store);
                     await _context.SaveChangesAsync();
                    
                 }
+            } 
+            else
+            {
+                return Json(new
+                {
+                    Html = "Couldn't create this store.",
+                    Error = true
+                });
             }
+
             return PartialView("StoresList", await _context.Store.ToListAsync());
         }
 

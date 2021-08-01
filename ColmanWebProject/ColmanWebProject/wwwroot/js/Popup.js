@@ -10,6 +10,7 @@
     });
 
     $("body").on("click", "#saveAdd", function () {
+        $("#errorCategory").empty();
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         formData = new FormData();
@@ -27,8 +28,18 @@
             data: formData,
             dataType: "html",
             success: function (result) {
-                $("#add-contact").modal("hide");
-                $("#partial").html(result);
+                try {
+                    var jsonResult = JSON.parse(result);
+                    if (jsonResult.error) {
+                        $("#errorCategory").append(jsonResult.html);
+                    } else {
+                        $("#error").append("Unknown error!");
+                    }
+                    $("#errorCategory").css('visibility', 'visible');
+                } catch (error) {
+                    $("#add-contact").modal("hide");
+                    $("#partial").html(result);
+                }
             }
         });
         return false;
@@ -45,6 +56,7 @@
     });
 
     $("body").on("click", "#saveProductAdd", function () {
+        $("#errorProduct").empty();
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
 
@@ -65,8 +77,18 @@
             data: formData,
             dataType: "html",
             success: function (result) {
-                $("#add-product-contact").modal("hide");
-                $("#partialManageProduct").html(result);
+                try {
+                    var jsonResult = JSON.parse(result);
+                    if (jsonResult.error) {
+                        $("#errorProduct").append(jsonResult.html);
+                    } else {
+                        $("#error").append("Unknown error!");
+                    }
+                    $("#errorProduct").css('visibility', 'visible');
+                } catch (error) {
+                    $("#add-product-contact").modal("hide");
+                    $("#partialManageProduct").html(result);
+                }
             }
         });
         return false;
@@ -83,6 +105,7 @@
     });
 
     $("body").on("click", "#saveStoreAdd", function () {
+        $("#error").empty();
         var form = $('form');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
@@ -99,8 +122,18 @@
             },
             dataType: "html",
             success: function (result) {
-                $("#add-store-contact").modal("hide");
-                $("#partialManageStore").html(result);
+                try {
+                    var jsonResult = JSON.parse(result);
+                    if (jsonResult.error) {
+                        $("#error").append(jsonResult.html);
+                    } else {
+                        $("#error").append("Unknown error!");
+                    }
+                    $("#error").css('visibility', 'visible');
+                } catch (error) {
+                    $("#add-store-contact").modal("hide");
+                    $("#partialManageStore").html(result);
+                }
             }
         });
         return false;
