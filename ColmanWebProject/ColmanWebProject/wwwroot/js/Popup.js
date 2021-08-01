@@ -28,15 +28,15 @@
             data: formData,
             dataType: "html",
             success: function (result) {
-                if (result.indexOf("error") == -1) {
+                try {
+                    var jsonResult = JSON.parse(result);
+                    if (jsonResult.error) {
+                        $("#errorCategory").append(jsonResult.html);
+                        $("#errorCategory").css('visibility', 'visible');
+                    }
+                } catch (error) {
                     $("#add-contact").modal("hide");
                     $("#partial").html(result);
-                }
-                else
-                {
-                    var jsonResult = JSON.parse(result);
-                    $("#errorCategory").append(jsonResult.html);
-                    $("#errorCategory").css('visibility', 'visible');
                 }
             }
         });
@@ -75,15 +75,15 @@
             data: formData,
             dataType: "html",
             success: function (result) {
-                if (result.indexOf("error") == -1) {
+                try {
+                    var jsonResult = JSON.parse(result);
+                    if (jsonResult.error) {
+                        $("#errorProduct").append(jsonResult.html);
+                        $("#errorProduct").css('visibility', 'visible');
+                    }
+                } catch (error) {
                     $("#add-product-contact").modal("hide");
                     $("#partialManageProduct").html(result);
-                }
-                else
-                {
-                    var jsonResult = JSON.parse(result);
-                    $("#errorProduct").append(jsonResult.html);
-                    $("#errorProduct").css('visibility', 'visible');
                 }
             }
         });
@@ -118,14 +118,15 @@
             },
             dataType: "html",
             success: function (result) {
-                if (result.indexOf("error") == -1) {
+                try {
+                    var jsonResult = JSON.parse(result);
+                    if (jsonResult.error) {
+                        $("#error").append(jsonResult.html);
+                        $("#error").css('visibility', 'visible');
+                    }
+                } catch (error) {
                     $("#add-store-contact").modal("hide");
                     $("#partialManageStore").html(result);
-                }
-                else {
-                    var jsonResult = JSON.parse(result);
-                    $("#error").append(jsonResult.html);
-                    $("#error").css('visibility', 'visible');
                 }
             }
         });
