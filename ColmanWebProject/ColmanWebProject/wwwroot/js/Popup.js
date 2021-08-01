@@ -32,8 +32,10 @@
                     var jsonResult = JSON.parse(result);
                     if (jsonResult.error) {
                         $("#errorCategory").append(jsonResult.html);
-                        $("#errorCategory").css('visibility', 'visible');
+                    } else {
+                        $("#error").append("Unknown error!");
                     }
+                    $("#errorCategory").css('visibility', 'visible');
                 } catch (error) {
                     $("#add-contact").modal("hide");
                     $("#partial").html(result);
@@ -79,8 +81,10 @@
                     var jsonResult = JSON.parse(result);
                     if (jsonResult.error) {
                         $("#errorProduct").append(jsonResult.html);
-                        $("#errorProduct").css('visibility', 'visible');
+                    } else {
+                        $("#error").append("Unknown error!");
                     }
+                    $("#errorProduct").css('visibility', 'visible');
                 } catch (error) {
                     $("#add-product-contact").modal("hide");
                     $("#partialManageProduct").html(result);
@@ -122,8 +126,10 @@
                     var jsonResult = JSON.parse(result);
                     if (jsonResult.error) {
                         $("#error").append(jsonResult.html);
-                        $("#error").css('visibility', 'visible');
+                    } else {
+                        $("#error").append("Unknown error!");
                     }
+                    $("#error").css('visibility', 'visible');
                 } catch (error) {
                     $("#add-store-contact").modal("hide");
                     $("#partialManageStore").html(result);
