@@ -3,7 +3,7 @@
         $.ajax({
             url: "/Products/MostOrdered"
         }).done(function (data) {
-            const svg = d3.select('#container').append("svg");
+            const svg = d3.select('#container').append("svg").attr("viewBox", `0 0 1000 600`);
 
             const margin = 80;
             const width = 1000 - 2 * margin;
@@ -148,7 +148,7 @@
         $.ajax({
             url: "/Orders/OrdersPricesPerMonth"
         }).done(function (data) {
-            const svg = d3.select('#container').append("svg");
+            const svg = d3.select('#container').append("svg").attr("viewBox", `0 0 1000 600`);
 
             const margin = 80;
             const width = 1000 - 2 * margin;
