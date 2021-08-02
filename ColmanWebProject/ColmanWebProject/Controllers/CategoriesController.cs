@@ -87,7 +87,7 @@ namespace ColmanWebProject.Controllers
                         Error = true
                     });
                 }
-            } 
+            }
             else
             {
                 return Json(new
@@ -202,9 +202,34 @@ namespace ColmanWebProject.Controllers
             }
 
             IQueryable<Category> searchResult = from category in _context.Category
-                                               where (category.Type.Contains(typeName))
-                                               select category;
+                                                where (category.Type.Contains(typeName))
+                                                select category;
             return View("CategoriesList", await searchResult.ToListAsync());
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ProductsByCategories()
+        {
+            var productsByCategories = _context.Category
+                .Join(
+                _context.Product,
+                            category => category.Id,
+                            product => product.CategoryId,
+                            (category, product) => new
+                            {
+                                type = category.Type,
+                                productId = product.Id
+                            }
+                            )
+                .GroupBy(cp => cp.type)
+                .Select(cp => new
+                {
+                    name = cp.Key,
+                    value = cp.Count()
+                });
+
+            var productsByCategoriesList = await productsByCategories.ToListAsync();
+            return Ok(productsByCategoriesList);
         }
     }
 }
