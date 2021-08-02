@@ -195,7 +195,7 @@ namespace ColmanWebProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,CategoryId,ImageFile")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock,Description,CategoryId,Image,ImageFile")] Product product)
         {
             if (id != product.Id)
             {
