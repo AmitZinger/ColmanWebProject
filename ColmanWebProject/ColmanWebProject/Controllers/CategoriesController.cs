@@ -121,7 +121,7 @@ namespace ColmanWebProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,SubType,Description,ImageFile")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,SubType,Description,Image,ImageFile")] Category category)
         {
             if (id != category.Id)
             {
