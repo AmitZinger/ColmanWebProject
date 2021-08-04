@@ -5,50 +5,52 @@
     Layout = null;
 }
 
-<table class="table table-hover table-responsive-lg center">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Latitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lontitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpeningHour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClosingHour)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Latitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lontitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpeningHour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClosingHour)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover center">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Latitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lontitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OpeningHour)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClosingHour)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lontitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OpeningHour)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClosingHour)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-@if (ViewBag.Error != null)
-{
-    <div class="text-danger">@ViewBag.Error</div>
-}
+    @if (ViewBag.Error != null)
+    {
+        <div class="text-danger">@ViewBag.Error</div>
+    }
