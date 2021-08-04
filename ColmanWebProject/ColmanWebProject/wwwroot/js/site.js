@@ -13,4 +13,4 @@ var c = document.getElementById("Canvas");
 var ctx = c.getContext("2d");
 ctx.fillStyle = "#191970";
 ctx.font = getFont();
-ctx.fillText("Colman's Music Online Store!", 10, 50);
+ctx.fillText("Colman Music Online Store!", 10, 50);
