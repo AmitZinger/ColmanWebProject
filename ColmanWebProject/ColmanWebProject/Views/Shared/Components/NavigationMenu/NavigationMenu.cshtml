@@ -1,0 +1,237 @@
+﻿@using ColmanWebProject.Models;
+@using System.Globalization;
+
+@model IEnumerable<Category>
+
+@{
+    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+    Dictionary<String, List<String>> NavbarOptions = new Dictionary<String, List<String>>();
+
+    @foreach (var item in Model)
+    {
+        if (!NavbarOptions.ContainsKey(item.Type))
+        {
+            NavbarOptions.Add(item.Type, new List<string>());
+
+        }
+        NavbarOptions[item.Type].Add(item.SubType);
+    }
+}
+
+<nav class="navbar navbar-expand-md navbar-light bg-light main-menu" style="box-shadow:none">
+    <div class="container">
+
+        <button type="button" id="sidebarCollapse" class="btn btn-link d-block d-md-none">
+            <i class="bx bx-menu icon-single"></i>
+        </button>
+
+        <a class="navbar-brand col-2" asp-controller="Home" asp-action="Index">
+            <h4 class="font-weight-bold">Colman</h4>
+        </a>
+
+        <ul class="navbar-nav d-block d-md-none">
+            @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+            {
+                var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                string cartId = identity.Claims.ElementAt(2).Value;
+                string wishListId = identity.Claims.ElementAt(3).Value;
+                <li class="nav-item">
+                    <a class="btn btn-link" asp-controller="Carts" asp-action="Index" asp-route-CartId="@cartId">
+                        <i class="bx bxs-cart icon-single"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-link" asp-controller="WishLists" asp-action="Index" asp-route-WishListId="@wishListId">
+                        <i class="bx bxs-heart icon-single"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+
+        <div class="collapse navbar-collapse">
+            <form id="searchForm" class="row my-2 my-lg-0 mx-auto">
+                <div class="col-10">
+                    <input name="queryTitle" id="searchValue" class="form-control" type="search" placeholder="Search for products..." aria-label="Search" />
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bx bx-search"></i></button>
+                </div>
+            </form>
+
+            <ul class="navbar-nav">
+                @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                {
+                    var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                    string cartId = identity.Claims.ElementAt(2).Value;
+                    string wishListId = identity.Claims.ElementAt(3).Value;
+                    <li class="nav-item">
+                        <a class="btn btn-link" asp-controller="Carts" asp-action="Index" asp-route-CartId="@cartId">
+                            <i class="bx bxs-cart icon-single"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-link" asp-controller="WishLists" asp-action="Index" asp-route-WishListId="@wishListId">
+                            <i class="bx bxs-heart icon-single"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-md navbar-light bg-light sub-menu">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Stores" asp-action="ShowStores">Stores <span class="sr-only">(current)</span></a>
+                </li>
+                @foreach (KeyValuePair<string, List<string>> navbarOption in NavbarOptions)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @navbarOption.Key
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @foreach (var subNavbarOption in navbarOption.Value)
+                            {
+                                <a asp-controller="Products" asp-action="Index" asp-route-Catagory="@navbarOption.Key" asp-route-SubCatagory="@subNavbarOption" class="dropdown-item">@subNavbarOption</a>
+                            }
+                        </div>
+                    </li>
+                }
+                @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
+                {
+                    <li class="nav-item dropdown nav-item-manager">
+                        <a class="nav-link dropdown-toggle nav-item-manager" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manager
+                        </a>
+                        <div class="dropdown-menu nav-item-manager" aria-labelledby="navbarDropdown">
+                            <a asp-controller="Categories" asp-action="Index" class="dropdown-item nav-item-manager">Manage Categories</a>
+                            <a asp-controller="Customers" asp-action="Index" class="dropdown-item nav-item-manager">Manage Customers</a>
+                            <a asp-controller="Products" asp-action="ManageProducts" class="dropdown-item nav-item-manager">Manage Products</a>
+                            <a asp-controller="Orders" asp-action="Index" class="dropdown-item nav-item-manager">Manage Orders</a>
+                            <a asp-controller="Stores" asp-action="Index" class="dropdown-item nav-item-manager">Manage Stores</a>
+                        </div>
+                    </li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="search-bar d-block d-md-none">
+    <div class="container">
+        <div class="row">
+            <form id="searchForm" class="row my-2 my-lg-0 mx-auto">
+                <div class="col">
+                    <input name="queryTitle" id="searchValue" class="form-control" type="search" placeholder="Search for products..." aria-label="Search" />
+                </div>
+                <div class="col">
+                    <button class="btn btn-success" type="submit"><i class="bx bx-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-10 pl-0">
+                    @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                    {
+
+                        string role = null;
+                        string email = null;
+                        var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                        if (identity.Claims.Count() > 0)
+                        {
+                            role = identity.Claims.FirstOrDefault(c => c.Type.Contains("role")).Value;
+                            email = identity.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
+
+                        }
+                        <p class="small">
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Logout"><i class="bx bxs-log-in-circle mr-1"></i> Log Out</a> /
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Edit" asp-route-id=@email><i class="bx bxs-user-circle mr-1"></i> Edit profile</a> /
+                            <a class="text-dark" asp-area="" asp-controller="Orders" asp-action="MyOrders"><i class="mr-1"></i> My Orders</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="small">
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Login"><i class="bx bxs-log-in-circle mr-1"></i> Log In</a> /
+                            <a class="text-dark" asp-area="" asp-controller="Customers" asp-action="Register"><i class="bx bxs-user-circle mr-1"></i> Register</a>
+                        </p>
+                    }
+                </div>
+
+                <div class="col-2 text-left">
+                    <button type="button" id="sidebarCollapseX" class="btn btn-link">
+                        <i class="bx bx-x icon-single"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-unstyled components links">
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="bx bx-home mr-3"></i>Home</a>
+        </li>
+        <li>
+            <a asp-controller="Home" asp-action="About">About</a>
+        </li>
+        <li>
+            <a asp-controller="Stores" asp-action="ShowStores">Stores</a>
+        </li>
+
+        @foreach (KeyValuePair<string, List<string>> navbarOption in NavbarOptions)
+        {
+            <li>
+                <a href="#@textInfo.ToLower(navbarOption.Key)Submenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    @navbarOption.Key
+                </a>
+                <ul class="collapse list-unstyled" id="@textInfo.ToLower(navbarOption.Key)Submenu">
+                    @foreach (var subNavbarOption in navbarOption.Value)
+                    {
+                        <a asp-controller="Products" asp-action="Index" asp-route-Catagory="@navbarOption.Key" asp-route-SubCatagory="@subNavbarOption">@subNavbarOption</a>
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0 && Context.User.IsInRole("Admin"))
+        {
+
+            <li>
+                <a href="#ManagerSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-item-manager">
+                    Manager
+                </a>
+                <ul class="collapse list-unstyled nav-item-manager" id="ManagerSubmenu">
+                    <a asp-controller="Categories" asp-action="Index" class="dropdown-item nav-item-manager">Manage Categories</a>
+                    <a asp-controller="Customers" asp-action="Index" class="dropdown-item nav-item-manager">Manage Customers</a>
+                    <a asp-controller="Products" asp-action="ManageProducts" class="dropdown-item nav-item-manager">Manage Products</a>
+                    <a asp-controller="Orders" asp-action="Index" class="dropdown-item nav-item-manager">Manage Orders</a>
+                    <a asp-controller="Stores" asp-action="Index" class="dropdown-item nav-item-manager">Manage Stores</a>
+                </ul>
+            </li>
+        }
+    </ul>
+
+    <ul class="social-icons">
+        <li><i class="bx bxl-twitter"></i></li>
+    </ul>
+
+</nav>
+
