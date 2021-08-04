@@ -1,5 +1,8 @@
-﻿using ColmanWebProject.Models;
+﻿using ColmanWebProject.Data;
+using ColmanWebProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,21 +14,20 @@ namespace ColmanWebProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ColmanWebProjectContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ColmanWebProjectContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> About()
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Category.Where(c => c.SubType.Equals("General")).ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ColmanWebProject.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main class="form-signin">
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <h1 class="h3 mb-3 fw-normal text-center">Customers Details</h1>
+            <center>
+                <form id="customersSearch">
+                    <div class="mt-3 form-group">
+                        <label class="control-label">Name: </label>
+                        <input id="searchByName" type="text" min="0" name="name" />
+                        <button type="submit" class="btn btn-success"><i class="bx bx-search"></i>search</button>
+                    </div>
+                </form>
+            </center>
+            <div id="partial">
+                @Html.Partial("CustomersList", Model)
+            </div>
+        </div>
+    </div>
+</main>
