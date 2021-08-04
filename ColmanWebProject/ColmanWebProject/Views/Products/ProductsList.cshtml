@@ -11,7 +11,7 @@
                     @if (item.Image != null)
                     {
                         string img = Convert.ToBase64String(item.Image);
-                        <img class="img-fluid d-block mx-auto" src="data:image/png;base64,@img"  style="width:200px; height:200px;" alt="GUITAR">
+                        <img class="img-fluid d-block mx-auto" src="data:image/png;base64,@img"  style="width:200px; height:200px;" alt="@Html.DisplayFor(modelItem => item.Name)">
                     }
                 <div class="card-body p-4 py-0 h-xs-440p">
                     <span class="card-title mb-3 w-xl-220p mx-auto" style="font-weight:bold;">@Html.DisplayFor(modelItem => item.Name)</span>
