@@ -326,11 +326,16 @@ namespace ColmanWebProject.Controllers
             {
                 using (var stream = new MemoryStream(Image))
                 {
-                    var result = service.SendTweetWithMedia(new SendTweetWithMediaOptions
+                    var tweetToPost = new SendTweetWithMediaOptions
                     {
                         Status = tweets,
                         Images = new Dictionary<string, Stream> { { "myPic", stream } }
-                    });
+                    };
+                    var result = service.SendTweetWithMedia(tweetToPost);
+                    if (result == null)
+                    {
+                        ViewData["Error"] = "Couldn't post Tweet";
+                    }
                 }
             }
             else 
