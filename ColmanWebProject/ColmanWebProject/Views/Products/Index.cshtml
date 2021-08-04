@@ -1,0 +1,10 @@
+﻿@model IEnumerable<ColmanWebProject.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link rel="stylesheet" href="~/css/products.css" />
+
+<div id="results">
+    @Html.Partial("ProductsList", Model)
+</div>

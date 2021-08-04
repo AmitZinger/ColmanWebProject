@@ -1,0 +1,76 @@
+﻿@model ColmanWebProject.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+<main>
+    <div class="row justify-content-center">
+        <div class="card col-9 pb-5 mt-4 p-3 bg-white shadow-lg">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    @if (Model.Image != null)
+                    {
+                        string img = Convert.ToBase64String(Model.Image);
+                        <img id="imageToShare" src="data:image/png;base64,@img" style="width:100%; height: 100%; max-height: 300px;" alt="@Model.Name">
+                    }
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(model => model.Name) Details</h5>
+                        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+                        <p class="card-text text-danger">@Html.DisplayFor(model => model.Price)</p>
+                        @if (Model.Stock <= 5)
+                        {
+                            <p class="card-text"><small class="text-muted">Low in stock, only @Html.DisplayFor(model => model.Stock) left</small></p>
+                        }
+                        @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                        {
+                            var identity = (System.Security.Claims.ClaimsIdentity)Context.User.Identity;
+                            string cartId = identity.Claims.ElementAt(2).Value;
+                            string wishListId = identity.Claims.ElementAt(3).Value;
+                            <a asp-controller="Carts" asp-action="AddToCart" asp-route-ProductId="@Model.Id" asp-route-CartId="@cartId" class="btn btn-dark btn-lg">
+                                <i class="fa fa-cart-plus fa-xl"></i> BUY IT NOW
+                            </a>
+                            <a asp-controller="WishLists" asp-action="AddToWishList" asp-route-ProductId="@Model.Id" asp-route-WishListId="@wishListId" class="btn btn-outline-info">
+                                <i class="fa fa-heart fa-xl"></i> Add To Wishlist
+                            </a>
+
+
+                            @if (ViewBag.Error != null)
+                            {
+                                <div class="text-danger">@ViewBag.Error</div>
+                            }
+                        }
+                        else
+                        {
+                            <button class="btn btn-dark btn-lg" disabled>
+                                <i class="fa fa-cart-plus fa-xl"></i> BUY IT NOW
+                            </button>
+                            <button class="btn btn-outline-info" disabled>
+                                <i class="fa fa-heart fa-xl"></i> Add To Wishlist
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (Context.User.IsInRole("Admin"))
+            {
+                <form method="post" asp-action="ShareToTwitter" enctype="multipart/form-data">
+                    <input class="form-group" type="hidden" asp-for="Id" />
+                    <input class="form-group" type="hidden" asp-for="Image" />
+                    <label class="control-label mb-1 mt-3 text-left">Do you want to share this with your business account?</label>
+                    <div class="row">
+                        <div class="mb-3 col-md-9">
+                            <textarea asp-for="tweets" placeholder="Please observe at our amazing @Model.Name ..." class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3 col-md-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-twitter"></i> Share To Twitter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</main>
